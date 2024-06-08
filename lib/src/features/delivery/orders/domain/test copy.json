@@ -1,0 +1,111 @@
+{
+    "valid": true,
+    "message": "Update.successful",
+    "record": {
+        "id": 1,
+        "version": 1,
+        "code": "00001",
+        "designation": null,
+        "livreur": {
+            "id": 1,
+            "version": 0,
+            "code": "00001",
+            "designation": "livreur",
+            "nom": "Moise",
+            "prenom": "Albert",
+            "adresse": "Bastos",
+            "telephone1": "689438909",
+            "telephone2": "689438909",
+            "photoEncoded": "",
+            "format": "data:image/png;base64,",
+            "image": null,
+            "user": "livreur@gmail.com"
+        },
+        "dateLivraison": null,
+        "commande": {
+            "id": 1,
+            "version": 1,
+            "code": "00001",
+            "designation": "Chaussure Livraison",
+            "localisationGps": "Nlongkak",
+            "transactionId": null,
+            "articles": [
+                {
+                    "id": 1,
+                    "version": 0,
+                    "code": "00001",
+                    "designation": null,
+                    "article": {
+                        "id": 1,
+                        "version": 0,
+                        "code": "00001",
+                        "designation": "Coca",
+                        "type": {
+                            "id": 1,
+                            "version": 0,
+                            "code": "BOI",
+                            "designation": "Boissons"
+                        },
+                        "marchand": {
+                            "id": 1,
+                            "version": 0,
+                            "code": "00001",
+                            "designation": "Restaurant Fouret",
+                            "adresse": "Mini Prix Bastos",
+                            "telephone1": "658774349",
+                            "telephone2": "658774349",
+                            "articles": [],
+                            "clients": [],
+                            "user": "marchand@gmail.com",
+                            "photoEncoded": "",
+                            "format": "data:image/jpeg;base64,",
+                            "type": "Restaurant"
+                        },
+                        "prix": 1500.0,
+                        "note": 0,
+                        "rang": 0,
+                        "format": "data:image/jpeg;base64,",
+                        "image": "",
+                        "photoEncoded": ""
+                    },
+                    "quantite": 2.0,
+                    "montant": 3000.0
+                }
+            ],
+            "montant": 3000.0,
+            "statut": "Valide",
+            "client": {
+                "id": 1,
+                "version": 0,
+                "code": "00001",
+                "designation": "client",
+                "nom": "Ateba",
+                "prenom": "Eyene",
+                "adresse": "Bertoua",
+                "localisationGps": "Bastos",
+                "user": "client@gmail.com"
+            },
+            "codeLivraison": "00001",
+            "quartier": {
+                "id": 1,
+                "version": 0,
+                "code": "NLG",
+                "designation": "NlongKak",
+                "arrondissement": {
+                    "id": 1,
+                    "version": 1,
+                    "code": "NLG",
+                    "designation": "Yaounde 1",
+                    "montant": 1000.0
+                }
+            },
+            "montantLivraison": 1000.0,
+            "montantTotal": 3000.0,
+            "modePayement": "Cash",
+            "pourMarchand": null
+        },
+        "localisationGps": "Nlongkak",
+        "statut": "EnPrepartion"
+    },
+    "validations": []
+}

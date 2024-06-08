@@ -1,0 +1,71 @@
+{
+   "localisationGps": "dov",
+   "designation": "Castel",
+   "articles": [
+      {
+         "article": {
+            "id": 3,
+            "version": 5,
+            "code": "00003",
+            "designation": "Castel",
+            "description": null,
+            "type": {
+               "id": 1,
+               "version": 0,
+               "code": "BO",
+               "designation": "Boissons"
+            },
+            "marchand": {
+               "id": 1,
+               "version": 0,
+               "code": "00001",
+               "designation": "Restaurant Fouget",
+               "adresse": "Bastos",
+               "telephone1": 689548434,
+               "telephone2": null,
+               "articles": null,
+               "clients": null,
+               "user": null,
+               "url": null,
+               "photoEncoded": null,
+               "format": null,
+               "type": null
+            },
+            "prix": 1200.0,
+            "note": 0,
+            "rang": 0,
+            "url": "http://185.193.17.106:9000/ifiranz/2b9bc2a3-9475-4139-8e0d-5cec51f0b2b3.jpg",
+            "format": null,
+            "image": null,
+            "photoEncoded": null
+         },
+         "quantite": 1
+      }
+   ],
+   "client": {
+      "id": 2,
+      "version": 0,
+      "code": "00002",
+      "designation": "costumer",
+      "nom": "Fotie",
+      "prenom": "Wilfried",
+      "adresse": "Nkolbisson",
+      "tel": null,
+      "localisationGps": "2 carrefour",
+      "user": "wilfried@fotie.cm"
+   },
+   "quartier": {
+      "id": 1,
+      "version": 1,
+      "code": "NLG",
+      "designation": "Nlongkak",
+      "arrondissement": {
+         "id": 2,
+         "version": 3,
+         "code": "YDE 2",
+         "designation": "Yaounde II",
+         "montant": 2000.0
+      }
+   },
+   "modePayement": "Automatique"
+}

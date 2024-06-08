@@ -1,0 +1,13 @@
+{
+  "configurations": [
+    {
+      "name": "Production(Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=GOOGLE_MAP_API_KEY=AIzaSyD0kcey8HRqhiOLDlilV18tVOjHtFUCQ8w",
+      ]
+    },
+  ]
+}

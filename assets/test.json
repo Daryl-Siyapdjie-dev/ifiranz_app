@@ -1,0 +1,60 @@
+{
+    "localisationGps": "Tongolo mvopi",
+    "designation": "",
+    "articles": [
+        {
+            "article": {
+                "id": 57,
+                "version": 6,
+                "code": "00006",
+                "designation": "Iphone 15",
+                "type": {
+                    "id": 2,
+                    "version": 0,
+                    "code": "0064",
+                    "designation": "Automobile"
+                },
+                "marchand": {
+                    "id": 1,
+                    "version": 0,
+                    "code": "00001",
+                    "designation": "Restaurant Fouget",
+                    "adresse": "Bastos",
+                    "telephone1": "689548434"
+                },
+                "prix": 1500.0,
+                "note": 0,
+                "rang": 0,
+                "url": "http://185.193.17.106:9000/ifiranz/5e4fbc30-43d8-4f4d-a9f7-742be5ec5a7c.webp"
+            },
+            "quantite": 3
+        }
+    ],
+    "client": {
+        "id": 2,
+        "version": 0,
+        "code": "00002",
+        "designation": "costumer",
+        "nom": "atanas",
+        "prenom": "michel",
+        "adresse": "bastos",
+        "localisationGps": "rond point bastos",
+        "user": "wilfried@test.cm"
+    },
+    "quartier": {
+        "id": 1,
+        "version": 0,
+        "code": "Nlg",
+        "designation": "Nlongkak",
+        "arrondissement": {
+            "id": 1,
+            "version": 0,
+            "code": "YDE01",
+            "designation": "Yde 1",
+            "montant": 1000
+        }
+    },
+    "modePayement": "Automatique"
+}
+
+

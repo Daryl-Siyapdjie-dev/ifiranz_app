@@ -1,0 +1,59 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:ifiranz_client/src/features/auth/register/domain/add_client_request.dart';
+import 'package:ifiranz_client/src/features/auth/register/domain/profile_response.dart';
+import 'package:ifiranz_client/src/features/core/domain/type_defs.dart';
+import 'package:ifiranz_client/src/features/core/infrastructure/utils/handle_api_call.dart';
+import '../../../core/infrastructure/utils/api_constants.dart';
+import '../../../core/infrastructure/utils/api_response.dart';
+import '../../../core/infrastructure/utils/url_builder.dart';
+
+class RegisterRemoteService {
+  final UrlBuilder _urlBuilder;
+  final Dio _dio;
+
+  RegisterRemoteService(this._urlBuilder, this._dio);
+
+  Future<ApiResponse<Json>> findProfilByName() async {
+    return handleApiCall<ApiResponse<Json>>(
+      () => _dio.get(_urlBuilder.buildFindProfilByName()),
+      (data) {
+        return ApiResponse.success(data as Json);
+      },
+    );
+  }
+
+  Future<ApiResponse<Json>> registerUserAdditionalInfo(
+      AddClientRequest request) async {
+    return handleApiCall<ApiResponse<Json>>(
+      () => _dio.post(_urlBuilder.buildRegisterUserAdditionalInfo(),
+          data: request.toJson()),
+      (data) {
+        return ApiResponse.success(data as Json);
+      },
+    );
+  }
+
+  Future<ApiResponse<Unit>> register(
+      {required String phoneNumber,
+      required String email,
+      required String password,
+      required String confirmPassword,
+      required ProfileResponse profile}) async {
+    final requestData = {
+      "email": email,
+      "password": password,
+      "phone": phoneNumber,
+      "profil": profile.toJson(),
+      "connexion": "autres",
+      "status": ApiConstants.activeStatusLower,
+    };
+
+    return handleApiCall<ApiResponse<Unit>>(
+      () => _dio.post(_urlBuilder.buildRegisterUser(), data: requestData),
+      (data) {
+        return const ApiResponse.success();
+      },
+    );
+  }
+}

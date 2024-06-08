@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Ifiranz</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Ifiranz</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GOOGLE_MAP_API_KEY</key>
+    <string>$(GOOGLE_MAP_API_KEY)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.948521585962-f310kfs9splbranoj5a8eldc3k5nir8s</string>
+			</array>
+		</dict>
+
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app uses your location while you are using it for delivering food orders and ensuring timely delivery to your location. Location access is required to provide accurate delivery tracking and estimated arrival times.</string>
+
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>To ensure seamless delivery, we use your location while the app is in use to provide accurate and timely delivery services from our partnered restaurants.</string>
+
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>For uninterrupted service, our app requires access to your location even when it's running in the background. This allows us to update you on your order's progress and guarantee a smooth delivery experience.</string>
+<key>NSCameraUsageDescription</key>
+    <string>Access to the camera allows you to take photos for your articles.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used the capture audio for image picker plugin.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow photo access to add photos to your articles.</string>
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>sms</string>
+  <string>tel</string>
+</array>
+</dict>
+</plist>

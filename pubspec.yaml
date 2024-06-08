@@ -1,0 +1,104 @@
+name: ifiranz_client
+description: A new Flutter project.
+
+# Prevent accidental publishing to pub.dev.
+publish_to: "none"
+
+version: 1.0.0+8
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  animations: ^2.0.7
+  another_flushbar: ^1.12.29
+  auto_route: null
+  cached_network_image: ^3.2.3
+  carousel_slider: ^4.2.1
+  country_picker: ^2.0.20
+  country_pickers: ^2.0.0
+  cupertino_icons: ^1.0.2
+  dartz: ^0.10.1
+  dio: ^5.3.2
+  flutter:
+    sdk: flutter
+  flutter_animate: ^4.1.0
+  flutter_cache_manager: ^3.3.1
+  flutter_datetime_picker_plus: ^2.0.1
+  flutter_easyloading: ^3.0.5
+  flutter_hooks: null
+  flutter_html: null
+  flutter_localizations:
+    sdk: flutter
+  flutter_portal: ^1.1.4
+  flutter_progress_hud: ^2.0.2
+  flutter_secure_storage: ^8.0.0
+  flutter_svg: ^2.0.9
+  font_awesome_flutter: ^10.5.0
+  formz: ^0.6.0
+  freezed_annotation: ^2.1.0
+  google_fonts: ^5.1.0
+  hooks_riverpod: ^2.3.8
+  image_picker: ^0.8.7+5
+  infinite_scroll_pagination: ^4.0.0
+  intl: any
+  json_annotation: ^4.8.1
+  logger: ^1.1.0
+  logging: ^1.2.0
+  multi_image_picker_view: ^0.0.17
+  path_provider: ^2.0.14
+  rename: ^2.1.1
+  rflutter_alert: ^2.0.7
+  riverpod_annotation: null
+  sembast: ^3.5.0+1
+  shared_preferences: ^2.2.1
+  upgrader: ^8.2.0
+  flutter_staggered_grid_view: ^0.7.0
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  google_sign_in: ^6.1.6
+  curved_carousel: ^0.0.7
+  google_maps_flutter: ^2.5.0
+  location: ^5.0.3
+  flutter_polyline_points: ^2.0.0
+  geocoding: ^2.1.1
+  geolocator: ^10.1.0
+  permission_handler: ^11.1.0
+  jwt_decoder: ^2.0.1
+  fl_chart: ^0.65.0
+  skeletons: ^0.0.3
+  animated_custom_dropdown: ^3.0.0
+  flutter_local_notifications: ^16.3.0
+  firebase_messaging: ^14.7.10
+  flutter_libphonenumber: ^2.2.1
+  lottie: ^3.0.0
+  url_launcher: ^6.2.4
+  cloud_firestore: ^4.15.4
+  webview_flutter: ^4.4.2
+  libphonenumber: ^2.0.2
+
+dev_dependencies:
+  auto_route_generator: null
+  build_runner: any
+  custom_lint: ^0.5.2
+  flutter_launcher_icons: ^0.13.1
+
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  freezed: ^2.3.2
+  json_serializable: ^6.4.0
+  riverpod_generator: null
+
+flutter_icons:
+  image_path: "assets/images/logo.png"
+  android: true
+  ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/json/succes_lottie.json
