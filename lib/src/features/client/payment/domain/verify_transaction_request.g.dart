@@ -9,17 +9,11 @@ part of 'verify_transaction_request.dart';
 _$VerifyTransactionRequestImpl _$$VerifyTransactionRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$VerifyTransactionRequestImpl(
-      commandId: json['commandId'] as int,
-      trid: json['trid'] as String,
-      marchand: json['marchand'] as num,
-      deliver: json['deliver'] as num,
+      transactionId: json['transactionId'] as int,
     );
 
 Map<String, dynamic> _$$VerifyTransactionRequestImplToJson(
         _$VerifyTransactionRequestImpl instance) =>
     <String, dynamic>{
-      'commandId': instance.commandId,
-      'trid': instance.trid,
-      'marchand': instance.marchand,
-      'deliver': instance.deliver,
+      'transactionId': instance.transactionId,
     };

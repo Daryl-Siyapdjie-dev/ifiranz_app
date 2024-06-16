@@ -34,7 +34,8 @@ final productsRemoteService = Provider<ProductsRemoteService>((ref) {
     ref.watch(dioProvider),
   );
 });
-final merchantProductsRemoteService = Provider<MerchantProductsRemoteService>((ref) {
+final merchantProductsRemoteService =
+    Provider<MerchantProductsRemoteService>((ref) {
   return MerchantProductsRemoteService(
     ref.watch(urlBuilderProvider),
     ref.watch(dioProvider),
@@ -52,7 +53,8 @@ final productsRepositoryProvider = Provider<ProductsRepository>((ref) {
   return ProductsRepository(ref.watch(productsRemoteService));
 });
 
-final merchantProductsRepositoryProvider = Provider<MerchantProductsRepository>((ref) {
+final merchantProductsRepositoryProvider =
+    Provider<MerchantProductsRepository>((ref) {
   return MerchantProductsRepository(ref.watch(merchantProductsRemoteService));
 });
 
@@ -125,8 +127,7 @@ final promotionnalProductsNotifierProvider = StateNotifierProvider.autoDispose<
 // });
 
 final productNotifier =
-    StateNotifierProvider.autoDispose<ProductsNotifier, AsyncValue>(
-        (ref) {
+    StateNotifierProvider.autoDispose<ProductsNotifier, AsyncValue>((ref) {
   ref.keepAlive();
   return ProductsNotifier(
     ref.watch(productsRepositoryProvider),
@@ -202,7 +203,6 @@ final findAllMarchandNotifier = StateNotifierProvider.autoDispose<
     ref.watch(getCurrentUserRepositoryProvider),
   );
 });
-
 
 final paymentMethodNotifierProvider = StateNotifierProvider.autoDispose<
     ProductsNotifier, AsyncValue<PaginatedResponse<ProductModel>>>((ref) {

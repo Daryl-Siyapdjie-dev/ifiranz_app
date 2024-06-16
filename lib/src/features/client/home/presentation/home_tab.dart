@@ -204,42 +204,42 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                           color: AppColors.bgGrey,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: promotionProducts.when(
+                          data: (response) {
+                            return Column(
                               children: [
-                                Text(
-                                  "Offres",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displaySmall!
-                                      .copyWith(fontSize: 16),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Offres",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        // context.pushRoute(
+                                        //     MerchantPerType(
+                                        //     merchants: response.data[index]));
+                                      },
+                                      child: const Row(
+                                        children: [
+                                          Text("Tout"),
+                                          SizedBox(width: 10.0),
+                                          Icon(
+                                            FontAwesomeIcons.chevronRight,
+                                            size: 18.0,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    // context.pushRoute(
-                                    //     MerchantPerType(
-                                    //     merchants: response.data[index]));
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Text("Tout"),
-                                      SizedBox(width: 10.0),
-                                      Icon(
-                                        FontAwesomeIcons.chevronRight,
-                                        size: 18.0,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            promotionProducts.when(
-                              data: (response) {
-                                return response.data.isEmpty
+                                const SizedBox(height: 8),
+                                response.data.isEmpty
                                     ? NoData(
                                         text: context
                                             .locale.clientHomeTabNoDataFound,
@@ -248,82 +248,97 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: List.generate(
-                                            3,
-                                            (index) => Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 15.0,
-                                                      vertical: 11.0),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.bgGreen,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
+                                            response.data.length,
+                                            (index) => GestureDetector(
+                                                  onTap: () async {
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 100));
+                                                    context.pushRoute(
+                                                        FoodDetailsRoute(
+                                                            item: response
+                                                                .data[index]));
+                                                  },
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 7.0),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15.0,
+                                                        vertical: 11.0),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.bgGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                            "-${response.data[index].priceReductionPercentage}%"),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              10,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              10,
+                                                          decoration: BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image: NetworkImage(response
+                                                                          .data[
+                                                                              index]
+                                                                          .url ??
+                                                                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  child: Row(
-                                                    children: [
-                                                      Text("-${index}0%"),
-                                                      const SizedBox(width: 8),
-                                                      Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            10,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            10,
-                                                        decoration: BoxDecoration(
-                                                            image: DecorationImage(
-                                                                image: NetworkImage(
-                                                                    response
-                                                                        .data[
-                                                                            index]
-                                                                        .url))),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )));
-                              },
-                              error: (error, _) => Center(
-                                  child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: Column(
-                                  children: [
-                                    SelectableText(error.toString()),
-                                    TextButton.icon(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.primaryColor),
-                                        onPressed: () {
-                                          _onTabsRouterChange();
-                                        },
-                                        icon: const Icon(Icons.refresh,
-                                            color: AppColors.whiteColor),
-                                        label: const Text(
-                                          'Refresh',
-                                          style: TextStyle(
-                                              color: AppColors.whiteColor),
-                                        )),
-                                  ],
-                                ),
-                              )),
-                              loading: () => MasonryGridView.count(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 3,
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                itemBuilder: (context, index) {
-                                  return skeletonProduct(context);
-                                },
-                              ),
+                                                ))),
+                              ],
+                            );
+                          },
+                          error: (error, _) => Center(
+                              child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              children: [
+                                SelectableText(error.toString()),
+                                TextButton.icon(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.primaryColor),
+                                    onPressed: () {
+                                      _onTabsRouterChange();
+                                    },
+                                    icon: const Icon(Icons.refresh,
+                                        color: AppColors.whiteColor),
+                                    label: const Text(
+                                      'Refresh',
+                                      style: TextStyle(
+                                          color: AppColors.whiteColor),
+                                    )),
+                              ],
                             ),
-                          ],
+                          )),
+                          loading: () => MasonryGridView.count(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 3,
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            itemBuilder: (context, index) {
+                              return skeletonProduct(context);
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -356,7 +371,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                             itemBuilder: (context, index) => InkWell(
                                   onTap: () async {
                                     await Future.delayed(
-                                        const Duration(seconds: 1));
+                                        const Duration(milliseconds: 100));
                                     context.pushRoute(MerchantProductRoute(
                                         infra: response.data[index]));
                                   },
@@ -543,10 +558,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                         itemCount: response.data.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: EdgeInsets.only(
-                                right: index == response.data.length - 1
-                                    ? 0
-                                    : 15.0),
+                            padding: const EdgeInsets.only(right: 15.0),
                             child: InkWell(
                               onTap: () async {
                                 await Future.delayed(

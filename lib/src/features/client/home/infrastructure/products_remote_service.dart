@@ -105,8 +105,11 @@ class ProductsRemoteService {
 
   Future<ApiResponse<Json>> updateCommande(CurrentCartResponse params) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async =>
-          _dio.put(_urlBuilder.buildUpdateCommande(), data: params.toJson()),
+      () async {
+        print(params.toJson());
+        return _dio.put(_urlBuilder.buildUpdateCommande(),
+            data: params.toJson());
+      },
       (data) {
         return ApiResponse.success(data as Json);
       },

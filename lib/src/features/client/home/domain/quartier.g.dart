@@ -12,6 +12,10 @@ _$QuartierImpl _$$QuartierImplFromJson(Map<String, dynamic> json) =>
       version: json['version'] as int?,
       code: json['code'] as String?,
       designation: json['designation'] as String?,
+      deliveryCost: (json['deliveryCost'] as num?)?.toDouble(),
+      enabled: json['enabled'] as bool?,
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      latitude: json['latitude'],
       arrondissement: json['arrondissement'] == null
           ? null
           : QuartierArrondissement.fromJson(
@@ -24,6 +28,10 @@ Map<String, dynamic> _$$QuartierImplToJson(_$QuartierImpl instance) =>
       'version': instance.version,
       'code': instance.code,
       'designation': instance.designation,
+      'deliveryCost': instance.deliveryCost,
+      'enabled': instance.enabled,
+      'longitude': instance.longitude,
+      'latitude': instance.latitude,
       'arrondissement': instance.arrondissement?.toJson(),
     };
 

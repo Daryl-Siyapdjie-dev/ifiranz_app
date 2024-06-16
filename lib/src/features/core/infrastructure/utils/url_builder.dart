@@ -72,12 +72,11 @@ class UrlBuilder {
   String buildCreateCommande() =>
       '$baseUrl/livraison-service/commande/client/add';
 
-  String buildUpdateCommande() => '$baseUrl/livraison-service/commande/edit';
+  String buildUpdateCommande() =>
+      '$baseUrl/livraison-service/commande/client/edit';
 
   String buildMakeNotation(int idArticle, int note, String commentaire) =>
-      '$baseUrl/livraison-service/note/article/$idArticle?not'
-      'e=$note'
-      '&commentaire=$commentaire';
+      '$baseUrl/livraison-service/note/article/$idArticle?note=$note&commentaire=$commentaire';
 
   String buildReportBug(String commentaire) =>
       '$baseUrl/livraison-service/retour/add?commentaire=$commentaire';
@@ -118,11 +117,10 @@ class UrlBuilder {
   String buildInitTrasact() =>
       '$baseUrl/payment-service/api/v1/payment/init-transaction';
 
-  String buildFinalise() =>
-      '$baseUrl/payment-service/api/v1/payment/transaction';
+  String buildFinalise() => '$baseUrl/payment-service/api/v1/payment/pay';
 
-  String buildVerifyTransaction() =>
-      '$baseUrl/payment-service/api/v1/payment/verify';
+  String buildVerifyTransaction(String transactionId) =>
+      '$baseUrl/payment-service/api/v1/payment/verify/$transactionId';
 
 // Marchand
 

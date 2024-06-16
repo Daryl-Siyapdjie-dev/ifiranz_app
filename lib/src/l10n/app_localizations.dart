@@ -1116,7 +1116,7 @@ abstract class AppLocalizations {
   /// No description provided for @annuler.
   ///
   /// In en, this message translates to:
-  /// **'Annuleur'**
+  /// **'Annuler'**
   String get annuler;
 
   /// No description provided for @validatePaymentSubTitle.

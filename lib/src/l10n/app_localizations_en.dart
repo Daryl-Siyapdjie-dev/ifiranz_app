@@ -559,7 +559,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get validatePaymentMTN => '*126# - MTN';
 
   @override
-  String get annuler => 'Annuleur';
+  String get annuler => 'Annuler';
 
   @override
   String get validatePaymentSubTitle => 'Lorque vous achevez le paiement, cliquez sur vérifier';

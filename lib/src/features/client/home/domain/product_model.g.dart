@@ -110,6 +110,7 @@ _$MerchantImpl _$$MerchantImplFromJson(Map<String, dynamic> json) =>
       photoEncoded: json['photoEncoded'] as String?,
       format: json['format'] as String?,
       type: json['type'] as String?,
+      indice: (json['indice'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$MerchantImplToJson(_$MerchantImpl instance) =>
@@ -128,4 +129,5 @@ Map<String, dynamic> _$$MerchantImplToJson(_$MerchantImpl instance) =>
       'photoEncoded': instance.photoEncoded,
       'format': instance.format,
       'type': instance.type,
+      'indice': instance.indice,
     };

@@ -416,6 +416,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: OrderTabScreen(
           key: args.key,
           operatorInfo: args.operatorInfo,
+          transactionResponse: args.transactionResponse,
         ),
       );
     },
@@ -1722,12 +1723,14 @@ class OrderTabRoute extends PageRouteInfo<OrderTabRouteArgs> {
   OrderTabRoute({
     Key? key,
     CashoutModel? operatorInfo,
+    TransactionResponse? transactionResponse,
     List<PageRouteInfo>? children,
   }) : super(
           OrderTabRoute.name,
           args: OrderTabRouteArgs(
             key: key,
             operatorInfo: operatorInfo,
+            transactionResponse: transactionResponse,
           ),
           initialChildren: children,
         );
@@ -1742,15 +1745,18 @@ class OrderTabRouteArgs {
   const OrderTabRouteArgs({
     this.key,
     this.operatorInfo,
+    this.transactionResponse,
   });
 
   final Key? key;
 
   final CashoutModel? operatorInfo;
 
+  final TransactionResponse? transactionResponse;
+
   @override
   String toString() {
-    return 'OrderTabRouteArgs{key: $key, operatorInfo: $operatorInfo}';
+    return 'OrderTabRouteArgs{key: $key, operatorInfo: $operatorInfo, transactionResponse: $transactionResponse}';
   }
 }
 

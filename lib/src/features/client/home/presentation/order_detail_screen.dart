@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/create_command_request.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/current_cart_response.dart';
+import 'package:ifiranz_client/src/features/client/home/presentation/order_tab_screen.dart';
 import 'package:ifiranz_client/src/features/client/home/shared/providers.dart';
 import 'package:ifiranz_client/src/features/client/payment/domain/cashout_model.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
@@ -56,10 +57,23 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
               margin: const EdgeInsets.all(16),
             ).show(context);
           },
-          initiated: (value) async {
-            AutoRouter.of(context).pushAndPopUntil(
-                OrderTabRoute(operatorInfo: widget.paymentIOPtionInfo),
-                predicate: (predicate) => false);
+          initiated: (value) {
+            // await Future.delayed(const Duration(seconds: 1));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return OrderTabScreen(
+                operatorInfo: widget.paymentIOPtionInfo,
+                transactionResponse: value,
+              );
+            }));
+            //                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            //                   return OrderTabScreen(
+            //   operatorInfo: widget.paymentIOPtionInfo,
+            //   transactionResponse: value,
+            // );)
+            // context.pushRoute(OrderTabRoute(
+            //   operatorInfo: widget.paymentIOPtionInfo,
+            //   transactionResponse: value,
+            // ));
           },
         );
       },

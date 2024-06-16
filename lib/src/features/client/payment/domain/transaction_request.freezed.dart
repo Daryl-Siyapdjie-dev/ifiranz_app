@@ -20,20 +20,16 @@ TransactionRequest _$TransactionRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TransactionRequest {
-  @JsonKey(name: 'quoteId')
-  String? get quoteId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'customerPhonenumber')
-  String? get customerPhonenumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'customerEmailaddress')
-  String? get customerEmailaddress => throw _privateConstructorUsedError;
+  @JsonKey(name: 'transactionId')
+  int? get transactionId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'customerPhone')
+  String? get customerPhone => throw _privateConstructorUsedError;
+  @JsonKey(name: 'customerEmail')
+  String? get customerEmail => throw _privateConstructorUsedError;
   @JsonKey(name: 'customerName')
   String? get customerName => throw _privateConstructorUsedError;
   @JsonKey(name: 'customerAddress')
   String? get customerAddress => throw _privateConstructorUsedError;
-  @JsonKey(name: 'serviceNumber')
-  String? get serviceNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'trid')
-  String? get trid => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,13 +44,11 @@ abstract class $TransactionRequestCopyWith<$Res> {
       _$TransactionRequestCopyWithImpl<$Res, TransactionRequest>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'quoteId') String? quoteId,
-      @JsonKey(name: 'customerPhonenumber') String? customerPhonenumber,
-      @JsonKey(name: 'customerEmailaddress') String? customerEmailaddress,
+      {@JsonKey(name: 'transactionId') int? transactionId,
+      @JsonKey(name: 'customerPhone') String? customerPhone,
+      @JsonKey(name: 'customerEmail') String? customerEmail,
       @JsonKey(name: 'customerName') String? customerName,
-      @JsonKey(name: 'customerAddress') String? customerAddress,
-      @JsonKey(name: 'serviceNumber') String? serviceNumber,
-      @JsonKey(name: 'trid') String? trid});
+      @JsonKey(name: 'customerAddress') String? customerAddress});
 }
 
 /// @nodoc
@@ -70,26 +64,24 @@ class _$TransactionRequestCopyWithImpl<$Res, $Val extends TransactionRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? quoteId = freezed,
-    Object? customerPhonenumber = freezed,
-    Object? customerEmailaddress = freezed,
+    Object? transactionId = freezed,
+    Object? customerPhone = freezed,
+    Object? customerEmail = freezed,
     Object? customerName = freezed,
     Object? customerAddress = freezed,
-    Object? serviceNumber = freezed,
-    Object? trid = freezed,
   }) {
     return _then(_value.copyWith(
-      quoteId: freezed == quoteId
-          ? _value.quoteId
-          : quoteId // ignore: cast_nullable_to_non_nullable
+      transactionId: freezed == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      customerPhone: freezed == customerPhone
+          ? _value.customerPhone
+          : customerPhone // ignore: cast_nullable_to_non_nullable
               as String?,
-      customerPhonenumber: freezed == customerPhonenumber
-          ? _value.customerPhonenumber
-          : customerPhonenumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      customerEmailaddress: freezed == customerEmailaddress
-          ? _value.customerEmailaddress
-          : customerEmailaddress // ignore: cast_nullable_to_non_nullable
+      customerEmail: freezed == customerEmail
+          ? _value.customerEmail
+          : customerEmail // ignore: cast_nullable_to_non_nullable
               as String?,
       customerName: freezed == customerName
           ? _value.customerName
@@ -98,14 +90,6 @@ class _$TransactionRequestCopyWithImpl<$Res, $Val extends TransactionRequest>
       customerAddress: freezed == customerAddress
           ? _value.customerAddress
           : customerAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
-      serviceNumber: freezed == serviceNumber
-          ? _value.serviceNumber
-          : serviceNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      trid: freezed == trid
-          ? _value.trid
-          : trid // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -120,13 +104,11 @@ abstract class _$$TransactionRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'quoteId') String? quoteId,
-      @JsonKey(name: 'customerPhonenumber') String? customerPhonenumber,
-      @JsonKey(name: 'customerEmailaddress') String? customerEmailaddress,
+      {@JsonKey(name: 'transactionId') int? transactionId,
+      @JsonKey(name: 'customerPhone') String? customerPhone,
+      @JsonKey(name: 'customerEmail') String? customerEmail,
       @JsonKey(name: 'customerName') String? customerName,
-      @JsonKey(name: 'customerAddress') String? customerAddress,
-      @JsonKey(name: 'serviceNumber') String? serviceNumber,
-      @JsonKey(name: 'trid') String? trid});
+      @JsonKey(name: 'customerAddress') String? customerAddress});
 }
 
 /// @nodoc
@@ -140,26 +122,24 @@ class __$$TransactionRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? quoteId = freezed,
-    Object? customerPhonenumber = freezed,
-    Object? customerEmailaddress = freezed,
+    Object? transactionId = freezed,
+    Object? customerPhone = freezed,
+    Object? customerEmail = freezed,
     Object? customerName = freezed,
     Object? customerAddress = freezed,
-    Object? serviceNumber = freezed,
-    Object? trid = freezed,
   }) {
     return _then(_$TransactionRequestImpl(
-      quoteId: freezed == quoteId
-          ? _value.quoteId
-          : quoteId // ignore: cast_nullable_to_non_nullable
+      transactionId: freezed == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      customerPhone: freezed == customerPhone
+          ? _value.customerPhone
+          : customerPhone // ignore: cast_nullable_to_non_nullable
               as String?,
-      customerPhonenumber: freezed == customerPhonenumber
-          ? _value.customerPhonenumber
-          : customerPhonenumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      customerEmailaddress: freezed == customerEmailaddress
-          ? _value.customerEmailaddress
-          : customerEmailaddress // ignore: cast_nullable_to_non_nullable
+      customerEmail: freezed == customerEmail
+          ? _value.customerEmail
+          : customerEmail // ignore: cast_nullable_to_non_nullable
               as String?,
       customerName: freezed == customerName
           ? _value.customerName
@@ -169,14 +149,6 @@ class __$$TransactionRequestImplCopyWithImpl<$Res>
           ? _value.customerAddress
           : customerAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      serviceNumber: freezed == serviceNumber
-          ? _value.serviceNumber
-          : serviceNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      trid: freezed == trid
-          ? _value.trid
-          : trid // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -185,42 +157,34 @@ class __$$TransactionRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TransactionRequestImpl implements _TransactionRequest {
   _$TransactionRequestImpl(
-      {@JsonKey(name: 'quoteId') this.quoteId,
-      @JsonKey(name: 'customerPhonenumber') this.customerPhonenumber,
-      @JsonKey(name: 'customerEmailaddress') this.customerEmailaddress,
+      {@JsonKey(name: 'transactionId') this.transactionId,
+      @JsonKey(name: 'customerPhone') this.customerPhone,
+      @JsonKey(name: 'customerEmail') this.customerEmail,
       @JsonKey(name: 'customerName') this.customerName,
-      @JsonKey(name: 'customerAddress') this.customerAddress,
-      @JsonKey(name: 'serviceNumber') this.serviceNumber,
-      @JsonKey(name: 'trid') this.trid});
+      @JsonKey(name: 'customerAddress') this.customerAddress});
 
   factory _$TransactionRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionRequestImplFromJson(json);
 
   @override
-  @JsonKey(name: 'quoteId')
-  final String? quoteId;
+  @JsonKey(name: 'transactionId')
+  final int? transactionId;
   @override
-  @JsonKey(name: 'customerPhonenumber')
-  final String? customerPhonenumber;
+  @JsonKey(name: 'customerPhone')
+  final String? customerPhone;
   @override
-  @JsonKey(name: 'customerEmailaddress')
-  final String? customerEmailaddress;
+  @JsonKey(name: 'customerEmail')
+  final String? customerEmail;
   @override
   @JsonKey(name: 'customerName')
   final String? customerName;
   @override
   @JsonKey(name: 'customerAddress')
   final String? customerAddress;
-  @override
-  @JsonKey(name: 'serviceNumber')
-  final String? serviceNumber;
-  @override
-  @JsonKey(name: 'trid')
-  final String? trid;
 
   @override
   String toString() {
-    return 'TransactionRequest(quoteId: $quoteId, customerPhonenumber: $customerPhonenumber, customerEmailaddress: $customerEmailaddress, customerName: $customerName, customerAddress: $customerAddress, serviceNumber: $serviceNumber, trid: $trid)';
+    return 'TransactionRequest(transactionId: $transactionId, customerPhone: $customerPhone, customerEmail: $customerEmail, customerName: $customerName, customerAddress: $customerAddress)';
   }
 
   @override
@@ -228,24 +192,22 @@ class _$TransactionRequestImpl implements _TransactionRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionRequestImpl &&
-            (identical(other.quoteId, quoteId) || other.quoteId == quoteId) &&
-            (identical(other.customerPhonenumber, customerPhonenumber) ||
-                other.customerPhonenumber == customerPhonenumber) &&
-            (identical(other.customerEmailaddress, customerEmailaddress) ||
-                other.customerEmailaddress == customerEmailaddress) &&
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId) &&
+            (identical(other.customerPhone, customerPhone) ||
+                other.customerPhone == customerPhone) &&
+            (identical(other.customerEmail, customerEmail) ||
+                other.customerEmail == customerEmail) &&
             (identical(other.customerName, customerName) ||
                 other.customerName == customerName) &&
             (identical(other.customerAddress, customerAddress) ||
-                other.customerAddress == customerAddress) &&
-            (identical(other.serviceNumber, serviceNumber) ||
-                other.serviceNumber == serviceNumber) &&
-            (identical(other.trid, trid) || other.trid == trid));
+                other.customerAddress == customerAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, quoteId, customerPhonenumber,
-      customerEmailaddress, customerName, customerAddress, serviceNumber, trid);
+  int get hashCode => Object.hash(runtimeType, transactionId, customerPhone,
+      customerEmail, customerName, customerAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -264,38 +226,31 @@ class _$TransactionRequestImpl implements _TransactionRequest {
 
 abstract class _TransactionRequest implements TransactionRequest {
   factory _TransactionRequest(
-      {@JsonKey(name: 'quoteId') final String? quoteId,
-      @JsonKey(name: 'customerPhonenumber') final String? customerPhonenumber,
-      @JsonKey(name: 'customerEmailaddress') final String? customerEmailaddress,
-      @JsonKey(name: 'customerName') final String? customerName,
-      @JsonKey(name: 'customerAddress') final String? customerAddress,
-      @JsonKey(name: 'serviceNumber') final String? serviceNumber,
-      @JsonKey(name: 'trid') final String? trid}) = _$TransactionRequestImpl;
+          {@JsonKey(name: 'transactionId') final int? transactionId,
+          @JsonKey(name: 'customerPhone') final String? customerPhone,
+          @JsonKey(name: 'customerEmail') final String? customerEmail,
+          @JsonKey(name: 'customerName') final String? customerName,
+          @JsonKey(name: 'customerAddress') final String? customerAddress}) =
+      _$TransactionRequestImpl;
 
   factory _TransactionRequest.fromJson(Map<String, dynamic> json) =
       _$TransactionRequestImpl.fromJson;
 
   @override
-  @JsonKey(name: 'quoteId')
-  String? get quoteId;
+  @JsonKey(name: 'transactionId')
+  int? get transactionId;
   @override
-  @JsonKey(name: 'customerPhonenumber')
-  String? get customerPhonenumber;
+  @JsonKey(name: 'customerPhone')
+  String? get customerPhone;
   @override
-  @JsonKey(name: 'customerEmailaddress')
-  String? get customerEmailaddress;
+  @JsonKey(name: 'customerEmail')
+  String? get customerEmail;
   @override
   @JsonKey(name: 'customerName')
   String? get customerName;
   @override
   @JsonKey(name: 'customerAddress')
   String? get customerAddress;
-  @override
-  @JsonKey(name: 'serviceNumber')
-  String? get serviceNumber;
-  @override
-  @JsonKey(name: 'trid')
-  String? get trid;
   @override
   @JsonKey(ignore: true)
   _$$TransactionRequestImplCopyWith<_$TransactionRequestImpl> get copyWith =>

@@ -11,6 +11,10 @@ class Quartier with _$Quartier {
     int? version,
     String? code,
     String? designation,
+    double? deliveryCost,
+    bool? enabled,
+    double? longitude,
+    latitude,
     QuartierArrondissement? arrondissement,
   }) = _Quartier;
 

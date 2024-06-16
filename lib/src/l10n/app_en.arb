@@ -185,7 +185,7 @@
   "validatePaymentTitle": "Veuillez confirmer l'opération en tapant le code sur votre mobile.",
   "validatePaymentOrange": "#150# - Orange",
   "validatePaymentMTN": "*126# - MTN",
-  "annuler": "Annuleur",
+  "annuler": "Annuler",
   "validatePaymentSubTitle": "Lorque vous achevez le paiement, cliquez sur vérifier",
 
   "emptyComment": "No comments",

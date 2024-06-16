@@ -167,7 +167,10 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
           IconButton(
             onPressed: () {
               if (context.router.current.name != CartRoute.name) {
-                context.pushRoute(const CartRoute());
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  context.pushRoute(const CartRoute());
+                });
+                // context.pushRoute(const CartRoute());
               }
             },
             icon: Badge(

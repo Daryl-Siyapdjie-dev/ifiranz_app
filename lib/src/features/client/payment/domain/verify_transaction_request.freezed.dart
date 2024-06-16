@@ -21,10 +21,7 @@ VerifyTransactionRequest _$VerifyTransactionRequestFromJson(
 
 /// @nodoc
 mixin _$VerifyTransactionRequest {
-  int get commandId => throw _privateConstructorUsedError;
-  String get trid => throw _privateConstructorUsedError;
-  num get marchand => throw _privateConstructorUsedError;
-  num get deliver => throw _privateConstructorUsedError;
+  int get transactionId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +35,7 @@ abstract class $VerifyTransactionRequestCopyWith<$Res> {
           $Res Function(VerifyTransactionRequest) then) =
       _$VerifyTransactionRequestCopyWithImpl<$Res, VerifyTransactionRequest>;
   @useResult
-  $Res call({int commandId, String trid, num marchand, num deliver});
+  $Res call({int transactionId});
 }
 
 /// @nodoc
@@ -55,28 +52,13 @@ class _$VerifyTransactionRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? commandId = null,
-    Object? trid = null,
-    Object? marchand = null,
-    Object? deliver = null,
+    Object? transactionId = null,
   }) {
     return _then(_value.copyWith(
-      commandId: null == commandId
-          ? _value.commandId
-          : commandId // ignore: cast_nullable_to_non_nullable
+      transactionId: null == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
               as int,
-      trid: null == trid
-          ? _value.trid
-          : trid // ignore: cast_nullable_to_non_nullable
-              as String,
-      marchand: null == marchand
-          ? _value.marchand
-          : marchand // ignore: cast_nullable_to_non_nullable
-              as num,
-      deliver: null == deliver
-          ? _value.deliver
-          : deliver // ignore: cast_nullable_to_non_nullable
-              as num,
     ) as $Val);
   }
 }
@@ -90,7 +72,7 @@ abstract class _$$VerifyTransactionRequestImplCopyWith<$Res>
       __$$VerifyTransactionRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int commandId, String trid, num marchand, num deliver});
+  $Res call({int transactionId});
 }
 
 /// @nodoc
@@ -106,28 +88,13 @@ class __$$VerifyTransactionRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? commandId = null,
-    Object? trid = null,
-    Object? marchand = null,
-    Object? deliver = null,
+    Object? transactionId = null,
   }) {
     return _then(_$VerifyTransactionRequestImpl(
-      commandId: null == commandId
-          ? _value.commandId
-          : commandId // ignore: cast_nullable_to_non_nullable
+      transactionId: null == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
               as int,
-      trid: null == trid
-          ? _value.trid
-          : trid // ignore: cast_nullable_to_non_nullable
-              as String,
-      marchand: null == marchand
-          ? _value.marchand
-          : marchand // ignore: cast_nullable_to_non_nullable
-              as num,
-      deliver: null == deliver
-          ? _value.deliver
-          : deliver // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 }
@@ -135,27 +102,17 @@ class __$$VerifyTransactionRequestImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$VerifyTransactionRequestImpl implements _VerifyTransactionRequest {
-  const _$VerifyTransactionRequestImpl(
-      {required this.commandId,
-      required this.trid,
-      required this.marchand,
-      required this.deliver});
+  const _$VerifyTransactionRequestImpl({required this.transactionId});
 
   factory _$VerifyTransactionRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$VerifyTransactionRequestImplFromJson(json);
 
   @override
-  final int commandId;
-  @override
-  final String trid;
-  @override
-  final num marchand;
-  @override
-  final num deliver;
+  final int transactionId;
 
   @override
   String toString() {
-    return 'VerifyTransactionRequest(commandId: $commandId, trid: $trid, marchand: $marchand, deliver: $deliver)';
+    return 'VerifyTransactionRequest(transactionId: $transactionId)';
   }
 
   @override
@@ -163,18 +120,13 @@ class _$VerifyTransactionRequestImpl implements _VerifyTransactionRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VerifyTransactionRequestImpl &&
-            (identical(other.commandId, commandId) ||
-                other.commandId == commandId) &&
-            (identical(other.trid, trid) || other.trid == trid) &&
-            (identical(other.marchand, marchand) ||
-                other.marchand == marchand) &&
-            (identical(other.deliver, deliver) || other.deliver == deliver));
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, commandId, trid, marchand, deliver);
+  int get hashCode => Object.hash(runtimeType, transactionId);
 
   @JsonKey(ignore: true)
   @override
@@ -192,23 +144,14 @@ class _$VerifyTransactionRequestImpl implements _VerifyTransactionRequest {
 }
 
 abstract class _VerifyTransactionRequest implements VerifyTransactionRequest {
-  const factory _VerifyTransactionRequest(
-      {required final int commandId,
-      required final String trid,
-      required final num marchand,
-      required final num deliver}) = _$VerifyTransactionRequestImpl;
+  const factory _VerifyTransactionRequest({required final int transactionId}) =
+      _$VerifyTransactionRequestImpl;
 
   factory _VerifyTransactionRequest.fromJson(Map<String, dynamic> json) =
       _$VerifyTransactionRequestImpl.fromJson;
 
   @override
-  int get commandId;
-  @override
-  String get trid;
-  @override
-  num get marchand;
-  @override
-  num get deliver;
+  int get transactionId;
   @override
   @JsonKey(ignore: true)
   _$$VerifyTransactionRequestImplCopyWith<_$VerifyTransactionRequestImpl>

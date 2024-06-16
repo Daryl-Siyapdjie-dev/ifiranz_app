@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:ifiranz_client/src/features/client/home/presentation/order_detail_screen.dart';
 import 'package:ifiranz_client/src/features/client/payment/domain/cashout_model.dart';
 import 'package:ifiranz_client/src/features/client/payment/share/providers.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
@@ -309,10 +310,15 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                         ? null
                         : () {
                             if (paymentSelectedInfo == null) return;
-
-                            context.pushRoute(OrderDetailsRoute(
-                                paymentIOPtionInfo:
-                                    paymentSelectedInfo ?? CashoutModel()));
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return OrderDetailsScreen(
+                                  paymentIOPtionInfo:
+                                      paymentSelectedInfo ?? CashoutModel());
+                            }));
+                            // context.pushRoute(OrderDetailsRoute(
+                            //     paymentIOPtionInfo:
+                            //         paymentSelectedInfo ?? CashoutModel()));
                           },
                     child: Text(context.locale.next)),
               ),

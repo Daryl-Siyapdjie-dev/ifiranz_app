@@ -24,6 +24,10 @@ mixin _$Quartier {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  double? get deliveryCost => throw _privateConstructorUsedError;
+  bool? get enabled => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  dynamic get latitude => throw _privateConstructorUsedError;
   QuartierArrondissement? get arrondissement =>
       throw _privateConstructorUsedError;
 
@@ -43,6 +47,10 @@ abstract class $QuartierCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      double? deliveryCost,
+      bool? enabled,
+      double? longitude,
+      dynamic latitude,
       QuartierArrondissement? arrondissement});
 
   $QuartierArrondissementCopyWith<$Res>? get arrondissement;
@@ -65,6 +73,10 @@ class _$QuartierCopyWithImpl<$Res, $Val extends Quartier>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? deliveryCost = freezed,
+    Object? enabled = freezed,
+    Object? longitude = freezed,
+    Object? latitude = freezed,
     Object? arrondissement = freezed,
   }) {
     return _then(_value.copyWith(
@@ -84,6 +96,22 @@ class _$QuartierCopyWithImpl<$Res, $Val extends Quartier>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      deliveryCost: freezed == deliveryCost
+          ? _value.deliveryCost
+          : deliveryCost // ignore: cast_nullable_to_non_nullable
+              as double?,
+      enabled: freezed == enabled
+          ? _value.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       arrondissement: freezed == arrondissement
           ? _value.arrondissement
           : arrondissement // ignore: cast_nullable_to_non_nullable
@@ -118,6 +146,10 @@ abstract class _$$QuartierImplCopyWith<$Res>
       int? version,
       String? code,
       String? designation,
+      double? deliveryCost,
+      bool? enabled,
+      double? longitude,
+      dynamic latitude,
       QuartierArrondissement? arrondissement});
 
   @override
@@ -139,6 +171,10 @@ class __$$QuartierImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? deliveryCost = freezed,
+    Object? enabled = freezed,
+    Object? longitude = freezed,
+    Object? latitude = freezed,
     Object? arrondissement = freezed,
   }) {
     return _then(_$QuartierImpl(
@@ -158,6 +194,19 @@ class __$$QuartierImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      deliveryCost: freezed == deliveryCost
+          ? _value.deliveryCost
+          : deliveryCost // ignore: cast_nullable_to_non_nullable
+              as double?,
+      enabled: freezed == enabled
+          ? _value.enabled
+          : enabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      latitude: freezed == latitude ? _value.latitude! : latitude,
       arrondissement: freezed == arrondissement
           ? _value.arrondissement
           : arrondissement // ignore: cast_nullable_to_non_nullable
@@ -175,6 +224,10 @@ class _$QuartierImpl implements _Quartier {
       this.version,
       this.code,
       this.designation,
+      this.deliveryCost,
+      this.enabled,
+      this.longitude,
+      this.latitude,
       this.arrondissement});
 
   factory _$QuartierImpl.fromJson(Map<String, dynamic> json) =>
@@ -189,11 +242,19 @@ class _$QuartierImpl implements _Quartier {
   @override
   final String? designation;
   @override
+  final double? deliveryCost;
+  @override
+  final bool? enabled;
+  @override
+  final double? longitude;
+  @override
+  final dynamic latitude;
+  @override
   final QuartierArrondissement? arrondissement;
 
   @override
   String toString() {
-    return 'Quartier(id: $id, version: $version, code: $code, designation: $designation, arrondissement: $arrondissement)';
+    return 'Quartier(id: $id, version: $version, code: $code, designation: $designation, deliveryCost: $deliveryCost, enabled: $enabled, longitude: $longitude, latitude: $latitude, arrondissement: $arrondissement)';
   }
 
   @override
@@ -206,14 +267,29 @@ class _$QuartierImpl implements _Quartier {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.deliveryCost, deliveryCost) ||
+                other.deliveryCost == deliveryCost) &&
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            const DeepCollectionEquality().equals(other.latitude, latitude) &&
             (identical(other.arrondissement, arrondissement) ||
                 other.arrondissement == arrondissement));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, version, code, designation, arrondissement);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      version,
+      code,
+      designation,
+      deliveryCost,
+      enabled,
+      longitude,
+      const DeepCollectionEquality().hash(latitude),
+      arrondissement);
 
   @JsonKey(ignore: true)
   @override
@@ -235,6 +311,10 @@ abstract class _Quartier implements Quartier {
       final int? version,
       final String? code,
       final String? designation,
+      final double? deliveryCost,
+      final bool? enabled,
+      final double? longitude,
+      final dynamic latitude,
       final QuartierArrondissement? arrondissement}) = _$QuartierImpl;
 
   factory _Quartier.fromJson(Map<String, dynamic> json) =
@@ -248,6 +328,14 @@ abstract class _Quartier implements Quartier {
   String? get code;
   @override
   String? get designation;
+  @override
+  double? get deliveryCost;
+  @override
+  bool? get enabled;
+  @override
+  double? get longitude;
+  @override
+  dynamic get latitude;
   @override
   QuartierArrondissement? get arrondissement;
   @override

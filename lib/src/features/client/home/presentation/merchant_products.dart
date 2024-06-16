@@ -66,8 +66,10 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
     //     .read(promotionnalProductsNotifierProvider.notifier)
     //     .findPromotions(filterRequest);
     // if (isAll) {
-    await ref.read(merchantProductNotifier.notifier).fetchMerchantProducts(
-        requests, localPage, widget.infra.merchantId.toString());
+    print(widget.infra.toJson());
+    await ref
+        .read(merchantProductNotifier.notifier)
+        .fetchMerchantProducts(requests, localPage, widget.infra.id.toString());
     // } else {
     //   await ref.read(getTop10ProductsProductsNotifier.notifier).fetchMerchantProducts();
     // }
@@ -456,7 +458,8 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
             Expanded(
               flex: 1,
               child: CachedNetworkImage(
-                imageUrl: data.url!,
+                imageUrl: data.url ??
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg",
                 width: context.proportionnalHeight(150),
               ),
             ),

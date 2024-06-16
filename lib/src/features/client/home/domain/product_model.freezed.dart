@@ -1031,6 +1031,7 @@ mixin _$Merchant {
   String? get photoEncoded => throw _privateConstructorUsedError;
   String? get format => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
+  double? get indice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1057,7 +1058,8 @@ abstract class $MerchantCopyWith<$Res> {
       String? url,
       String? photoEncoded,
       String? format,
-      String? type});
+      String? type,
+      double? indice});
 }
 
 /// @nodoc
@@ -1087,6 +1089,7 @@ class _$MerchantCopyWithImpl<$Res, $Val extends Merchant>
     Object? photoEncoded = freezed,
     Object? format = freezed,
     Object? type = freezed,
+    Object? indice = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1145,6 +1148,10 @@ class _$MerchantCopyWithImpl<$Res, $Val extends Merchant>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      indice: freezed == indice
+          ? _value.indice
+          : indice // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -1171,7 +1178,8 @@ abstract class _$$MerchantImplCopyWith<$Res>
       String? url,
       String? photoEncoded,
       String? format,
-      String? type});
+      String? type,
+      double? indice});
 }
 
 /// @nodoc
@@ -1199,6 +1207,7 @@ class __$$MerchantImplCopyWithImpl<$Res>
     Object? photoEncoded = freezed,
     Object? format = freezed,
     Object? type = freezed,
+    Object? indice = freezed,
   }) {
     return _then(_$MerchantImpl(
       id: freezed == id
@@ -1254,6 +1263,10 @@ class __$$MerchantImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      indice: freezed == indice
+          ? _value.indice
+          : indice // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -1275,7 +1288,8 @@ class _$MerchantImpl implements _Merchant {
       this.url,
       this.photoEncoded,
       this.format,
-      this.type});
+      this.type,
+      this.indice});
 
   factory _$MerchantImpl.fromJson(Map<String, dynamic> json) =>
       _$$MerchantImplFromJson(json);
@@ -1308,10 +1322,12 @@ class _$MerchantImpl implements _Merchant {
   final String? format;
   @override
   final String? type;
+  @override
+  final double? indice;
 
   @override
   String toString() {
-    return 'Merchant(id: $id, version: $version, code: $code, designation: $designation, adresse: $adresse, telephone1: $telephone1, longitude: $longitude, latitude: $latitude, telephone2: $telephone2, user: $user, url: $url, photoEncoded: $photoEncoded, format: $format, type: $type)';
+    return 'Merchant(id: $id, version: $version, code: $code, designation: $designation, adresse: $adresse, telephone1: $telephone1, longitude: $longitude, latitude: $latitude, telephone2: $telephone2, user: $user, url: $url, photoEncoded: $photoEncoded, format: $format, type: $type, indice: $indice)';
   }
 
   @override
@@ -1337,7 +1353,8 @@ class _$MerchantImpl implements _Merchant {
             (identical(other.photoEncoded, photoEncoded) ||
                 other.photoEncoded == photoEncoded) &&
             (identical(other.format, format) || other.format == format) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.indice, indice) || other.indice == indice));
   }
 
   @JsonKey(ignore: true)
@@ -1357,7 +1374,8 @@ class _$MerchantImpl implements _Merchant {
       url,
       photoEncoded,
       format,
-      type);
+      type,
+      indice);
 
   @JsonKey(ignore: true)
   @override
@@ -1388,7 +1406,8 @@ abstract class _Merchant implements Merchant {
       final String? url,
       final String? photoEncoded,
       final String? format,
-      final String? type}) = _$MerchantImpl;
+      final String? type,
+      final double? indice}) = _$MerchantImpl;
 
   factory _Merchant.fromJson(Map<String, dynamic> json) =
       _$MerchantImpl.fromJson;
@@ -1421,6 +1440,8 @@ abstract class _Merchant implements Merchant {
   String? get format;
   @override
   String? get type;
+  @override
+  double? get indice;
   @override
   @JsonKey(ignore: true)
   _$$MerchantImplCopyWith<_$MerchantImpl> get copyWith =>

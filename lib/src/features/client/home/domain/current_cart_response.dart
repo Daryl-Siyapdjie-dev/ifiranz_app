@@ -29,6 +29,8 @@ class CurrentCartResponse with _$CurrentCartResponse {
     num? montantLivraison,
     num? montantTotal,
     String? modePayement,
+    String? description,
+    String? processingStatus,
     String? pourMarchand,
     String? otp,
   }) = _TransactionModel;

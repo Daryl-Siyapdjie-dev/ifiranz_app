@@ -30,10 +30,12 @@ import '../../payment/domain/verify_transaction_request.dart';
 @RoutePage()
 class OrderTabScreen extends StatefulHookConsumerWidget {
   final CashoutModel? operatorInfo;
+  final TransactionResponse? transactionResponse;
 
   const OrderTabScreen({
     super.key,
     this.operatorInfo,
+    this.transactionResponse,
   });
 
   @override
@@ -67,6 +69,7 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
         useTextEditingController(text: getCurrentClient.value?.user);
     final phoneController = useTextEditingController();
     final isoCode = useTextEditingController();
+    final phoneCode = useTextEditingController();
     final nameController =
         useTextEditingController(text: getCurrentClient.value?.nom);
 
@@ -87,24 +90,25 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
 
       curr.maybeWhen(
           orElse: () => null,
-          initiated: (res) {
-            if (_context == null) return;
-            PhoneNumberUtil.normalizePhoneNumber(
-              isoCode: isoCode.text.trim(),
-              phoneNumber: phoneController.text.trim(),
-            ).then((phone) {
-              progress?.show();
-              ref.read(paymentProvider.notifier).finalyse(TransactionRequest(
-                  quoteId: res.quoteId,
-                  customerPhonenumber: phone,
-                  customerEmailaddress: cart.client?.user,
-                  customerName: nameController.text,
-                  customerAddress: cart.client?.adresse,
-                  serviceNumber:
-                      trouverNumeroTelephone(widget.operatorInfo!.serviceId!),
-                  trid: ""));
-            });
-          },
+          // initiated: (res) {
+          //   if (_context == null) return;
+          //   PhoneNumberUtil.normalizePhoneNumber(
+          //     isoCode: isoCode.text.trim(),
+          //     phoneNumber: phoneController.text.trim(),
+          //   ).then((phone) {
+          //     progress?.show();
+          //     ref.read(paymentProvider.notifier).finalyse(TransactionRequest(
+          //           transactionId: res.idDeal,
+          //           customerPhone: phone,
+          //           customerEmail: cart.client?.user,
+          //           customerName: nameController.text,
+          //           customerAddress: cart.client?.adresse,
+          //           // serviceNumber:
+          //           //     trouverNumeroTelephone(widget.operatorInfo!.serviceId!),
+          //           // trid: "",
+          //         ));
+          //   });
+          // },
           finalyse: (res) {
             progress?.dismiss();
             showDialog(
@@ -176,6 +180,7 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                               PhoneNumberWidget(
                                 controller: phoneController,
                                 isoCode: isoCode,
+                                phoneCode: phoneCode,
                               ),
                               gapH20,
                               CommonTextFormField(
@@ -275,22 +280,53 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                                         widget.operatorInfo is! CashoutModel
                                     ? null
                                     : () {
+                                        //FIXME: Uncomment and repair this
+                                        // initiate the transaction
+                                        final progress = ProgressHUD.of(_);
+                                        // progress?.show();
+
+                                        // ref
+                                        //     .read(paymentProvider.notifier)
+                                        //     .finalyse(InitiateRequest(
+                                        //         command: cart.id,
+                                        //         paymentMethod: widget
+                                        //             .paymentIOPtionInfo.id))
+                                        //     // .then((value) => null)
+                                        //     .whenComplete(
+                                        //         () => progress?.dismiss());
                                         if (_formKey.currentState!.validate() &&
                                             _remeberMe) {
-                                          PhoneNumberUtil.normalizePhoneNumber(
-                                            isoCode: isoCode.text.trim(),
+                                          print(phoneCode.text);
+                                          PhoneNumberUtil.removeCountryCode(
+                                            phoneCode: phoneCode.text.trim(),
                                             phoneNumber:
                                                 phoneController.text.trim(),
                                           ).then((value) {
                                             final progress = ProgressHUD.of(_);
-                                            progress?.show();
-
+                                            // progress?.show();
                                             ref
                                                 .read(paymentProvider.notifier)
-                                                .initTranstion(InitiateRequest(
-                                                    command: cart.id,
-                                                    paymentMethod: widget
-                                                        .operatorInfo?.id));
+                                                .finalyse(TransactionRequest(
+                                                  transactionId: widget
+                                                      .transactionResponse!
+                                                      .idDeal!,
+                                                  customerPhone: value,
+                                                  customerEmail:
+                                                      "${nameController.text}@ifiranz.com",
+                                                  customerName:
+                                                      nameController.text,
+                                                  customerAddress:
+                                                      cart.client?.adresse,
+                                                  // serviceNumber:
+                                                  //     trouverNumeroTelephone(widget.operatorInfo!.serviceId!),
+                                                  // trid: "",
+                                                ));
+                                            // ref
+                                            //     .read(paymentProvider.notifier)
+                                            //     .initTranstion(InitiateRequest(
+                                            //         command: cart.id,
+                                            //         paymentMethod: widget
+                                            //             .operatorInfo?.id));
                                           });
                                         }
                                       },
@@ -422,13 +458,8 @@ class _PaymentValidationWidgetState
                                           .read(paymentProvider.notifier)
                                           .verifyTransaction(
                                               VerifyTransactionRequest(
-                                                  commandId: cart.id!,
-                                                  trid: widget.res.trid!,
-                                                  marchand: cart
-                                                          .greatMontantTotal() -
-                                                      cart.montantLivraison!,
-                                                  deliver:
-                                                      cart.montantLivraison!))
+                                                  transactionId:
+                                                      widget.res.idDeal!))
                                           .whenComplete(() {
                                         progress2?.dismiss();
                                       });

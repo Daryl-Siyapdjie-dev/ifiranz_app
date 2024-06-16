@@ -58,9 +58,10 @@ class PaymentNotifier extends StateNotifier<PaymentState> {
         });
       } else if (r.status == "FAILED" || r.status == "ERRORED") {
         state = const PaymentState.error("Transaction échoué");
-        Future.delayed(const Duration(seconds: 3), () {
-          state = const PaymentState.initial();
-        });
+        return state;
+        // Future.delayed(const Duration(seconds: 3), () {
+        //   state = const PaymentState.initial();
+        // });
       }
     });
   }

@@ -14,6 +14,7 @@ import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/widgets/no_data.dart';
+import 'payment_screen.dart';
 
 @RoutePage()
 class CartScreen extends StatefulHookConsumerWidget {
@@ -129,7 +130,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10)),
                                 onPressed: () {
-                                  context.pushRoute(const PaymentRoute());
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PaymentScreen()));
+                                  // context.pushRoute(const PaymentRoute());
                                 },
                                 child: Text(context
                                     .locale.clientCartScreenChoosePayment)),
@@ -163,7 +167,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
     final allPrices = [];
     for (OrderArticle o in cart) {
-      allPrices.add(o.article!.prix! * o.quantite!);
+      allPrices.add(o.article!.salePrice! * o.quantite!);
     }
 
     price = allPrices.reduce((value, element) => value + element);
@@ -315,7 +319,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     child: RichText(
                         text: TextSpan(children: [
                       TextSpan(
-                          text: (order.quantite! * product.prix!).formatMoney(),
+                          text: (order.quantite! * product.salePrice!)
+                              .formatMoney(),
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!

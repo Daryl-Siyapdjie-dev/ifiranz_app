@@ -713,7 +713,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen>
                                         .notifier)
                                     .createCommand(CreateCommandRequest(
                                       localisationGps:
-                                          cart.localisationGps ?? "None",
+                                          cart.localisationGps ?? "",
                                       designation: widget.item.designation,
                                       latitude: cart.latitude,
                                       longitude: cart.longitude,

@@ -29,7 +29,8 @@ class ProductModel with _$ProductModel {
     List<NoteModel>? notes,
   }) = _ProductModel;
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
+  factory ProductModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductModelFromJson(json);
 }
 
 @freezed
@@ -41,7 +42,8 @@ class ProductType with _$ProductType {
     String? designation,
   }) = _ProductType;
 
-  factory ProductType.fromJson(Map<String, dynamic> json) => _$ProductTypeFromJson(json);
+  factory ProductType.fromJson(Map<String, dynamic> json) =>
+      _$ProductTypeFromJson(json);
 }
 
 @freezed
@@ -56,7 +58,8 @@ class NoteModel with _$NoteModel {
     String? commentaire,
   }) = _NoteModel;
 
-  factory NoteModel.fromJson(Map<String, dynamic> json) => _$NoteModelFromJson(json);
+  factory NoteModel.fromJson(Map<String, dynamic> json) =>
+      _$NoteModelFromJson(json);
 }
 
 @freezed
@@ -76,7 +79,9 @@ class Merchant with _$Merchant {
     String? photoEncoded,
     String? format,
     String? type,
+    double? indice,
   }) = _Merchant;
 
-  factory Merchant.fromJson(Map<String, dynamic> json) => _$MerchantFromJson(json);
+  factory Merchant.fromJson(Map<String, dynamic> json) =>
+      _$MerchantFromJson(json);
 }

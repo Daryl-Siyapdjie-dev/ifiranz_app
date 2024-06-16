@@ -34,6 +34,8 @@ _$TransactionModelImpl _$$TransactionModelImplFromJson(
       montantLivraison: json['montantLivraison'] as num?,
       montantTotal: json['montantTotal'] as num?,
       modePayement: json['modePayement'] as String?,
+      description: json['description'] as String?,
+      processingStatus: json['processingStatus'] as String?,
       pourMarchand: json['pourMarchand'] as String?,
       otp: json['otp'] as String?,
     );
@@ -59,6 +61,8 @@ Map<String, dynamic> _$$TransactionModelImplToJson(
       'montantLivraison': instance.montantLivraison,
       'montantTotal': instance.montantTotal,
       'modePayement': instance.modePayement,
+      'description': instance.description,
+      'processingStatus': instance.processingStatus,
       'pourMarchand': instance.pourMarchand,
       'otp': instance.otp,
     };

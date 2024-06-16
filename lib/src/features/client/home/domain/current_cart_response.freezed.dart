@@ -38,6 +38,8 @@ mixin _$CurrentCartResponse {
   num? get montantLivraison => throw _privateConstructorUsedError;
   num? get montantTotal => throw _privateConstructorUsedError;
   String? get modePayement => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get processingStatus => throw _privateConstructorUsedError;
   String? get pourMarchand => throw _privateConstructorUsedError;
   String? get otp => throw _privateConstructorUsedError;
 
@@ -72,6 +74,8 @@ abstract class $CurrentCartResponseCopyWith<$Res> {
       num? montantLivraison,
       num? montantTotal,
       String? modePayement,
+      String? description,
+      String? processingStatus,
       String? pourMarchand,
       String? otp});
 
@@ -110,6 +114,8 @@ class _$CurrentCartResponseCopyWithImpl<$Res, $Val extends CurrentCartResponse>
     Object? montantLivraison = freezed,
     Object? montantTotal = freezed,
     Object? modePayement = freezed,
+    Object? description = freezed,
+    Object? processingStatus = freezed,
     Object? pourMarchand = freezed,
     Object? otp = freezed,
   }) {
@@ -186,6 +192,14 @@ class _$CurrentCartResponseCopyWithImpl<$Res, $Val extends CurrentCartResponse>
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processingStatus: freezed == processingStatus
+          ? _value.processingStatus
+          : processingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
       pourMarchand: freezed == pourMarchand
           ? _value.pourMarchand
           : pourMarchand // ignore: cast_nullable_to_non_nullable
@@ -249,6 +263,8 @@ abstract class _$$TransactionModelImplCopyWith<$Res>
       num? montantLivraison,
       num? montantTotal,
       String? modePayement,
+      String? description,
+      String? processingStatus,
       String? pourMarchand,
       String? otp});
 
@@ -287,6 +303,8 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
     Object? montantLivraison = freezed,
     Object? montantTotal = freezed,
     Object? modePayement = freezed,
+    Object? description = freezed,
+    Object? processingStatus = freezed,
     Object? pourMarchand = freezed,
     Object? otp = freezed,
   }) {
@@ -363,6 +381,14 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processingStatus: freezed == processingStatus
+          ? _value.processingStatus
+          : processingStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
       pourMarchand: freezed == pourMarchand
           ? _value.pourMarchand
           : pourMarchand // ignore: cast_nullable_to_non_nullable
@@ -398,6 +424,8 @@ class _$TransactionModelImpl implements _TransactionModel {
       this.montantLivraison,
       this.montantTotal,
       this.modePayement,
+      this.description,
+      this.processingStatus,
       this.pourMarchand,
       this.otp})
       : _articles = articles;
@@ -449,13 +477,17 @@ class _$TransactionModelImpl implements _TransactionModel {
   @override
   final String? modePayement;
   @override
+  final String? description;
+  @override
+  final String? processingStatus;
+  @override
   final String? pourMarchand;
   @override
   final String? otp;
 
   @override
   String toString() {
-    return 'CurrentCartResponse(id: $id, version: $version, code: $code, designation: $designation, localisationGps: $localisationGps, latitude: $latitude, longitude: $longitude, dateCreate: $dateCreate, transactionId: $transactionId, articles: $articles, montant: $montant, statut: $statut, client: $client, codeLivraison: $codeLivraison, quartier: $quartier, montantLivraison: $montantLivraison, montantTotal: $montantTotal, modePayement: $modePayement, pourMarchand: $pourMarchand, otp: $otp)';
+    return 'CurrentCartResponse(id: $id, version: $version, code: $code, designation: $designation, localisationGps: $localisationGps, latitude: $latitude, longitude: $longitude, dateCreate: $dateCreate, transactionId: $transactionId, articles: $articles, montant: $montant, statut: $statut, client: $client, codeLivraison: $codeLivraison, quartier: $quartier, montantLivraison: $montantLivraison, montantTotal: $montantTotal, modePayement: $modePayement, description: $description, processingStatus: $processingStatus, pourMarchand: $pourMarchand, otp: $otp)';
   }
 
   @override
@@ -492,6 +524,10 @@ class _$TransactionModelImpl implements _TransactionModel {
                 other.montantTotal == montantTotal) &&
             (identical(other.modePayement, modePayement) ||
                 other.modePayement == modePayement) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.processingStatus, processingStatus) ||
+                other.processingStatus == processingStatus) &&
             (identical(other.pourMarchand, pourMarchand) ||
                 other.pourMarchand == pourMarchand) &&
             (identical(other.otp, otp) || other.otp == otp));
@@ -519,6 +555,8 @@ class _$TransactionModelImpl implements _TransactionModel {
         montantLivraison,
         montantTotal,
         modePayement,
+        description,
+        processingStatus,
         pourMarchand,
         otp
       ]);
@@ -558,6 +596,8 @@ abstract class _TransactionModel implements CurrentCartResponse {
       final num? montantLivraison,
       final num? montantTotal,
       final String? modePayement,
+      final String? description,
+      final String? processingStatus,
       final String? pourMarchand,
       final String? otp}) = _$TransactionModelImpl;
 
@@ -600,6 +640,10 @@ abstract class _TransactionModel implements CurrentCartResponse {
   num? get montantTotal;
   @override
   String? get modePayement;
+  @override
+  String? get description;
+  @override
+  String? get processingStatus;
   @override
   String? get pourMarchand;
   @override

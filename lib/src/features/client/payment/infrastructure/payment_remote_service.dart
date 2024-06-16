@@ -52,8 +52,8 @@ class PaymentRemoteService {
   Future<ApiResponse<Json>> verifyTransaction(
       VerifyTransactionRequest request) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildVerifyTransaction(),
-          data: request.toJson()),
+      () async => _dio.get(
+          _urlBuilder.buildVerifyTransaction(request.transactionId.toString())),
       (data) {
         return ApiResponse.success(data as Json);
       },
