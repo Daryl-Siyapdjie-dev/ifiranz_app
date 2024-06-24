@@ -1,7 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/auth/register/domain/add_client_request.dart';
+import 'package:ifiranz_client/src/features/auth/register/domain/add_merchant_client_request.dart';
 import 'package:ifiranz_client/src/features/auth/register/shared/providers.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
@@ -13,6 +13,7 @@ import 'package:ifiranz_client/src/features/core/shared/providers.dart';
 import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../domain/add_client_request.dart';
 
 @RoutePage()
 class RegisterAdditionalInfoScreen extends StatefulHookConsumerWidget {

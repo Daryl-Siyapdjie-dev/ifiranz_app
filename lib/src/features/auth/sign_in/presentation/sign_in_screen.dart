@@ -82,14 +82,26 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               duration: const Duration(seconds: ApiConstants.flushbarDuration),
             ).show(context).then((_) {
               Map<String, dynamic> decodedToken = JwtDecoder.decode(value!);
+              print(decodedToken);
+              SharedPref.setId(decodedToken['user']);
               SharedPref.setEmail(decodedToken['sub']);
-              if (findAuthorityRole((decodedToken['authorities'] as List).map((e) => Map<String, dynamic>.from(e)).toList()) == Authories.merchant) {
-                AutoRouter.of(context).pushAndPopUntil(const MainAppMarchandRoute(), predicate: (predicate) => false);
-              } else if (findAuthorityRole((decodedToken['authorities'] as List).map((e) => Map<String, dynamic>.from(e)).toList()) ==
+              if (findAuthorityRole((decodedToken['authorities'] as List)
+                      .map((e) => Map<String, dynamic>.from(e))
+                      .toList()) ==
+                  Authories.merchant) {
+                AutoRouter.of(context).pushAndPopUntil(
+                    const MainAppMarchandRoute(),
+                    predicate: (predicate) => false);
+              } else if (findAuthorityRole((decodedToken['authorities'] as List)
+                      .map((e) => Map<String, dynamic>.from(e))
+                      .toList()) ==
                   Authories.delivery) {
-                AutoRouter.of(context).pushAndPopUntil(const MainAppLivreurRoute(), predicate: (predicate) => false);
+                AutoRouter.of(context).pushAndPopUntil(
+                    const MainAppLivreurRoute(),
+                    predicate: (predicate) => false);
               } else {
-                AutoRouter.of(context).pushAndPopUntil(const MainAppRoute(), predicate: (predicate) => false);
+                AutoRouter.of(context).pushAndPopUntil(const MainAppRoute(),
+                    predicate: (predicate) => false);
               }
             });
           },
@@ -131,7 +143,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             child: Text(
                               context.locale.loginScreenDescription,
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     fontSize: 12,
                                   ),
                             ),
@@ -139,14 +154,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           gapH32,
                           gapH10,
                           isPhone
-                              ? PhoneNumberWidget(controller: phoneOrEmailController, isoCode: isoCode)
+                              ? PhoneNumberWidget(
+                                  controller: phoneOrEmailController,
+                                  isoCode: isoCode)
                               : CommonTextFormField(
                                   controller: phoneOrEmailController,
                                   focusNode: phoneNumberOrEmailFocusNode,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
                                   hintText: 'Email',
                                   textInputAction: TextInputAction.done,
-                                  validator: ref.read(formValidationServiceProvider).validateEmail,
+                                  validator: ref
+                                      .read(formValidationServiceProvider)
+                                      .validateEmail,
                                   textInputType: TextInputType.text,
                                   isLabelRequired: true,
                                   hasLabel: true,
@@ -157,13 +177,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           CommonTextFormField(
                             controller: passwordController,
                             focusNode: passwordFocusNode,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             hintText: context.locale.password,
                             textInputAction: TextInputAction.done,
                             textInputType: TextInputType.text,
                             isLabelRequired: true,
                             hasLabel: true,
-                            validator: ref.read(formValidationServiceProvider).validatePassword,
+                            validator: ref
+                                .read(formValidationServiceProvider)
+                                .validatePassword,
                             label: context.locale.password,
                             obscureText: true,
                           ),
@@ -178,7 +201,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   });
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -202,7 +226,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                       const SizedBox(width: 2),
                                       Text(
                                         context.locale.loginScreenRememeberMe,
-                                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -217,9 +244,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                     const ForgotPasswordRoute(),
                                   );
                                 },
-                                overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+                                overlayColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (states) {
                                   if (states.contains(MaterialState.pressed)) {
-                                    return AppColors.primaryColor.withOpacity(.1);
+                                    return AppColors.primaryColor
+                                        .withOpacity(.1);
                                   }
                                   return Colors.transparent;
                                 }),
@@ -227,7 +257,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     context.locale.forgotPassword,
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
                                           color: AppColors.primaryColor,
                                           fontSize: 12,
                                         ),
@@ -244,8 +277,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 isPhone = !isPhone;
                               });
                             },
-                            child: Text(context.locale.connectWithEmailOrPhoneNumber(isPhone.toString()),
-                                style: context.theme.textTheme.bodyMedium?.copyWith(
+                            child: Text(
+                                context.locale.connectWithEmailOrPhoneNumber(
+                                    isPhone.toString()),
+                                style: context.theme.textTheme.bodyMedium
+                                    ?.copyWith(
                                   fontSize: 12,
                                   color: AppColors.greyLight,
                                 )),
@@ -259,7 +295,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 if (isPhone) {
                                   PhoneNumberUtil.normalizePhoneNumber(
                                     isoCode: isoCode.text.trim(),
-                                    phoneNumber: phoneOrEmailController.text.trim(),
+                                    phoneNumber:
+                                        phoneOrEmailController.text.trim(),
                                   ).then((phone) {
                                     final progress = ProgressHUD.of(_);
                                     progress?.show();
@@ -280,7 +317,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   ref
                                       .read(authNotifierProvider.notifier)
                                       .loginUser(
-                                        isPhone ? phoneOrEmailController.text.removeAllSpace() : phoneOrEmailController.text.trim().toLowerCase(),
+                                        isPhone
+                                            ? phoneOrEmailController.text
+                                                .removeAllSpace()
+                                            : phoneOrEmailController.text
+                                                .trim()
+                                                .toLowerCase(),
                                         passwordController.text,
                                       )
                                       .whenComplete(() {
@@ -295,18 +337,22 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Expanded(child: Divider(color: AppColors.greyLight)),
+                              const Expanded(
+                                  child: Divider(color: AppColors.greyLight)),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
                                   context.locale.orLoginWith,
-                                  style: context.theme.textTheme.bodyMedium?.copyWith(
+                                  style: context.theme.textTheme.bodyMedium
+                                      ?.copyWith(
                                     fontSize: 12,
                                     color: AppColors.greyLight,
                                   ),
                                 ),
                               ),
-                              const Expanded(child: Divider(color: AppColors.greyLight)),
+                              const Expanded(
+                                  child: Divider(color: AppColors.greyLight)),
                             ],
                           ),
                           gapH30,
@@ -329,10 +375,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => context.pushRoute(const RegisterRoute()),
+                            onPressed: () =>
+                                context.pushRoute(const RegisterRoute()),
                             child: Text(
                               context.locale.loginScreenSignUp,
-                              style: context.theme.textTheme.bodyMedium?.copyWith(
+                              style:
+                                  context.theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                                 color: AppColors.greyDark,

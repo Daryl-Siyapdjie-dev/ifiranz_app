@@ -52,7 +52,7 @@ class _MerchandProductDetailScreenState
       ref.read(findQuartierPoductsProvider.notifier).findProductQuartier();
       ref
           .refresh(merchandClientsNotifierProvider.notifier)
-          .fetchDeliveryOrders(params);
+          .fetchMerchantClients(params);
       // ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail()));
     });
   }

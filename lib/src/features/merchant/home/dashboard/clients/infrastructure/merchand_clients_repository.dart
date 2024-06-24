@@ -14,20 +14,20 @@ class MerchandClientsRepository {
 
   MerchandClientsRepository(this._productRemoteService);
 
-  Future<Either<ApiFailure, PaginatedResponse<Client>>> getListProducts(
+  Future<Either<ApiFailure, PaginatedResponse<Client>>> getListMerchantClients(
     PaginatedRequest params,
   ) async {
     try {
-      final response = await _productRemoteService.getClients(params, [
-        FilterOptional.fromJson({"key": "userCreate", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true})
-      ]);
+      final response = await _productRemoteService.getMerchantClients(params);
 
       return right(
         await response.when(
           success: (res) => PaginatedResponse<Client>(
-              data: (res!['records'] as List).map((e) => Client.fromJson(e)).toList(),
-              totalElements: res['totalPages'],
-              totalPages: res['totalElements']),
+              data: (res!['record']['data']['content'] as List)
+                  .map((e) => Client.fromJson(e))
+                  .toList(),
+              totalElements: res['record']['data']['totalPages'],
+              totalPages: res['record']['data']['totalElements']),
         ),
       );
     } on ApiException catch (apiException) {
@@ -38,11 +38,19 @@ class MerchandClientsRepository {
   Future<List<Client>> getSearchPatternClients(
     String pattern,
   ) async {
-    final response = await _productRemoteService.getClients(PaginatedRequest(size: 20), [
-      FilterOptional.fromJson({"key": "userCreate", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true}),
+    final response =
+        await _productRemoteService.getClients(PaginatedRequest(size: 20), [
+      FilterOptional.fromJson({
+        "key": "userCreate",
+        "value": SharedPref.getEmail(),
+        "type": "EQUAL",
+        "applyAnd": true
+      }),
       FilterOptional(value: pattern, type: "LIKE", key: "designation")
     ]);
 
-    return await response.when(success: (res) => (res!['records'] as List).map((e) => Client.fromJson(e)).toList());
+    return await response.when(
+        success: (res) =>
+            (res!['records'] as List).map((e) => Client.fromJson(e)).toList());
   }
 }

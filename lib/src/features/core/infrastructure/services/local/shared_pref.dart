@@ -15,6 +15,7 @@ abstract class SharedPref {
   static const String _localClientUser = "localClientUser";
   static const String _localDeliverUser = "localDeliverUser";
 
+  static const String _id = "id";
   static const String _email = "email";
   static const String _locale = "locale";
   static const String _localClientSearchHistory = "local_client_search_history";
@@ -24,7 +25,6 @@ abstract class SharedPref {
   static Future<bool> clear() async => _prefs!.clear();
 
   static String? getToken() => _prefs!.getString(_token);
-
 
   static String? getLocale() => _prefs!.getString(_locale);
 
@@ -53,6 +53,7 @@ abstract class SharedPref {
   }
 
   static String? get getFcmToken => _prefs!.getString(_fcmToken);
+  static int? getId() => _prefs!.getInt(_id);
   static String? getEmail() => _prefs!.getString(_email);
 
   static Future setToken(String value) async =>
@@ -77,6 +78,8 @@ abstract class SharedPref {
   }
 
   static set fcmToken(String value) => _prefs!.setString(_fcmToken, value);
+
+  static Future setId(int value) async => _prefs!.setInt(_id, value);
 
   static Future setEmail(String value) async =>
       _prefs!.setString(_email, value);

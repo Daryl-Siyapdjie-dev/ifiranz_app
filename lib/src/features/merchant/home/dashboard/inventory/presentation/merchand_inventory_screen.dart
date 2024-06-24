@@ -168,7 +168,7 @@ class _MerchandInventoryScreenState
                 onPressed: () {
                   ref
                       .read(merchandClientsNotifierProvider.notifier)
-                      .fetchDeliveryOrders(params.copyWith(page: 0));
+                      .fetchMerchantClients(params.copyWith(page: 0));
                 },
               ),
             )),

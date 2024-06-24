@@ -44,7 +44,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               if (findAuthorityRole((decodedToken['authorities'] as List).map((e) => Map<String, dynamic>.from(e)).toList()) == Authories.merchant) {
                 ref
                     .read(currentMarchandNotifierProvider.notifier)
-                    .getCurrentMarchand((FilterOptional.fromJson({"key": "user", "value": decodedToken['sub'], "type": "EQUAL", "applyAnd": true})));
+                    .getCurrentMarchand();
                 context.replaceRoute(const MainAppMarchandRoute());
               } else if (findAuthorityRole((decodedToken['authorities'] as List).map((e) => Map<String, dynamic>.from(e)).toList()) ==
                   Authories.delivery) {

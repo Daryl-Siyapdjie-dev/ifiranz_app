@@ -57,12 +57,7 @@ class _EditMerchandScreenState extends ConsumerState<EditMerchandScreen> {
           successully: () {
             ref
                 .read(currentMarchandNotifierProvider.notifier)
-                .getCurrentMarchand(FilterOptional.fromJson({
-                  "key": "user",
-                  "value": SharedPref.getEmail(),
-                  "type": "EQUAL",
-                  "applyAnd": true
-                }));
+                .getCurrentMarchand();
             showSuccessFlushbar(context, 'Operation successful');
           },
           failed: (e) {

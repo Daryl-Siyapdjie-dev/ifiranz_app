@@ -18,7 +18,8 @@ class MerchandClientScreen extends StatefulHookConsumerWidget {
   const MerchandClientScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MerchandClientScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MerchandClientScreenState();
 }
 
 class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
@@ -30,7 +31,9 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.microtask(() {
-        ref.refresh(merchandClientsNotifierProvider.notifier).fetchDeliveryOrders(params);
+        ref
+            .refresh(merchandClientsNotifierProvider.notifier)
+            .fetchMerchantClients(params);
       });
     });
 
@@ -46,12 +49,19 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
       if (controller.position.maxScrollExtent == controller.position.pixels) {
         if (ref.watch(merchandClientsNotifierProvider).hasValue &&
             (ref.watch(merchandClientsNotifierProvider).value!.hasMore) &&
-            !(ref.watch(merchandClientsNotifierProvider).value!.isLoadingMore)) {
+            !(ref
+                .watch(merchandClientsNotifierProvider)
+                .value!
+                .isLoadingMore)) {
           await ref
               .read(merchandClientsNotifierProvider.notifier)
-              .fetchDeliveryOrders(params.copyWith(page: params.page + 1), isMore: true)
+              .fetchMerchantClients(params.copyWith(page: params.page + 1),
+                  isMore: true)
               .whenComplete(() {
-            if (!(ref.watch(merchandClientsNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(merchandClientsNotifierProvider)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -61,7 +71,9 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
       }
     });
     return RefreshIndicator(
-      onRefresh: () => ref.read(merchandClientsNotifierProvider.notifier).fetchDeliveryOrders(PaginatedRequest(page: 0, size: 7)),
+      onRefresh: () => ref
+          .read(merchandClientsNotifierProvider.notifier)
+          .fetchMerchantClients(PaginatedRequest(page: 0, size: 7)),
       child: Scaffold(
           key: _scaffoldKey,
           appBar: CustomMarchandAppBar(
@@ -89,23 +101,42 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
                       children: [
                         ...response.data.map((e) => clientItem(e)).toList(),
                         gapH10,
-                        if (((ref.watch(merchandClientsNotifierProvider).value?.hasMore ?? false) ||
-                            (ref.watch(merchandClientsNotifierProvider).value?.isLoadingMore ?? false)))
+                        if (((ref
+                                    .watch(merchandClientsNotifierProvider)
+                                    .value
+                                    ?.hasMore ??
+                                false) ||
+                            (ref
+                                    .watch(merchandClientsNotifierProvider)
+                                    .value
+                                    ?.isLoadingMore ??
+                                false)))
                           const Center(
                             child: CircularProgressIndicator(),
                           ),
-                        if ((ref.watch(merchandClientsNotifierProvider).value?.hasErrorOnLoadMore ?? false))
+                        if ((ref
+                                .watch(merchandClientsNotifierProvider)
+                                .value
+                                ?.hasErrorOnLoadMore ??
+                            false))
                           Center(
                             child: IconButton(
                               icon: const Icon(Icons.refresh),
                               onPressed: () async {
                                 await ref
-                                    .read(merchandClientsNotifierProvider.notifier)
-                                    .fetchDeliveryOrders(params.copyWith(page: params.page + 1), isMore: true)
+                                    .read(merchandClientsNotifierProvider
+                                        .notifier)
+                                    .fetchMerchantClients(
+                                        params.copyWith(page: params.page + 1),
+                                        isMore: true)
                                     .whenComplete(() {
-                                  if (!(ref.watch(merchandClientsNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                  if (!(ref
+                                      .watch(merchandClientsNotifierProvider)
+                                      .value!
+                                      .hasErrorOnLoadMore)) {
                                     setState(() {
-                                      params = params.copyWith(page: params.page + 1);
+                                      params = params.copyWith(
+                                          page: params.page + 1);
                                     });
                                   }
                                 });
@@ -146,86 +177,106 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
                 ),
               ],
             ),
-            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                '#${item.code ?? ""}',
-                style: const TextStyle(color: AppColors.blackColor),
-              ),
-              Row(
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      context.locale.name,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                    ),
+                  Text(
+                    '#${item.code ?? ""}',
+                    style: const TextStyle(color: AppColors.blackColor),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Text(item.nom ?? "",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            )),
-                  )
-                ],
-              ),
-              gapH2,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      context.locale.surname,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          context.locale.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.greyTextColor),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(item.nom ?? "",
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Text((item.prenom ?? "").capitalize(),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            )),
-                  )
-                ],
-              ),
-              gapH2,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      context.locale.address,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                    ),
+                  gapH2,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          context.locale.surname,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.greyTextColor),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text((item.prenom ?? "").capitalize(),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Text((item.adresse ?? "").capitalize(),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            )),
-                  )
-                ],
-              ),
-              gapH2,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      context.locale.registerAdditionnalLocationNeighborhood,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                    ),
+                  gapH2,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          context.locale.address,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.greyTextColor),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text((item.adresse ?? "").capitalize(),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Text((item.localisationGps ?? "").capitalize(),
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            )),
-                  )
-                ],
-              ),
-            ])));
+                  gapH2,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          context
+                              .locale.registerAdditionnalLocationNeighborhood,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.greyTextColor),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text((item.localisationGps ?? "").capitalize(),
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                      )
+                    ],
+                  ),
+                ])));
   }
 }

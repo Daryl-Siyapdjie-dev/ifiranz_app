@@ -250,13 +250,7 @@ class CustomMarchandAppBar extends StatefulHookConsumerWidget
 class _CustomMarchandAppBarState extends ConsumerState<CustomMarchandAppBar> {
   @override
   void initState() {
-    ref.read(currentMarchandNotifierProvider.notifier).getCurrentMarchand(
-            FilterOptional.fromJson({
-          "key": "user",
-          "value": SharedPref.getEmail(),
-          "type": "EQUAL",
-          "applyAnd": true
-        }));
+    ref.read(currentMarchandNotifierProvider.notifier).getCurrentMarchand();
     super.initState();
   }
 

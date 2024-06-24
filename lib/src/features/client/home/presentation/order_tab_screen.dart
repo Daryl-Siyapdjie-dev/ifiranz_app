@@ -56,6 +56,13 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
     super.initState();
   }
 
+  removeCountryCode({required String phoneNumber, required String phoneCode}) {
+    if (phoneNumber.startsWith(phoneCode)) {
+      return phoneNumber.substring(phoneCode.length);
+    }
+    return phoneNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     final cart = ref.watch(cartProvider);
@@ -297,7 +304,7 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                                         if (_formKey.currentState!.validate() &&
                                             _remeberMe) {
                                           print(phoneCode.text);
-                                          PhoneNumberUtil.removeCountryCode(
+                                          removeCountryCode(
                                             phoneCode: phoneCode.text.trim(),
                                             phoneNumber:
                                                 phoneController.text.trim(),

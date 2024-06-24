@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:ifiranz_client/src/features/auth/core/domain/client.dart';
-import 'package:ifiranz_client/src/features/auth/register/domain/add_client_request.dart';
+import 'package:ifiranz_client/src/features/auth/register/domain/add_merchant_client_request.dart';
 import 'package:ifiranz_client/src/features/auth/register/domain/profile_response.dart';
 
 import '../../../core/domain/api_failure.dart';
 import '../../../core/infrastructure/utils/api_exception.dart';
+import '../domain/add_client_request.dart';
 import 'register_remote_service.dart';
 
 class RegisterRepository {
@@ -37,9 +38,26 @@ class RegisterRepository {
     }
   }
 
-  Future<Either<ApiFailure, Client>> registerUserAdditionalInfo({required AddClientRequest request}) async {
+  Future<Either<ApiFailure, Client>> registerUserAdditionalInfo(
+      {required AddClientRequest request}) async {
     try {
-      final registerResponse = await _remoteService.registerUserAdditionalInfo(request);
+      final registerResponse =
+          await _remoteService.registerUserAdditionalInfo(request);
+      return right(
+        await registerResponse.when(
+          success: (res) => Client.fromJson(res!['record']),
+        ),
+      );
+    } on ApiException catch (e) {
+      return left(ApiFailure.failure(e.msg));
+    }
+  }
+
+  Future<Either<ApiFailure, Client>> addCostumer(
+      {required AddMerchantClientRequest request}) async {
+    try {
+      final registerResponse =
+          await _remoteService.addCostumer(request);
       return right(
         await registerResponse.when(
           success: (res) => Client.fromJson(res!['record']),

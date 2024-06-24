@@ -14,6 +14,9 @@ class UrlBuilder {
   String buildRegisterUserAdditionalInfo() =>
       '$baseUrl/livraison-service/client/add';
 
+  String buildAddMerchantCostumer() =>
+      '$baseUrl/livraison-service/merchantClient';
+
   String buildFindProfilByName() =>
       '$baseUrl/auth-service/api/v1/profils/costumer';
 
@@ -137,8 +140,11 @@ class UrlBuilder {
 
   String builMerchantAddClient() => '$baseUrl/livraison-service/client/add';
 
-  String builMerchantClientList(PaginatedRequest request) =>
+  String builSearchMerchantClient(PaginatedRequest request) =>
       '$baseUrl/livraison-service/client/page?page=${request.page}&size=${request.size}';
+
+  String builMerchantClientList(PaginatedRequest request) =>
+      '$baseUrl/livraison-service/merchantClient/page/byMerchant?page=${request.page}&size=${request.size}';
 
   String builMerchantAddArticle() => '$baseUrl/livraison-service/article/add';
 

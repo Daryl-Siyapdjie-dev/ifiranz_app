@@ -10,7 +10,7 @@ class MerchandClientsNotifier
 
   MerchandClientsNotifier(this._repository) : super(const AsyncLoading());
 
-  Future fetchDeliveryOrders(PaginatedRequest params,
+  Future fetchMerchantClients(PaginatedRequest params,
       {bool isMore = false}) async {
     if (state.value?.isLoadingMore == true) return;
     if (!state.hasValue ||
@@ -28,7 +28,7 @@ class MerchandClientsNotifier
           isLoadingMore: true,
           isRefetching: false) as PaginatedResponse<Client>);
     }
-    final failureOrSuccess = await _repository.getListProducts(params);
+    final failureOrSuccess = await _repository.getListMerchantClients(params);
 
     state = failureOrSuccess.fold(
       (l) => isMore

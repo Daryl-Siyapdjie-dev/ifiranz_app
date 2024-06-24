@@ -12,8 +12,9 @@ class CurrentMarchandNotifier extends StateNotifier<AsyncValue<Merchant>> {
             ? AsyncValue.data(SharedPref.getLocalUser()!)
             : const AsyncValue.loading());
 
-  Future<void> getCurrentMarchand(FilterOptional request) async {
-    final merchant = await _request.getCurentMarchand(request);
+  Future<void> getCurrentMarchand() async {
+    int id = SharedPref.getId()!;
+    final merchant = await _request.getCurentMarchand(id);
     merchant.fold(
         (l) => state = AsyncValue.error(l.message ?? "", StackTrace.current),
         (r) => state = AsyncValue.data(r));
