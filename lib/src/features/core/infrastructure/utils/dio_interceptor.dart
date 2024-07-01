@@ -17,6 +17,7 @@ class DioInterceptor extends Interceptor {
   ) async {
     final token = await _userCredentialsStorage.getUserLocalCredentials;
 
+    print(token);
     final modifiedOptions = options
       ..headers.addAll(
         token == null

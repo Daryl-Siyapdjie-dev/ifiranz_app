@@ -1166,6 +1166,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid Phone number'**
   String get invalidPhoneNumber;
+
+  /// No description provided for @colis.
+  ///
+  /// In en, this message translates to:
+  /// **'Colis'**
+  String get colis;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

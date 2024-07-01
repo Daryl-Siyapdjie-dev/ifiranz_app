@@ -584,4 +584,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get invalidPhoneNumber => 'Numéro de télephone invalide';
+
+  @override
+  String get colis => 'Colis';
 }

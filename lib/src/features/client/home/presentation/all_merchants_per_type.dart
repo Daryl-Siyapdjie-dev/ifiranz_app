@@ -3,23 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/infrastructur_model.dart';
-import 'package:ifiranz_client/src/features/client/home/shared/providers.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/media_query_extension.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
 import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/product_item.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/product_skeleton.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/refeshing_indicator.dart';
 import 'package:ifiranz_client/src/router/app_router.dart';
 
-import '../../../core/domain/paginated_response.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/widgets/merchant_item.dart';
-import '../domain/filter_optional.dart';
 import '../domain/product_model.dart';
 
 @RoutePage()
@@ -28,8 +20,7 @@ class MerchantPerTypeScreen extends StatefulHookConsumerWidget {
   const MerchantPerTypeScreen({super.key, required this.merchants});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _MerchantPerTypeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MerchantPerTypeScreenState();
 }
 
 class _MerchantPerTypeScreenState extends ConsumerState<MerchantPerTypeScreen> {
@@ -52,18 +43,13 @@ class _MerchantPerTypeScreenState extends ConsumerState<MerchantPerTypeScreen> {
               Container(
                   margin: const EdgeInsets.only(left: 24),
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: AppColors.greyBackground),
-                  child: InkWell(
-                      onTap: context.popRoute,
-                      child: SvgPicture.asset('assets/icons/back.svg'))),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBackground),
+                  child: InkWell(onTap: context.popRoute, child: SvgPicture.asset('assets/icons/back.svg'))),
             ],
           ),
           gapH25,
           Center(
-            child: Text(widget.merchants.first.type,
-                style: Theme.of(context).textTheme.headline6),
+            child: Text(widget.merchants.first.type, style: Theme.of(context).textTheme.headlineMedium),
           ),
           gapH25,
           Padding(
@@ -96,9 +82,7 @@ class _MerchantPerTypeScreenState extends ConsumerState<MerchantPerTypeScreen> {
         padding: EdgeInsets.all(isMin ? 8 : 16),
         height: isMin ? context.proportionnalHeight(135) : null,
         width: context.screenWidth / 1.15,
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(16)),
         child: Row(
           children: [
             Expanded(
@@ -120,33 +104,25 @@ class _MerchantPerTypeScreenState extends ConsumerState<MerchantPerTypeScreen> {
                         decoration: TextDecoration.none, //
                         color: AppColors.primaryColor,
                         shadows: const [
-                          Shadow(
-                              offset: Offset(-1.5, -1.5), color: Colors.white),
-                          Shadow(
-                              offset: Offset(1.5, -1.5), color: Colors.white),
+                          Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
+                          Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
                           Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
-                          Shadow(
-                              offset: Offset(-1.5, 1.5), color: Colors.white),
+                          Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
                         ]),
                   ),
                   gapH6,
                   Container(
                     alignment: Alignment.topLeft,
-                    constraints:
-                        const BoxConstraints.tightForFinite(width: 150),
+                    constraints: const BoxConstraints.tightForFinite(width: 150),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 7, horizontal: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
                             minimumSize: const Size.fromHeight(24),
                             backgroundColor: AppColors.whiteColor),
                         onPressed: () {
                           context.pushRoute(FoodDetailsRoute(item: data));
                         },
-                        child: Text(
-                            context.locale.clientHomeTabMainItemOrderNow,
-                            style:
-                                const TextStyle(color: AppColors.blackColor))),
+                        child: Text(context.locale.clientHomeTabMainItemOrderNow, style: const TextStyle(color: AppColors.blackColor))),
                   ),
                 ],
               ),

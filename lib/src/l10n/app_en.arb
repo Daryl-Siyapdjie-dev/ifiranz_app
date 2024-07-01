@@ -195,7 +195,9 @@
   "operationSuccess": "Operation successful",
   "operationError": "Operation failed",
   "payment": "Payment",
-  "invalidPhoneNumber": "Invalid Phone number"
+  "invalidPhoneNumber": "Invalid Phone number",
+
+  "colis": "Colis"
 
 
 }

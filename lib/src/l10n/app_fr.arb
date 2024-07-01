@@ -172,5 +172,7 @@
   "comments": "Commentaires",
   "operationSuccess": "Opération réussie",
   "operationError": "Échec de l'opération",
-  "invalidPhoneNumber": "Numéro de télephone invalide"
+  "invalidPhoneNumber": "Numéro de télephone invalide",
+
+  "colis": "Colis"
 }

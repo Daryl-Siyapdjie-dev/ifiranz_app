@@ -27,8 +27,7 @@ class MerchantProductScreen extends StatefulHookConsumerWidget {
   const MerchantProductScreen({super.key, required this.infra});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _MerchantProductScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MerchantProductScreenState();
 }
 
 class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
@@ -67,9 +66,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
     //     .findPromotions(filterRequest);
     // if (isAll) {
     print(widget.infra.toJson());
-    await ref
-        .read(merchantProductNotifier.notifier)
-        .fetchMerchantProducts(requests, localPage, widget.infra.id.toString());
+    await ref.read(merchantProductNotifier.notifier).fetchMerchantProducts(requests, localPage, widget.infra.id.toString());
     // } else {
     //   await ref.read(getTop10ProductsProductsNotifier.notifier).fetchMerchantProducts();
     // }
@@ -106,23 +103,15 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
     }, [pageContoller]);
 
     controller.addListener(() async {
-      if (controller.position.maxScrollExtent == controller.position.pixels &&
-          isAll) {
+      if (controller.position.maxScrollExtent == controller.position.pixels && isAll) {
         if (ref.watch(merchantProductNotifier).hasValue &&
             (ref.watch(merchantProductNotifier).value!.hasMore) &&
             !(ref.watch(merchantProductNotifier).value!.isLoadingMore)) {
           await ref
               .read(merchantProductNotifier.notifier)
-              .fetchMerchantProducts(
-                  requests,
-                  params.copyWith(page: params.page + 1),
-                  widget.infra.merchantId.toString(),
-                  isMore: true)
+              .fetchMerchantProducts(requests, params.copyWith(page: params.page + 1), widget.infra.merchantId.toString(), isMore: true)
               .whenComplete(() {
-            if (!(ref
-                .watch(merchantProductNotifier)
-                .value!
-                .hasErrorOnLoadMore)) {
+            if (!(ref.watch(merchantProductNotifier).value!.hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -146,12 +135,8 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                 Container(
                     margin: const EdgeInsets.only(left: 24),
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: AppColors.greyBackground),
-                    child: InkWell(
-                        onTap: context.popRoute,
-                        child: SvgPicture.asset('assets/icons/back.svg'))),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBackground),
+                    child: InkWell(onTap: context.popRoute, child: SvgPicture.asset('assets/icons/back.svg'))),
               ],
             ),
             switch (promotionProducts) {
@@ -161,41 +146,32 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                     return ref.read(promotionnalProductsNotifierProvider);
                   },
                 ),
-              AsyncData(:final PaginatedResponse<ProductModel> value) =>
-                value.data.isEmpty
-                    ? Container()
-                    : Container(
-                        height: 172,
-                        margin: const EdgeInsets.only(
-                          top: AppSizes.p12,
-                        ),
-                        child: PageView.builder(
-                            itemCount: value.totalPages,
-                            controller: pageContoller,
-                            itemBuilder: (_, index) => Row(
-                                  children: [
-                                    mainItem(
-                                        context,
-                                        index != activeIndex.value,
-                                        value.data[index]),
-                                    const Spacer(),
-                                  ],
-                                ))),
+              AsyncData(:final PaginatedResponse<ProductModel> value) => value.data.isEmpty
+                  ? Container()
+                  : Container(
+                      height: 172,
+                      margin: const EdgeInsets.only(
+                        top: AppSizes.p12,
+                      ),
+                      child: PageView.builder(
+                          itemCount: value.totalPages,
+                          controller: pageContoller,
+                          itemBuilder: (_, index) => Row(
+                                children: [
+                                  mainItem(context, index != activeIndex.value, value.data[index]),
+                                  const Spacer(),
+                                ],
+                              ))),
               _ => Container(
                   height: 172,
                   margin: const EdgeInsets.only(
                     top: AppSizes.p12,
                   ),
-                  child: PageView.builder(
-                      itemCount: 1,
-                      controller: pageContoller,
-                      itemBuilder: (_, index) =>
-                          skeletonpromotionProduct(context))),
+                  child: PageView.builder(itemCount: 1, controller: pageContoller, itemBuilder: (_, index) => skeletonpromotionProduct(context))),
             },
             gapH25,
             Center(
-              child: Text(widget.infra.designation,
-                  style: Theme.of(context).textTheme.headline6),
+              child: Text(widget.infra.designation, style: Theme.of(context).textTheme.headlineMedium),
             ),
             gapH25,
             Padding(
@@ -218,10 +194,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                             });
                             _onTabsRouterChange();
                           },
-                          child: !isAll
-                              ? Text(context.locale.clientHomeTabShowAll)
-                              : Text(
-                                  context.locale.clientHomeTabShowTopProducts)),
+                          child: !isAll ? Text(context.locale.clientHomeTabShowAll) : Text(context.locale.clientHomeTabShowTopProducts)),
                     ],
                   ),
                   gapH8,
@@ -229,23 +202,18 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                       ? top10Products.when(
                           error: (error, _) => Center(
                                   child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   children: [
                                     TextButton.icon(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.primaryColor),
+                                        style: TextButton.styleFrom(backgroundColor: AppColors.primaryColor),
                                         onPressed: () {
                                           _onTabsRouterChange();
                                         },
-                                        icon: const Icon(Icons.refresh,
-                                            color: AppColors.whiteColor),
+                                        icon: const Icon(Icons.refresh, color: AppColors.whiteColor),
                                         label: Text(
                                           context.locale.refresh,
-                                          style: const TextStyle(
-                                              color: AppColors.whiteColor),
+                                          style: const TextStyle(color: AppColors.whiteColor),
                                         )),
                                   ],
                                 ),
@@ -264,22 +232,19 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                           data: (response) {
                             return response.data.isEmpty
                                 ? NoData(
-                                    text:
-                                        context.locale.clientHomeTabNoDataFound,
+                                    text: context.locale.clientHomeTabNoDataFound,
                                   )
                                 : RefeshingIndicator(
                                     isRefetching: response.isRefetching,
                                     child: MasonryGridView.count(
                                       shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount: response.data.length,
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 16,
                                       crossAxisSpacing: 16,
                                       itemBuilder: (context, index) {
-                                        return ProductItem(
-                                            meal: response.data[index]);
+                                        return ProductItem(meal: response.data[index]);
                                       },
                                     ),
                                   );
@@ -287,24 +252,19 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                       : products.when(
                           error: (error, _) => Center(
                                   child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   children: [
                                     SelectableText(error.toString()),
                                     TextButton.icon(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.primaryColor),
+                                        style: TextButton.styleFrom(backgroundColor: AppColors.primaryColor),
                                         onPressed: () {
                                           _onTabsRouterChange();
                                         },
-                                        icon: const Icon(Icons.refresh,
-                                            color: AppColors.whiteColor),
+                                        icon: const Icon(Icons.refresh, color: AppColors.whiteColor),
                                         label: const Text(
                                           'Refresh',
-                                          style: TextStyle(
-                                              color: AppColors.whiteColor),
+                                          style: TextStyle(color: AppColors.whiteColor),
                                         )),
                                   ],
                                 ),
@@ -323,22 +283,19 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                           data: (response) {
                             return response.data.isEmpty
                                 ? NoData(
-                                    text:
-                                        context.locale.clientHomeTabNoDataFound,
+                                    text: context.locale.clientHomeTabNoDataFound,
                                   )
                                 : RefeshingIndicator(
                                     isRefetching: response.isRefetching,
                                     child: MasonryGridView.count(
                                       shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       itemCount: response.data.length,
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 16,
                                       crossAxisSpacing: 16,
                                       itemBuilder: (context, index) {
-                                        return ProductItem(
-                                            meal: response.data[index]);
+                                        return ProductItem(meal: response.data[index]);
                                       },
                                     ),
                                   );
@@ -349,32 +306,20 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
             gapH10,
             if (isAll &&
                 ref.watch(merchantProductNotifier).hasValue &&
-                ((ref.watch(merchantProductNotifier).value?.hasMore ?? false) ||
-                    (ref.watch(merchantProductNotifier).value?.isLoadingMore ??
-                        false)))
+                ((ref.watch(merchantProductNotifier).value?.hasMore ?? false) || (ref.watch(merchantProductNotifier).value?.isLoadingMore ?? false)))
               const Center(
                 child: CircularProgressIndicator(),
               ),
-            if (isAll &&
-                ref.watch(merchantProductNotifier).hasValue &&
-                (ref.watch(merchantProductNotifier).value?.hasErrorOnLoadMore ??
-                    false))
+            if (isAll && ref.watch(merchantProductNotifier).hasValue && (ref.watch(merchantProductNotifier).value?.hasErrorOnLoadMore ?? false))
               Center(
                 child: IconButton(
                   icon: const Icon(Icons.refresh),
                   onPressed: () async {
                     await ref
                         .read(merchantProductNotifier.notifier)
-                        .fetchMerchantProducts(
-                            requests,
-                            params.copyWith(page: params.page + 1),
-                            widget.infra.merchantId.toString(),
-                            isMore: true)
+                        .fetchMerchantProducts(requests, params.copyWith(page: params.page + 1), widget.infra.merchantId.toString(), isMore: true)
                         .whenComplete(() {
-                      if (!(ref
-                          .watch(merchantProductNotifier)
-                          .value!
-                          .hasErrorOnLoadMore)) {
+                      if (!(ref.watch(merchantProductNotifier).value!.hasErrorOnLoadMore)) {
                         setState(() {
                           params = params.copyWith(page: params.page + 1);
                         });
@@ -400,9 +345,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
         padding: EdgeInsets.all(isMin ? 8 : 16),
         height: isMin ? context.proportionnalHeight(135) : null,
         width: context.screenWidth / 1.15,
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(16)),
         child: Row(
           children: [
             Expanded(
@@ -424,33 +367,25 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                         decoration: TextDecoration.none, //
                         color: AppColors.primaryColor,
                         shadows: const [
-                          Shadow(
-                              offset: Offset(-1.5, -1.5), color: Colors.white),
-                          Shadow(
-                              offset: Offset(1.5, -1.5), color: Colors.white),
+                          Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
+                          Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
                           Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
-                          Shadow(
-                              offset: Offset(-1.5, 1.5), color: Colors.white),
+                          Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
                         ]),
                   ),
                   gapH6,
                   Container(
                     alignment: Alignment.topLeft,
-                    constraints:
-                        const BoxConstraints.tightForFinite(width: 150),
+                    constraints: const BoxConstraints.tightForFinite(width: 150),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 7, horizontal: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
                             minimumSize: const Size.fromHeight(24),
                             backgroundColor: AppColors.whiteColor),
                         onPressed: () {
                           context.pushRoute(FoodDetailsRoute(item: data));
                         },
-                        child: Text(
-                            context.locale.clientHomeTabMainItemOrderNow,
-                            style:
-                                const TextStyle(color: AppColors.blackColor))),
+                        child: Text(context.locale.clientHomeTabMainItemOrderNow, style: const TextStyle(color: AppColors.blackColor))),
                   ),
                 ],
               ),

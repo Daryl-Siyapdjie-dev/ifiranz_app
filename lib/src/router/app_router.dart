@@ -76,6 +76,9 @@ import '../features/client/orders/presentation/client_orders_details_screen.dart
 import '../features/core/presentation/widgets/language_selector_screen.dart';
 import '../features/core/presentation/widgets/report_bug_screen.dart';
 import '../features/delivery/delivery/presentation/delivery_layout.dart';
+import '../features/merchant/colis/presentation/colis_page_layout_screen.dart';
+import '../features/merchant/colis/presentation/colis_tab_screen.dart';
+import '../features/merchant/colis/presentation/create_new_colis_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
 import '../features/splash/splash_screen.dart';
 
@@ -108,158 +111,107 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: RegisterAdditionalInfoRoute.page),
         AutoRoute(page: LocationPickerRoute.page),
         AutoRoute(page: MainAppRoute.page, maintainState: false, children: [
-          AutoRoute(
-              page: OrderLayoutRoute.page,
-              maintainState: false,
-              children: [
-                AutoRoute(page: ClientDeliveryOrderDetailRoute.page),
-                AutoRoute(page: ClientOrderDetailRoute.page),
-                AutoRoute(path: "client-cart", page: CartRoute.page),
-                AutoRoute(
-                    page: OrderClientDeliveriesRoute.page,
-                    maintainState: false,
-                    initial: true)
-              ]),
+          AutoRoute(page: OrderLayoutRoute.page, maintainState: false, children: [
+            AutoRoute(page: ClientDeliveryOrderDetailRoute.page),
+            AutoRoute(page: ClientOrderDetailRoute.page),
+            AutoRoute(path: "client-cart", page: CartRoute.page),
+            AutoRoute(page: OrderClientDeliveriesRoute.page, maintainState: false, initial: true)
+          ]),
           AutoRoute(page: HomeRoute.page, maintainState: false, children: [
             AutoRoute(path: "client-cart", page: CartRoute.page),
             AutoRoute(path: "client-research_page", page: ResearchRoute.page),
-            AutoRoute(
-                path: "client-food_restaurant",
-                maintainState: false,
-                page: FoodRestaurantRoute.page),
-            AutoRoute(
-                path: "client-home_tab",
-                maintainState: false,
-                page: HomeTabRoute.page,
-                initial: true),
+            AutoRoute(path: "client-food_restaurant", maintainState: false, page: FoodRestaurantRoute.page),
+            AutoRoute(path: "client-home_tab", maintainState: false, page: HomeTabRoute.page, initial: true),
             AutoRoute(path: "client-payment", page: PaymentRoute.page),
-            AutoRoute(
-                path: "client-order_details", page: OrderDetailsRoute.page),
-            AutoRoute(
-                path: "client-additional_info", page: AdditionalInfoRoute.page),
+            AutoRoute(path: "client-order_details", page: OrderDetailsRoute.page),
+            AutoRoute(path: "client-additional_info", page: AdditionalInfoRoute.page),
             AutoRoute(path: "client-ordertab", page: OrderTabRoute.page),
           ]),
-          AutoRoute(
-              path: "client-delivery",
-              maintainState: false,
-              page: ClientDeliveryLayoutRoute.page,
-              children: [
-                AutoRoute(page: ClientDeliveryOrderDetailRoute.page),
-                AutoRoute(path: "client-cart", page: CartRoute.page),
-                AutoRoute(
-                    path: "client-pending-deliveries",
-                    page: PendingDeliveriesRoute.page,
-                    maintainState: false,
-                    initial: true),
-                AutoRoute(
-                    path: "client-map-deliveries",
-                    page: ClientDeliveryRoute.page),
-              ]),
+          AutoRoute(path: "client-delivery", maintainState: false, page: ClientDeliveryLayoutRoute.page, children: [
+            AutoRoute(page: ClientDeliveryOrderDetailRoute.page),
+            AutoRoute(path: "client-cart", page: CartRoute.page),
+            AutoRoute(path: "client-pending-deliveries", page: PendingDeliveriesRoute.page, maintainState: false, initial: true),
+            AutoRoute(path: "client-map-deliveries", page: ClientDeliveryRoute.page),
+          ]),
         ]),
-        AutoRoute(
-            page: MainAppMarchandRoute.page,
-            maintainState: false,
-            children: [
-              AutoRoute(
-                  page: HomeMerchantRoute.page,
-                  maintainState: false,
-                  children: [
-                    AutoRoute(
-                      page: HomeMerchantTabRoute.page,
-                      initial: true,
-                      maintainState: false,
-                    ),
-                    AutoRoute(page: ClientDeliveryRoute.page),
-                    AutoRoute(page: MerchandOrderDetailRoute.page),
-                    AutoRoute(page: MerchandClientRoute.page),
-                    AutoRoute(page: MerchandDashboardTransactionRoute.page),
-                    AutoRoute(page: CreateMerchandAddRoute.page),
-                    AutoRoute(page: MerchandInventoryRoute.page),
-                    AutoRoute(page: MerchandInventoryDetailsRoute.page),
-                    AutoRoute(
-                        page: MerchandDashboardDashboardDeliveryRoute.page),
-                    AutoRoute(page: MerchandOrderDetailsRoute.page),
-                  ]),
-              AutoRoute(
-                  page: ProductLayoutRoute.page,
-                  maintainState: false,
-                  children: [
-                    AutoRoute(page: CreateNewProductRoute.page),
-                    AutoRoute(page: UpdateProductRoute.page),
-                    AutoRoute(page: MerchandProductDetailRoute.page),
-                    AutoRoute(page: ManageTypesRoute.page),
-                    AutoRoute(page: AddTypeRoute.page),
-                    AutoRoute(
-                      page: ProductsTabRoute.page,
-                      initial: true,
-                      maintainState: false,
-                    ),
-                  ]),
-              AutoRoute(
-                  page: MerchantOrderLayoutRoute.page,
-                  maintainState: false,
-                  children: [
-                    AutoRoute(
-                      page: MerchantOrdersTabRoute.page,
-                      maintainState: false,
-                      initial: true,
-                    ),
-                    AutoRoute(page: MerchandOrderDetailsRoute.page),
-                    AutoRoute(page: ClientOrderDetailRoute.page),
-                  ])
-            ]),
-        AutoRoute(
-            page: MainAppLivreurRoute.page,
-            maintainState: false,
-            children: [
-              AutoRoute(
-                  path: "livreur",
-                  page: HomeDeliveryRoute.page,
-                  maintainState: false,
-                  children: [
-                    AutoRoute(
-                      path: "livreur-home",
-                      initial: true,
-                      maintainState: false,
-                      page: HomeDeliveryTabRoute.page,
-                    ),
-                    AutoRoute(
-                        path: 'dash-bonus', page: DashboardBonusRoute.page),
-                    AutoRoute(
-                        path: 'dash-inventory',
-                        page: DeliveryOrderDetailRoute.page),
-                    AutoRoute(
-                        path: 'dash-delivery',
-                        page: DashboardDeliveryTabRoute.page),
-                    AutoRoute(
-                        path: 'dash-orders', page: DashboardOrdersRoute.page),
-                  ]),
-              AutoRoute(
-                  path: "order-layout",
-                  page: OrderLayoutRoute.page,
-                  maintainState: false,
-                  children: [
-                    AutoRoute(page: DeliveryOrderDetailRoute.page),
-                    AutoRoute(
-                      path: "livreur-order",
-                      initial: true,
-                      maintainState: false,
-                      page: OrderDeliveryTabRoute.page,
-                    ),
-                  ]),
-              AutoRoute(
-                  path: "delivery-layout",
-                  maintainState: false,
-                  page: DeliveryLayoutRoute.page,
-                  children: [
-                    AutoRoute(
-                        initial: true,
-                        maintainState: false,
-                        path: "livreur-delivery",
-                        page: DeliveryDeliveryRoute.page),
-                    AutoRoute(page: PickUpOtpRoute.page),
-                  ]),
-            ]),
+        AutoRoute(page: MainAppMarchandRoute.page, maintainState: false, children: [
+          AutoRoute(page: HomeMerchantRoute.page, maintainState: false, children: [
+            AutoRoute(
+              page: HomeMerchantTabRoute.page,
+              initial: true,
+              maintainState: false,
+            ),
+            AutoRoute(page: ClientDeliveryRoute.page),
+            AutoRoute(page: MerchandOrderDetailRoute.page),
+            AutoRoute(page: MerchandClientRoute.page),
+            AutoRoute(page: MerchandDashboardTransactionRoute.page),
+            AutoRoute(page: CreateMerchandAddRoute.page),
+            AutoRoute(page: MerchandInventoryRoute.page),
+            AutoRoute(page: MerchandInventoryDetailsRoute.page),
+            AutoRoute(page: MerchandDashboardDashboardDeliveryRoute.page),
+            AutoRoute(page: MerchandOrderDetailsRoute.page),
+          ]),
+          AutoRoute(page: ColisLayoutRoute.page, maintainState: false, children: [
+            AutoRoute(page: CreateNewColisRoute.page),
+            // AutoRoute(page: UpdateProductRoute.page),
+            // AutoRoute(page: MerchandProductDetailRoute.page),
+            // AutoRoute(page: ManageTypesRoute.page),
+            // AutoRoute(page: AddTypeRoute.page),
+            AutoRoute(
+              page: ColisTabRoute.page,
+              initial: true,
+              maintainState: false,
+            ),
+          ]),
+          AutoRoute(page: ProductLayoutRoute.page, maintainState: false, children: [
+            AutoRoute(page: CreateNewProductRoute.page),
+            AutoRoute(page: UpdateProductRoute.page),
+            AutoRoute(page: MerchandProductDetailRoute.page),
+            AutoRoute(page: ManageTypesRoute.page),
+            AutoRoute(page: AddTypeRoute.page),
+            AutoRoute(
+              page: ProductsTabRoute.page,
+              initial: true,
+              maintainState: false,
+            ),
+          ]),
+          AutoRoute(page: MerchantOrderLayoutRoute.page, maintainState: false, children: [
+            AutoRoute(
+              page: MerchantOrdersTabRoute.page,
+              maintainState: false,
+              initial: true,
+            ),
+            AutoRoute(page: MerchandOrderDetailsRoute.page),
+            AutoRoute(page: ClientOrderDetailRoute.page),
+          ])
+        ]),
+        AutoRoute(page: MainAppLivreurRoute.page, maintainState: false, children: [
+          AutoRoute(path: "livreur", page: HomeDeliveryRoute.page, maintainState: false, children: [
+            AutoRoute(
+              path: "livreur-home",
+              initial: true,
+              maintainState: false,
+              page: HomeDeliveryTabRoute.page,
+            ),
+            AutoRoute(path: 'dash-bonus', page: DashboardBonusRoute.page),
+            AutoRoute(path: 'dash-inventory', page: DeliveryOrderDetailRoute.page),
+            AutoRoute(path: 'dash-delivery', page: DashboardDeliveryTabRoute.page),
+            AutoRoute(path: 'dash-orders', page: DashboardOrdersRoute.page),
+          ]),
+          AutoRoute(path: "order-layout", page: OrderLayoutRoute.page, maintainState: false, children: [
+            AutoRoute(page: DeliveryOrderDetailRoute.page),
+            AutoRoute(
+              path: "livreur-order",
+              initial: true,
+              maintainState: false,
+              page: OrderDeliveryTabRoute.page,
+            ),
+          ]),
+          AutoRoute(path: "delivery-layout", maintainState: false, page: DeliveryLayoutRoute.page, children: [
+            AutoRoute(initial: true, maintainState: false, path: "livreur-delivery", page: DeliveryDeliveryRoute.page),
+            AutoRoute(page: PickUpOtpRoute.page),
+          ]),
+        ]),
         AutoRoute(page: ForgotPasswordRoute.page),
         AutoRoute(page: ResetPasswordRoute.page),
         AutoRoute(page: ForgotOTPRoute.page),

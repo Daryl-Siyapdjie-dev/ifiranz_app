@@ -1353,6 +1353,9 @@ mixin _$Commande {
   int? get id => throw _privateConstructorUsedError;
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get clientPhone => throw _privateConstructorUsedError;
+  double? get dueAmount => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
   String? get localisationGps => throw _privateConstructorUsedError;
   String? get transactionId => throw _privateConstructorUsedError;
@@ -1382,6 +1385,9 @@ abstract class $CommandeCopyWith<$Res> {
       {int? id,
       int? version,
       String? code,
+      String? clientName,
+      String? clientPhone,
+      double? dueAmount,
       String? designation,
       String? localisationGps,
       String? transactionId,
@@ -1416,6 +1422,9 @@ class _$CommandeCopyWithImpl<$Res, $Val extends Commande>
     Object? id = freezed,
     Object? version = freezed,
     Object? code = freezed,
+    Object? clientName = freezed,
+    Object? clientPhone = freezed,
+    Object? dueAmount = freezed,
     Object? designation = freezed,
     Object? localisationGps = freezed,
     Object? transactionId = freezed,
@@ -1443,6 +1452,18 @@ class _$CommandeCopyWithImpl<$Res, $Val extends Commande>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientPhone: freezed == clientPhone
+          ? _value.clientPhone
+          : clientPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dueAmount: freezed == dueAmount
+          ? _value.dueAmount
+          : dueAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       designation: freezed == designation
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
@@ -1535,6 +1556,9 @@ abstract class _$$CommandeImplCopyWith<$Res>
       {int? id,
       int? version,
       String? code,
+      String? clientName,
+      String? clientPhone,
+      double? dueAmount,
       String? designation,
       String? localisationGps,
       String? transactionId,
@@ -1569,6 +1593,9 @@ class __$$CommandeImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? version = freezed,
     Object? code = freezed,
+    Object? clientName = freezed,
+    Object? clientPhone = freezed,
+    Object? dueAmount = freezed,
     Object? designation = freezed,
     Object? localisationGps = freezed,
     Object? transactionId = freezed,
@@ -1596,6 +1623,18 @@ class __$$CommandeImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientPhone: freezed == clientPhone
+          ? _value.clientPhone
+          : clientPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dueAmount: freezed == dueAmount
+          ? _value.dueAmount
+          : dueAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       designation: freezed == designation
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
@@ -1659,6 +1698,9 @@ class _$CommandeImpl implements _Commande {
       {this.id,
       this.version,
       this.code,
+      this.clientName,
+      this.clientPhone,
+      this.dueAmount,
       this.designation,
       this.localisationGps,
       this.transactionId,
@@ -1683,6 +1725,12 @@ class _$CommandeImpl implements _Commande {
   final int? version;
   @override
   final String? code;
+  @override
+  final String? clientName;
+  @override
+  final String? clientPhone;
+  @override
+  final double? dueAmount;
   @override
   final String? designation;
   @override
@@ -1720,7 +1768,7 @@ class _$CommandeImpl implements _Commande {
 
   @override
   String toString() {
-    return 'Commande(id: $id, version: $version, code: $code, designation: $designation, localisationGps: $localisationGps, transactionId: $transactionId, articles: $articles, montant: $montant, statut: $statut, client: $client, codeLivraison: $codeLivraison, quartier: $quartier, montantLivraison: $montantLivraison, montantTotal: $montantTotal, modePayement: $modePayement, pourMarchand: $pourMarchand)';
+    return 'Commande(id: $id, version: $version, code: $code, clientName: $clientName, clientPhone: $clientPhone, dueAmount: $dueAmount, designation: $designation, localisationGps: $localisationGps, transactionId: $transactionId, articles: $articles, montant: $montant, statut: $statut, client: $client, codeLivraison: $codeLivraison, quartier: $quartier, montantLivraison: $montantLivraison, montantTotal: $montantTotal, modePayement: $modePayement, pourMarchand: $pourMarchand)';
   }
 
   @override
@@ -1731,6 +1779,12 @@ class _$CommandeImpl implements _Commande {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.code, code) || other.code == code) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.clientPhone, clientPhone) ||
+                other.clientPhone == clientPhone) &&
+            (identical(other.dueAmount, dueAmount) ||
+                other.dueAmount == dueAmount) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
             (identical(other.localisationGps, localisationGps) ||
@@ -1757,24 +1811,28 @@ class _$CommandeImpl implements _Commande {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      version,
-      code,
-      designation,
-      localisationGps,
-      transactionId,
-      const DeepCollectionEquality().hash(_articles),
-      montant,
-      statut,
-      client,
-      codeLivraison,
-      quartier,
-      montantLivraison,
-      montantTotal,
-      modePayement,
-      pourMarchand);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        version,
+        code,
+        clientName,
+        clientPhone,
+        dueAmount,
+        designation,
+        localisationGps,
+        transactionId,
+        const DeepCollectionEquality().hash(_articles),
+        montant,
+        statut,
+        client,
+        codeLivraison,
+        quartier,
+        montantLivraison,
+        montantTotal,
+        modePayement,
+        pourMarchand
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -1795,6 +1853,9 @@ abstract class _Commande implements Commande {
       {final int? id,
       final int? version,
       final String? code,
+      final String? clientName,
+      final String? clientPhone,
+      final double? dueAmount,
       final String? designation,
       final String? localisationGps,
       final String? transactionId,
@@ -1818,6 +1879,12 @@ abstract class _Commande implements Commande {
   int? get version;
   @override
   String? get code;
+  @override
+  String? get clientName;
+  @override
+  String? get clientPhone;
+  @override
+  double? get dueAmount;
   @override
   String? get designation;
   @override

@@ -72,10 +72,28 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ColisLayoutRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ColisLayoutScreen(),
+      );
+    },
+    ColisTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ColisTabScreen(),
+      );
+    },
     CreateMerchandAddRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CreateMerchandAddScreen(),
+      );
+    },
+    CreateNewColisRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CreateNewColisScreen(),
       );
     },
     CreateNewProductRoute.name: (routeData) {
@@ -718,6 +736,34 @@ class ClientOrderDetailRouteArgs {
 }
 
 /// generated route for
+/// [ColisLayoutScreen]
+class ColisLayoutRoute extends PageRouteInfo<void> {
+  const ColisLayoutRoute({List<PageRouteInfo>? children})
+      : super(
+          ColisLayoutRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ColisLayoutRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ColisTabScreen]
+class ColisTabRoute extends PageRouteInfo<void> {
+  const ColisTabRoute({List<PageRouteInfo>? children})
+      : super(
+          ColisTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ColisTabRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [CreateMerchandAddScreen]
 class CreateMerchandAddRoute extends PageRouteInfo<void> {
   const CreateMerchandAddRoute({List<PageRouteInfo>? children})
@@ -727,6 +773,20 @@ class CreateMerchandAddRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CreateMerchandAddRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CreateNewColisScreen]
+class CreateNewColisRoute extends PageRouteInfo<void> {
+  const CreateNewColisRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateNewColisRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateNewColisRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

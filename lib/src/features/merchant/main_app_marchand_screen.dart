@@ -28,11 +28,13 @@ class _AppScreenState extends State<MainAppMarchandScreen> {
     "assets/icons/ic_baseline-home.svg",
     "assets/icons/streamline_shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products.svg",
     "assets/icons/Vector-3.svg",
+    "assets/icons/Vector-3.svg",
   ];
 
   late final titleList = <String>[
     context.locale.home,
     context.locale.products,
+    context.locale.colis,
     context.locale.orders,
   ];
 
@@ -68,6 +70,7 @@ class _AppScreenState extends State<MainAppMarchandScreen> {
             routes: const [
               HomeMerchantRoute(),
               ProductsTabRoute(),
+              ColisTabRoute(),
               MerchantOrderLayoutRoute(),
             ],
             bottomNavigationBuilder: (_, tabsRouter) {
@@ -101,6 +104,7 @@ class _AppScreenState extends State<MainAppMarchandScreen> {
                           bottomNavBarItem(tabsRouter.activeIndex, 0),
                           bottomNavBarItem(tabsRouter.activeIndex, 1),
                           bottomNavBarItem(tabsRouter.activeIndex, 2),
+                          bottomNavBarItem(tabsRouter.activeIndex, 3),
                         ])),
               );
             }));
