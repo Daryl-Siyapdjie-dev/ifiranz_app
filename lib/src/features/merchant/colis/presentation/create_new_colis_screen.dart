@@ -97,7 +97,7 @@ class _CreateNewColisScreenState extends ConsumerState<CreateNewColisScreen> {
                 key: _scaffoldKey,
                 drawer: const OrdinaryDrawerWidget(),
                 appBar: CustomMarchandAppBar(
-                  title: 'Create new product',
+                  title: 'Create new colis',
                   scaffoldKey: _scaffoldKey,
                   actionnable: true,
                 ),
