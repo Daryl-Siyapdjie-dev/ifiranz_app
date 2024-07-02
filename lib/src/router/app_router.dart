@@ -79,6 +79,7 @@ import '../features/delivery/delivery/presentation/delivery_layout.dart';
 import '../features/merchant/colis/presentation/colis_page_layout_screen.dart';
 import '../features/merchant/colis/presentation/colis_tab_screen.dart';
 import '../features/merchant/colis/presentation/create_new_colis_screen.dart';
+import '../features/merchant/colis/presentation/merchand_colis_detail_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
 import '../features/splash/splash_screen.dart';
 
@@ -153,10 +154,7 @@ class AppRouter extends _$AppRouter {
           ]),
           AutoRoute(page: ColisLayoutRoute.page, maintainState: false, children: [
             AutoRoute(page: CreateNewColisRoute.page),
-            // AutoRoute(page: UpdateProductRoute.page),
-            // AutoRoute(page: MerchandProductDetailRoute.page),
-            // AutoRoute(page: ManageTypesRoute.page),
-            // AutoRoute(page: AddTypeRoute.page),
+            AutoRoute(page: MerchandColisDetailRoute.page),
             AutoRoute(
               page: ColisTabRoute.page,
               initial: true,

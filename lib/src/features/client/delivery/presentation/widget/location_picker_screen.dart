@@ -21,13 +21,11 @@ class LocationPickerScreen extends StatefulHookConsumerWidget {
   const LocationPickerScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LocationPickerWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LocationPickerWidgetState();
 }
 
 class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
   final _locationController = TextEditingController();
   final placesService = PlacesService();
@@ -80,8 +78,7 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Location Permission Denied'),
-          content: const Text(
-              'Please grant location permission to use this feature.'),
+          content: const Text('Please grant location permission to use this feature.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -109,8 +106,7 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Location Permission Denied forever'),
-          content: const Text(
-              'Please grant location permission to use this feature.'),
+          content: const Text('Please grant location permission to use this feature.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -167,12 +163,9 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
               title: TextField(
                 controller: _locationController,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
-                    hintText: "Search by Place, City, Office, or Store"),
+                decoration: const InputDecoration(hintText: "Saisir le quartier de livraison"),
                 onChanged: (value) async {
-                  ref
-                      .read(searchCubitProvider.notifier)
-                      .searchPlace(value.trim());
+                  ref.read(searchCubitProvider.notifier).searchPlace(value.trim());
                 },
               ),
               actions: [
@@ -194,10 +187,7 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
                 onLongPress: (latlg) {
                   log(latlg.toJson().toString());
                   setState(() {
-                    _userPosition = Position.fromMap({
-                      "latitude": latlg.latitude,
-                      "longitude": latlg.longitude
-                    });
+                    _userPosition = Position.fromMap({"latitude": latlg.latitude, "longitude": latlg.longitude});
                   });
                 },
                 myLocationEnabled: true,
@@ -206,14 +196,12 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
                     Marker(
                       draggable: true,
                       markerId: const MarkerId("map"),
-                      position: LatLng(
-                          _userPosition!.latitude, _userPosition!.longitude),
+                      position: LatLng(_userPosition!.latitude, _userPosition!.longitude),
                       icon: BitmapDescriptor.defaultMarker,
                       onDragEnd: (newPosition) {
                         if (newPosition is! Map) return;
                         setState(() {
-                          _userPosition =
-                              Position.fromMap(newPosition.toJson());
+                          _userPosition = Position.fromMap(newPosition.toJson());
                         });
                       },
                       infoWindow: const InfoWindow(
@@ -262,18 +250,11 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
                                   ? null
                                   : () {
                                       print(_locationController.text);
-                                      ref
-                                          .read(cartProvider.notifier)
-                                          .updateCart(ref
-                                              .read(cartProvider)
-                                              .copyWith(
-                                                latitude:
-                                                    _userPosition?.latitude,
-                                                longitude:
-                                                    _userPosition?.longitude,
-                                                localisationGps:
-                                                    _locationController.text,
-                                              ));
+                                      ref.read(cartProvider.notifier).updateCart(ref.read(cartProvider).copyWith(
+                                            latitude: _userPosition?.latitude,
+                                            longitude: _userPosition?.longitude,
+                                            localisationGps: _locationController.text,
+                                          ));
 
                                       Navigator.pop(context);
                                     },
@@ -295,48 +276,30 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
                             child: Scrollbar(
                                 thumbVisibility: true,
                                 child: SingleChildScrollView(
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                      ...data.map(
-                                        (e) => ListTile(
-                                          onTap: () async {
-                                            try {
-                                              FocusScope.of(context).unfocus();
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  ...data.map(
+                                    (e) => ListTile(
+                                      onTap: () async {
+                                        try {
+                                          FocusScope.of(context).unfocus();
 
-                                              Place sLocation =
-                                                  await placesService
-                                                      .getPlace(e.placeId);
+                                          Place sLocation = await placesService.getPlace(e.placeId);
 
-                                              await _goToUserLocation(
-                                                      sLocation.geometry
-                                                          .location.lat,
-                                                      sLocation.geometry
-                                                          .location.lng)
-                                                  .whenComplete(() => ref
-                                                      .read(searchCubitProvider
-                                                          .notifier)
-                                                      .clearSearch());
+                                          await _goToUserLocation(sLocation.geometry.location.lat, sLocation.geometry.location.lng)
+                                              .whenComplete(() => ref.read(searchCubitProvider.notifier).clearSearch());
 
-                                              _locationController.text =
-                                                  sLocation.name;
+                                          _locationController.text = sLocation.name;
 
-                                              setState(() {
-                                                _userPosition =
-                                                    Position.fromMap({
-                                                  "latitude": sLocation
-                                                      .geometry.location.lat,
-                                                  "longitude": sLocation
-                                                      .geometry.location.lng
-                                                });
-                                              });
-                                            } catch (_) {}
-                                          },
-                                          title: Text(e.description),
-                                        ),
-                                      )
-                                    ])))));
+                                          setState(() {
+                                            _userPosition = Position.fromMap(
+                                                {"latitude": sLocation.geometry.location.lat, "longitude": sLocation.geometry.location.lng});
+                                          });
+                                        } catch (_) {}
+                                      },
+                                      title: Text(e.description),
+                                    ),
+                                  )
+                                ])))));
                   }),
             ]));
       }),
@@ -350,8 +313,7 @@ class _LocationPickerWidgetState extends ConsumerState<LocationPickerScreen> {
       });
     }
     final GoogleMapController controller = await _controller.future;
-    await controller
-        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(latitude, longitude),
       bearing: 192.8334901395799,
       tilt: 59.440717697143555,

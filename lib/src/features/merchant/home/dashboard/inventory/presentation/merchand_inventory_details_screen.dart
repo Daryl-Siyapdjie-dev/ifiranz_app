@@ -7,8 +7,8 @@ import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart
 import 'package:ifiranz_client/src/features/delivery/orders/shared/providers.dart';
 import 'package:ifiranz_client/src/features/merchant/home/dashboard/inventory/domain/inventory.dart';
 
-import '../../../../../client/home/domain/create_command_response.dart';
 import '../../../../../core/infrastructure/utils/common_import.dart';
+import '../../../../../delivery/orders/domain/delivery_models.dart';
 
 @RoutePage()
 class MerchandInventoryDetailsScreen extends StatefulHookConsumerWidget {

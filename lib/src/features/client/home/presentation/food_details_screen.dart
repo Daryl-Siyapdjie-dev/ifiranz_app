@@ -494,6 +494,10 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> with Sing
                           : () async {
                               FocusScope.of(context).unfocus();
 
+                              if (cart.longitude is! double) {
+                                return await showErrorFlushbar(context, 'GPS location is required');
+                              }
+
                               if (ref.watch(cartProvider).articles.indexWhere((element) => element.article?.id == widget.item.id) != -1) {
                                 return await showErrorFlushbar(context, context.locale.foodDetailsScreenCartAlreadyContainsProduct);
                               }
@@ -508,8 +512,6 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> with Sing
                               //       context.locale
                               //           .youCanSelectFromDifferentSeller);
                               // }
-
-                              final client = ref.read(getCurrentClientProvider).value;
 
                               if (cart.articles.isEmpty) {
                                 final progress = ProgressHUD.of(context);

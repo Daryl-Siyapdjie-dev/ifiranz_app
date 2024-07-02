@@ -302,6 +302,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MerchandClientScreen(),
       );
     },
+    MerchandColisDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<MerchandColisDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MerchandColisDetailScreen(
+          data: args.data,
+          key: args.key,
+        ),
+      );
+    },
     MerchandDashboardDashboardDeliveryRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -1379,6 +1389,45 @@ class MerchandClientRoute extends PageRouteInfo<void> {
   static const String name = 'MerchandClientRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MerchandColisDetailScreen]
+class MerchandColisDetailRoute
+    extends PageRouteInfo<MerchandColisDetailRouteArgs> {
+  MerchandColisDetailRoute({
+    required Commande data,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MerchandColisDetailRoute.name,
+          args: MerchandColisDetailRouteArgs(
+            data: data,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MerchandColisDetailRoute';
+
+  static const PageInfo<MerchandColisDetailRouteArgs> page =
+      PageInfo<MerchandColisDetailRouteArgs>(name);
+}
+
+class MerchandColisDetailRouteArgs {
+  const MerchandColisDetailRouteArgs({
+    required this.data,
+    this.key,
+  });
+
+  final Commande data;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'MerchandColisDetailRouteArgs{data: $data, key: $key}';
+  }
 }
 
 /// generated route for

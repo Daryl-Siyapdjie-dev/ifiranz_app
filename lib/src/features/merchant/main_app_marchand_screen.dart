@@ -27,7 +27,7 @@ class _AppScreenState extends State<MainAppMarchandScreen> {
   final iconsList = <String>[
     "assets/icons/ic_baseline-home.svg",
     "assets/icons/streamline_shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products.svg",
-    "assets/icons/Vector-3.svg",
+    "assets/icons/ic_baseline-delivery.svg",
     "assets/icons/Vector-3.svg",
   ];
 

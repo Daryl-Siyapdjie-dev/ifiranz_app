@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
@@ -198,7 +197,7 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
   Widget commandeItem(Commande record) {
     return InkWell(
       onTap: () {
-        // context.pushRoute(DeliveryOrderDetailRoute(data: record));
+        context.pushRoute(MerchandColisDetailRoute(data: record));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
@@ -283,60 +282,5 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
         ),
       ),
     );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, Commande item) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: ProgressHUD(
-                  barrierEnabled: true,
-                  borderWidth: 0,
-                  child: Builder(
-                    builder: (_) {
-                      return AlertDialog(
-                        backgroundColor: AppColors.whiteColor,
-                        title: Text(context.locale.deleteConfirmationTitle),
-                        content: Text(
-                          context.locale.deleteConfirmationContent,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        actions: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(); // Close the dialog
-                                  },
-                                  child: Text(
-                                    context.locale.deleteConfirmationCancel,
-                                    style: Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    final progress = ProgressHUD.of(_);
-                                    progress?.show();
-
-                                    // ref.read(merchandColisNotifierProvider.notifier).deleteProdcuct(item.id!).whenComplete(() {
-                                    //   context.popRoute();
-                                    //   progress?.dismiss();
-                                    // });
-                                  },
-                                  child: Text(context.locale.deleteConfirmationAction),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  )));
-        });
   }
 }

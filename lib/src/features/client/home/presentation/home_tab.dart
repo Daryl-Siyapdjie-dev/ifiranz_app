@@ -79,18 +79,10 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
     //     .read(promotionnalProductsNotifierProvider.notifier)
     //     .findPromotions(filterRequest);
     // if (isAll) {
-    await ref
-        .read(restaurantsNotifierProvider.notifier)
-        .fetchRestaurants(localPage, restoRequests);
-    await ref
-        .read(shopsNotifierProvider.notifier)
-        .fetchRestaurants(localPage, shopRequests);
-    await ref
-        .read(supermarketNotifierProvider.notifier)
-        .fetchRestaurants(localPage, supermarketRequests);
-    await ref
-        .read(promotionnalProductsNotifierProvider.notifier)
-        .findPromotions(promotionRequests);
+    await ref.read(restaurantsNotifierProvider.notifier).fetchRestaurants(localPage, restoRequests);
+    await ref.read(shopsNotifierProvider.notifier).fetchRestaurants(localPage, shopRequests);
+    await ref.read(supermarketNotifierProvider.notifier).fetchRestaurants(localPage, supermarketRequests);
+    await ref.read(promotionnalProductsNotifierProvider.notifier).findPromotions(promotionRequests);
     // await ref
     //     .read(infrasNotifierProvider.notifier)
     //     .fetchRestaurants(localPage, restoRequests);
@@ -139,20 +131,15 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
     }, [pageContoller]);
 
     controller.addListener(() async {
-      if (controller.position.maxScrollExtent == controller.position.pixels &&
-          isAll) {
+      if (controller.position.maxScrollExtent == controller.position.pixels && isAll) {
         if (ref.watch(productsNotifierProvider).hasValue &&
             (ref.watch(productsNotifierProvider).value!.hasMore) &&
             !(ref.watch(productsNotifierProvider).value!.isLoadingMore)) {
           await ref
               .read(productsNotifierProvider.notifier)
-              .fetchProducts(params.copyWith(page: params.page + 1), requests,
-                  isMore: true)
+              .fetchProducts(params.copyWith(page: params.page + 1), requests, isMore: true)
               .whenComplete(() {
-            if (!(ref
-                .watch(productsNotifierProvider)
-                .value!
-                .hasErrorOnLoadMore)) {
+            if (!(ref.watch(productsNotifierProvider).value!.hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -184,13 +171,9 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                         controller: search,
                         onEditingComplete: () async {},
                         decoration: InputDecoration(
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: AppColors.greyTextColor),
+                            hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextColor),
                             suffixIcon: const Icon(Icons.search),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 9.5, horizontal: 16.0),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 9.5, horizontal: 16.0),
                             isDense: true,
                             hintText: 'Rechercher'),
                       ),
@@ -198,8 +181,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                       Container(
                         // height: 80.0,
                         // width: 70.0,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0.0, vertical: 11.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 11.0),
                         decoration: BoxDecoration(
                           color: AppColors.bgGrey,
                           borderRadius: BorderRadius.circular(16),
@@ -209,15 +191,11 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                             return Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Offres",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall!
-                                          .copyWith(fontSize: 16),
+                                      style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
                                     ),
                                     InkWell(
                                       onTap: () {
@@ -241,67 +219,52 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                 const SizedBox(height: 8),
                                 response.data.isEmpty
                                     ? NoData(
-                                        text: context
-                                            .locale.clientHomeTabNoDataFound,
+                                        text: context.locale.clientHomeTabNoDataFound,
                                       )
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: List.generate(
-                                            response.data.length,
-                                            (index) => GestureDetector(
-                                                  onTap: () async {
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            milliseconds: 100));
-                                                    context.pushRoute(
-                                                        FoodDetailsRoute(
-                                                            item: response
-                                                                .data[index]));
-                                                  },
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 7.0),
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 15.0,
-                                                        vertical: 11.0),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.bgGreen,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                            "-${response.data[index].priceReductionPercentage}%"),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Container(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              10,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              10,
-                                                          decoration: BoxDecoration(
-                                                              image: DecorationImage(
-                                                                  image: NetworkImage(response
-                                                                          .data[
-                                                                              index]
-                                                                          .url ??
-                                                                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
+                                    : SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: List.generate(
+                                                response.data.length,
+                                                (index) => GestureDetector(
+                                                      onTap: () async {
+                                                        await Future.delayed(const Duration(milliseconds: 100));
+                                                        context.pushRoute(FoodDetailsRoute(item: response.data[index]));
+                                                      },
+                                                      child: Container(
+                                                        margin: const EdgeInsets.only(left: 7.0),
+                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 11.0),
+                                                        decoration: BoxDecoration(
+                                                          color: AppColors.bgGreen,
+                                                          borderRadius: BorderRadius.circular(16),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ))),
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(
+                                                                width: MediaQuery.of(context).size.width / 5,
+                                                                child: Text("${response.data[index].designation}".length < 20
+                                                                    ? "${response.data[index].designation}"
+                                                                    : "${"${response.data[index].designation}".substring(0, 20)} ...")),
+                                                            Row(
+                                                              children: [
+                                                                Text("-${response.data[index].priceReductionPercentage}%"),
+                                                                const SizedBox(width: 8),
+                                                                Container(
+                                                                  height: MediaQuery.of(context).size.width / 10,
+                                                                  width: MediaQuery.of(context).size.width / 10,
+                                                                  decoration: BoxDecoration(
+                                                                      image: DecorationImage(
+                                                                          image: NetworkImage(response.data[index].url ??
+                                                                              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ))),
+                                      ),
                               ],
                             );
                           },
@@ -312,18 +275,14 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                               children: [
                                 SelectableText(error.toString()),
                                 TextButton.icon(
-                                    style: TextButton.styleFrom(
-                                        backgroundColor:
-                                            AppColors.primaryColor),
+                                    style: TextButton.styleFrom(backgroundColor: AppColors.primaryColor),
                                     onPressed: () {
                                       _onTabsRouterChange();
                                     },
-                                    icon: const Icon(Icons.refresh,
-                                        color: AppColors.whiteColor),
+                                    icon: const Icon(Icons.refresh, color: AppColors.whiteColor),
                                     label: const Text(
                                       'Refresh',
-                                      style: TextStyle(
-                                          color: AppColors.whiteColor),
+                                      style: TextStyle(color: AppColors.whiteColor),
                                     )),
                               ],
                             ),
@@ -352,10 +311,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                 mainItem(infras, "Plus Vendu"),
                 Text(
                   "Restaurants",
-                  style: Theme.of(context)
-                      .textTheme
-                      .displaySmall!
-                      .copyWith(fontSize: 16),
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
                 ),
                 const SizedBox(height: 10.0),
                 infras.when(
@@ -370,58 +326,36 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                             itemCount: response.data.length,
                             itemBuilder: (context, index) => InkWell(
                                   onTap: () async {
-                                    await Future.delayed(
-                                        const Duration(milliseconds: 100));
-                                    context.pushRoute(MerchantProductRoute(
-                                        infra: response.data[index]));
+                                    await Future.delayed(const Duration(milliseconds: 100));
+                                    context.pushRoute(MerchantProductRoute(infra: response.data[index]));
                                   },
                                   child: Column(
                                     children: [
                                       Container(
                                         height: 100.0,
-                                        margin:
-                                            const EdgeInsets.only(right: 16.0),
+                                        margin: const EdgeInsets.only(right: 16.0),
                                         decoration: BoxDecoration(
                                             color: AppColors.bgGreyLike,
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                             image: DecorationImage(
                                                 fit: BoxFit.cover,
-                                                image: NetworkImage(response
-                                                        .data[index]
-                                                        .url
-                                                        .isNotEmpty
+                                                image: NetworkImage(response.data[index].url.isNotEmpty
                                                     ? response.data[index].url
                                                     : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10.0,
-                                                      vertical: 7.0),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.bgYellow,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
-                                                  child: const Center(
-                                                      child: Text(
-                                                          'Livraison gratuite')),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.0),
+                                                  decoration: BoxDecoration(color: AppColors.bgYellow, borderRadius: BorderRadius.circular(10.0)),
+                                                  child: const Center(child: Text('Livraison gratuite')),
                                                 ),
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  margin: const EdgeInsets.only(
-                                                      right: 10.0),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(),
-                                                      shape: BoxShape.circle),
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  margin: const EdgeInsets.only(right: 10.0),
+                                                  decoration: BoxDecoration(border: Border.all(), shape: BoxShape.circle),
                                                   child: const Icon(
                                                     FontAwesomeIcons.heart,
                                                     size: 17.0,
@@ -434,36 +368,27 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 16.0,
-                                            bottom: 18.0,
-                                            top: 6.0),
+                                        padding: const EdgeInsets.only(right: 16.0, bottom: 18.0, top: 6.0),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
                                                 Container(
                                                   height: 35,
                                                   width: 35,
-                                                  margin: const EdgeInsets.only(
-                                                      right: 24, left: 10),
-                                                  decoration:
-                                                      const BoxDecoration(
+                                                  margin: const EdgeInsets.only(right: 24, left: 10),
+                                                  decoration: const BoxDecoration(
                                                     image: DecorationImage(
-                                                      image: AssetImage(
-                                                          "assets/images/fake_profile.png"),
+                                                      image: AssetImage("assets/images/fake_profile.png"),
                                                     ),
                                                   ),
                                                 ),
-                                                Text(response
-                                                    .data[index].designation),
+                                                Text(response.data[index].designation),
                                               ],
                                             ),
                                             const Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Icon(
                                                   FontAwesomeIcons.star,
@@ -472,8 +397,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                                 SizedBox(width: 8.0),
                                                 Text(
                                                   "4,9",
-                                                  style:
-                                                      TextStyle(fontSize: 14.0),
+                                                  style: TextStyle(fontSize: 14.0),
                                                 ),
                                               ],
                                             ),
@@ -505,8 +429,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
     );
   }
 
-  Widget mainItem(AsyncValue<PaginatedResponse<InfrastructurModel>> merchant,
-      String title) {
+  Widget mainItem(AsyncValue<PaginatedResponse<InfrastructurModel>> merchant, String title) {
     return merchant.when(
       data: (response) {
         return Column(
@@ -519,17 +442,12 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                 children: [
                   Text(
                     title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
                   ),
                   InkWell(
                     onTap: () async {
                       await Future.delayed(const Duration(seconds: 1));
-                      context.pushRoute(MerchantPerTypeRoute(
-                          merchants:
-                              response.data as List<InfrastructurModel>));
+                      context.pushRoute(MerchantPerTypeRoute(merchants: response.data as List<InfrastructurModel>));
                     },
                     child: const Row(
                       children: [
@@ -561,10 +479,8 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                             padding: const EdgeInsets.only(right: 15.0),
                             child: InkWell(
                               onTap: () async {
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
-                                context.pushRoute(MerchantProductRoute(
-                                    infra: response.data[index]));
+                                await Future.delayed(const Duration(seconds: 1));
+                                context.pushRoute(MerchantProductRoute(infra: response.data[index]));
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -615,8 +531,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
           children: [
             SelectableText(error.toString()),
             TextButton.icon(
-                style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor),
+                style: TextButton.styleFrom(backgroundColor: AppColors.primaryColor),
                 onPressed: () {
                   _onTabsRouterChange();
                 },
