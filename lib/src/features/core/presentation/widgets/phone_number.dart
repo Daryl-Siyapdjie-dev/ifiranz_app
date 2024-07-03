@@ -19,11 +19,7 @@ class PhoneNumberWidget extends StatefulWidget {
   final TextEditingController controller, isoCode;
   TextEditingController? phoneCode;
 
-  PhoneNumberWidget(
-      {super.key,
-      required this.controller,
-      required this.isoCode,
-      this.phoneCode});
+  PhoneNumberWidget({super.key, required this.controller, required this.isoCode, this.phoneCode});
 
   @override
   State<PhoneNumberWidget> createState() => _PhoneNumberWidgetState();
@@ -40,18 +36,11 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       try {
-        _country = widget.isoCode.text.isNotEmpty
-            ? cps.CountryPickerUtils.getCountryByPhoneCode(
-                widget.isoCode.text.replaceAll('+', ''))
-            : _country;
+        _country = widget.isoCode.text.isNotEmpty ? cps.CountryPickerUtils.getCountryByPhoneCode(widget.isoCode.text.replaceAll('+', '')) : _country;
 
-        widget.isoCode.text = widget.isoCode.text.isNotEmpty
-            ? _country.isoCode
-            : _country.isoCode;
-        widget.phoneCode?.text =
-            widget.phoneCode != null && widget.phoneCode!.text.isNotEmpty
-                ? _country.phoneCode
-                : _country.phoneCode;
+        widget.isoCode.text = widget.isoCode.text.isNotEmpty ? _country.isoCode : _country.isoCode;
+
+        widget.phoneCode?.text = widget.phoneCode != null && widget.phoneCode!.text.isNotEmpty ? _country.phoneCode : _country.phoneCode;
 
         setState(() {});
       } catch (_) {}
@@ -91,18 +80,13 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                   children: [
                     TextSpan(
                       text: ' *',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: context.theme.colorScheme.error),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: context.theme.colorScheme.error),
                     )
                   ]),
             ),
             gapH4,
             Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
-                  borderRadius: BorderRadius.circular(9)),
+              decoration: BoxDecoration(color: Theme.of(context).inputDecorationTheme.fillColor, borderRadius: BorderRadius.circular(9)),
               child: Row(
                 children: [
                   InkWell(
@@ -111,16 +95,12 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                         useSafeArea: true,
                         useRootNavigator: true,
                         context: context,
-
-                        showPhoneCode:
-                            true, // optional. Shows phone code before the country name.
+                        showPhoneCode: true, // optional. Shows phone code before the country name.
                         onSelect: (var country) {
                           if (_country.isoCode != country.countryCode) {
                             widget.controller.clear();
                           }
-                          _country =
-                              cps.CountryPickerUtils.getCountryByPhoneCode(
-                                  country.phoneCode);
+                          _country = cps.CountryPickerUtils.getCountryByPhoneCode(country.phoneCode);
                           widget.isoCode.text = _country.isoCode;
                           widget.phoneCode?.text = _country.phoneCode;
                           setState(() {});
@@ -136,10 +116,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                           width: 26,
                           child: CircleAvatar(
                             backgroundColor: Theme.of(context).primaryColor,
-                            backgroundImage: AssetImage(
-                                CountryPickerUtils.getFlagImageAssetPath(
-                                    _country.isoCode),
-                                package: "country_pickers"),
+                            backgroundImage: AssetImage(CountryPickerUtils.getFlagImageAssetPath(_country.isoCode), package: "country_pickers"),
                           ),
                         ),
                         gapW5,
@@ -183,15 +160,13 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                           if (res == true) {
                             errorController.input.add(null);
                           } else {
-                            errorController.input
-                                .add(context.locale.invalidPhoneNumber);
+                            errorController.input.add(context.locale.invalidPhoneNumber);
                           }
                         });
 
                         return null;
                       },
-                      inputFormaters: mobileFormatters(
-                          widget.controller.text.trim(), _country.phoneCode),
+                      inputFormaters: mobileFormatters(widget.controller.text.trim(), _country.phoneCode),
                     ),
                   ),
                   const SizedBox(
@@ -210,10 +185,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                     padding: const EdgeInsets.only(left: 12, top: 10),
                     child: Text(
                       snapshot.data!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: Colors.red),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.red),
                     ));
               }
 
@@ -225,8 +197,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
 }
 
 class StreamError {
-  final StreamController<String?> historiyController =
-      StreamController<String?>.broadcast();
+  final StreamController<String?> historiyController = StreamController<String?>.broadcast();
 
   StreamSink<String?> get input => historiyController.sink;
 

@@ -155,7 +155,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
       child: Scaffold(
         extendBody: true,
         backgroundColor: Colors.white,
-        appBar: const CustomAppBar(isHome: true),
+        appBar: CustomAppBar(isHome: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 16.0),
@@ -387,20 +387,20 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                                 Text(response.data[index].designation),
                                               ],
                                             ),
-                                            const Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.star,
-                                                  size: 17.0,
-                                                ),
-                                                SizedBox(width: 8.0),
-                                                Text(
-                                                  "4,9",
-                                                  style: TextStyle(fontSize: 14.0),
-                                                ),
-                                              ],
-                                            ),
+                                            // Row(
+                                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                                            //   children: [
+                                            //     const Icon(
+                                            //       FontAwesomeIcons.star,
+                                            //       size: 17.0,
+                                            //     ),
+                                            //     const SizedBox(width: 8.0),
+                                            //     Text(
+                                            //       response.data[index].designation,
+                                            //       style: const TextStyle(fontSize: 14.0),
+                                            //     ),
+                                            //   ],
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -446,7 +446,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await Future.delayed(const Duration(seconds: 1));
+                      // await Future.delayed(const Duration(seconds: 1));
                       context.pushRoute(MerchantPerTypeRoute(merchants: response.data as List<InfrastructurModel>));
                     },
                     child: const Row(
@@ -479,7 +479,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                             padding: const EdgeInsets.only(right: 15.0),
                             child: InkWell(
                               onTap: () async {
-                                await Future.delayed(const Duration(seconds: 1));
+                                // await Future.delayed(const Duration(seconds: 1));
                                 context.pushRoute(MerchantProductRoute(infra: response.data[index]));
                               },
                               child: Column(

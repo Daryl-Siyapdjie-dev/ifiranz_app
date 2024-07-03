@@ -56,18 +56,13 @@ class _ProductItemState extends ConsumerState<ProductItem> {
                           child: Hero(
                               tag: widget.meal.id!,
                               child: CachedNetworkImage(
-                                imageUrl: widget.meal.url ??
-                                    "http://via.placeholder.com/350x150",
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        Container(
+                                imageUrl: widget.meal.url ?? "http://via.placeholder.com/350x150",
+                                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                                   alignment: Alignment.center,
                                   height: 50,
-                                  child: CircularProgressIndicator(
-                                      value: downloadProgress.progress),
+                                  child: CircularProgressIndicator(value: downloadProgress.progress),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
                               ))),
                     ],
                   ),
@@ -144,12 +139,8 @@ class _ProductItemState extends ConsumerState<ProductItem> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                         child: Text(
-                          (widget.meal.salePrice ?? widget.meal.prix ?? 0.0)
-                              .formatMoney(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryColor,
-                              fontSize: 12),
+                          "${(widget.meal.salePrice ?? widget.meal.prix ?? 0.0).formatMoney()} XAF",
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryColor, fontSize: 12),
                         ),
                       ),
                       const Spacer(),

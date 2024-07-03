@@ -157,10 +157,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                           itemCount: value.totalPages,
                           controller: pageContoller,
                           itemBuilder: (_, index) => Row(
-                                children: [
-                                  mainItem(context, index != activeIndex.value, value.data[index]),
-                                  const Spacer(),
-                                ],
+                                children: [Expanded(child: mainItem(context, index != activeIndex.value, value.data[index])), gapW20],
                               ))),
               _ => Container(
                   height: 172,
@@ -344,7 +341,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
         duration: const Duration(milliseconds: 200),
         padding: EdgeInsets.all(isMin ? 8 : 16),
         height: isMin ? context.proportionnalHeight(135) : null,
-        width: context.screenWidth / 1.15,
+        // width: context.screenWidth / 1.15,
         decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(16)),
         child: Row(
           children: [

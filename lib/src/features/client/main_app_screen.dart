@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
@@ -36,9 +35,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   Widget build(BuildContext context) {
     return UpgradeAlert(
         upgrader: Upgrader(
-          dialogStyle: Platform.isIOS
-              ? UpgradeDialogStyle.cupertino
-              : UpgradeDialogStyle.material,
+          dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
           shouldPopScope: () => true,
           canDismissDialog: true,
           showReleaseNotes: false,
@@ -63,11 +60,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
             scaffoldKey: _scaffoldKey,
             inheritNavigatorObservers: false,
             lazyLoad: true,
-            routes: const [
-              HomeRoute(),
-              OrderClientDeliveriesRoute(),
-              ClientDeliveryLayoutRoute()
-            ],
+            routes: const [HomeRoute(), OrderClientDeliveriesRoute(), ClientDeliveryLayoutRoute()],
             bottomNavigationBuilder: (_, tabsRouter) {
               return Container(
                 decoration: const BoxDecoration(
@@ -90,37 +83,19 @@ class _MainAppScreenState extends State<MainAppScreen> {
                   ),
                   child: BottomNavigationBar(
                       type: BottomNavigationBarType.fixed,
-                      selectedLabelStyle: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12),
-                      unselectedLabelStyle: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12),
+                      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                       elevation: 0,
                       currentIndex: tabsRouter.activeIndex,
                       onTap: (index) {
                         if (index < 3) {
                           tabsRouter.setActiveIndex(index);
-                        } else {
-                          context.pushRoute(const ProfileRoute());
                         }
                       },
                       items: [
                         bottomNavBarItem(tabsRouter.activeIndex, 0),
                         bottomNavBarItem(tabsRouter.activeIndex, 1),
                         bottomNavBarItem(tabsRouter.activeIndex, 2),
-                        BottomNavigationBarItem(
-                            label: "",
-                            icon: Container(
-                                height: 40,
-                                width: 40,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.primaryColor),
-                                child: const Icon(
-                                  CupertinoIcons.person_alt_circle,
-                                  size: 35,
-                                  color: AppColors.whiteColor,
-                                )))
                       ]),
                 ),
               );
@@ -147,14 +122,8 @@ class _MainAppScreenState extends State<MainAppScreen> {
               ),
             ),
             SvgPicture.asset(
-              index == 0 && index != state
-                  ? "assets/icons/ic_baseline-home-outline.svg"
-                  : iconsList[index],
-              colorFilter: ColorFilter.mode(
-                  state == index
-                      ? AppColors.primaryColor
-                      : AppColors.greyTextColor,
-                  BlendMode.srcIn),
+              index == 0 && index != state ? "assets/icons/ic_baseline-home-outline.svg" : iconsList[index],
+              colorFilter: ColorFilter.mode(state == index ? AppColors.primaryColor : AppColors.greyTextColor, BlendMode.srcIn),
             ),
           ],
         ),

@@ -15,6 +15,7 @@ import 'package:ifiranz_client/src/features/core/infrastructure/extensions/media
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
+import 'package:ifiranz_client/src/features/core/presentation/utils.dart';
 import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
 import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
 import 'package:ifiranz_client/src/router/app_router.dart';
@@ -222,7 +223,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> with Sing
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "${number * (widget.item.salePrice ?? widget.item.prix ?? 0.0)}",
+                                                  (number * (widget.item.salePrice ?? widget.item.prix ?? 0.0)).formatMoney(),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge!
@@ -495,7 +496,7 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen> with Sing
                               FocusScope.of(context).unfocus();
 
                               if (cart.longitude is! double) {
-                                return await showErrorFlushbar(context, 'GPS location is required');
+                                return await showErrorFlushbar(context, 'GPS location is required click to add');
                               }
 
                               if (ref.watch(cartProvider).articles.indexWhere((element) => element.article?.id == widget.item.id) != -1) {

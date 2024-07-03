@@ -15,6 +15,7 @@ class DeliveryOrdersNotifier extends StateNotifier<AsyncValue<PaginatedResponse<
 
   Future fetchDeliveryOrders(
       {bool isMore = false, required PaginatedRequest params, bool isAll = false, List<FilterOptional> filterOptions = const []}) async {
+    print(state);
     if (state.value?.isLoadingMore == true) return;
 
     if (state.hasError) {

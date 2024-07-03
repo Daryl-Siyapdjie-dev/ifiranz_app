@@ -7,7 +7,6 @@ import 'package:ifiranz_client/src/features/client/payment/share/providers.dart'
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
 import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../core/domain/paginated_request.dart';
 import '../../../core/infrastructure/constants/app_sizes.dart';
@@ -15,7 +14,6 @@ import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/widgets/no_data.dart';
 import '../../../core/presentation/widgets/product_skeleton.dart';
 import '../domain/filter_optional.dart';
-import '../shared/providers.dart';
 
 @RoutePage()
 class PaymentScreen extends StatefulHookConsumerWidget {
@@ -45,9 +43,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   ];
   Future _onTabsRouterChange() async {
     final localPage = PaginatedRequest(page: 0, size: 10);
-    await ref
-        .read(paymentMerchantsNotifier.notifier)
-        .fetchPaymentMerchants(localPage, request);
+    await ref.read(paymentMerchantsNotifier.notifier).fetchPaymentMerchants(localPage, request);
   }
 
   @override
@@ -67,8 +63,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
             return Scaffold(
               appBar: CustomAppBar(title: context.locale.payment),
               body: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
                 children: [
                   ListTile(
                     contentPadding: const EdgeInsets.all(0),
@@ -101,19 +96,13 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                                     onTap: () {
                                       setState(() {
                                         _paymentSelected = index;
-                                        paymentSelectedInfo =
-                                            response.data[index];
+                                        paymentSelectedInfo = response.data[index];
                                       });
                                     },
                                     child: Container(
-                                      margin:
-                                          const EdgeInsets.only(bottom: 10.0),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 11),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: AppColors.greyBackground),
+                                      margin: const EdgeInsets.only(bottom: 10.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.greyBackground),
                                       child: Row(children: [
                                         SizedBox(
                                           height: 30,
@@ -123,39 +112,32 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                                               onChanged: (onChanged) {
                                                 setState(() {
                                                   _paymentSelected = index;
-                                                  paymentSelectedInfo =
-                                                      response.data[index];
+                                                  paymentSelectedInfo = response.data[index];
                                                 });
                                               }),
                                         ),
-                                        Image.asset(
-                                          "assets/images/orange-money.png",
-                                          height: 30,
-                                          width: 30,
-                                        ),
+                                        if (response.data[index].name != "MOMO" || response.data[index].name != "OM")
+                                          Image.asset(
+                                            response.data[index].name != "MOMO" ? "assets/images/orange-money.png" : "assets/images/mtn-momo.png",
+                                            height: 30,
+                                            width: 30,
+                                          ),
                                         const Spacer(),
                                         Column(
                                           children: [
                                             Text(
                                               response.data[index].name ?? "",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                              style: const TextStyle(fontWeight: FontWeight.bold),
                                             ),
                                             gapH2,
                                             paymentMerchants.when(
-                                                data: (response) =>
-                                                    const SizedBox(),
+                                                data: (response) => const SizedBox(),
                                                 error: (e, s) => IconButton(
                                                     onPressed: () {},
                                                     // onPressed: () => ref.refresh(
                                                     //     getOperatorProvider(50053).future),
-                                                    icon: const Icon(
-                                                        Icons.refresh)),
-                                                loading: () => const SizedBox(
-                                                    height: 5,
-                                                    width: 100,
-                                                    child:
-                                                        LinearProgressIndicator())),
+                                                    icon: const Icon(Icons.refresh)),
+                                                loading: () => const SizedBox(height: 5, width: 100, child: LinearProgressIndicator())),
                                           ],
                                         )
                                       ]),
@@ -169,13 +151,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                         children: [
                           SelectableText(error.toString()),
                           TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  backgroundColor: AppColors.primaryColor),
+                              style: TextButton.styleFrom(backgroundColor: AppColors.primaryColor),
                               onPressed: () {
                                 _onTabsRouterChange();
                               },
-                              icon: const Icon(Icons.refresh,
-                                  color: AppColors.whiteColor),
+                              icon: const Icon(Icons.refresh, color: AppColors.whiteColor),
                               label: const Text(
                                 'Refresh',
                                 style: TextStyle(color: AppColors.whiteColor),
@@ -301,20 +281,15 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                 ],
               ),
               bottomNavigationBar: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 10)),
+                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
                     onPressed: _paymentSelected == -1
                         ? null
                         : () {
                             if (paymentSelectedInfo == null) return;
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return OrderDetailsScreen(
-                                  paymentIOPtionInfo:
-                                      paymentSelectedInfo ?? CashoutModel());
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return OrderDetailsScreen(paymentIOPtionInfo: paymentSelectedInfo ?? CashoutModel());
                             }));
                             // context.pushRoute(OrderDetailsRoute(
                             //     paymentIOPtionInfo:
