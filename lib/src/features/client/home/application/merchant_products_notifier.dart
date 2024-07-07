@@ -1,10 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/filter_optional.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
-import 'package:ifiranz_client/src/features/client/home/infrastructure/products_repository.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
 
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
+import '../domain/filter_optional.dart';
+import '../domain/product_model.dart';
 import '../infrastructure/merchant_products_repository.dart';
 
 class MarchantProductsNotifier

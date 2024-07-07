@@ -60,6 +60,7 @@ class PaymentRepository {
 
   Future<Either<ApiFailure, TransactionResponse>> finalise(
       TransactionRequest request) async {
+    print(request.toJson().toString());
     try {
       final response = await _paymentRemoteService.finalise(request);
 

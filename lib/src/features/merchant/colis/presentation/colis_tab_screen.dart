@@ -1,21 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/product_skeleton.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/refeshing_indicator.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/domain/delivery_models.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
 
+import '../../../../router/app_router.dart';
 import '../../../core/domain/enum.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/string_extension.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
+import '../../../core/presentation/widgets/no_data.dart';
+import '../../../core/presentation/widgets/product_skeleton.dart';
+import '../../../core/presentation/widgets/refeshing_indicator.dart';
+import '../../../core/presentation/widgets/toats.dart';
+import '../../../delivery/orders/domain/delivery_models.dart';
+import '../../core/presentation/widget/order_drawer_widget.dart';
 import '../shared/colis_providers.dart';
 
 @RoutePage()
@@ -40,7 +40,9 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
 
   Future _onTabsRouterChange() async {
     final localPage = PaginatedRequest(page: 0, size: 20);
-    await ref.read(merchandColisNotifierProvider.notifier).getAllProducts(localPage);
+    await ref
+        .read(merchandColisNotifierProvider.notifier)
+        .getAllProducts(localPage);
 
     setState(() {
       params = localPage;
@@ -56,9 +58,13 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
       next.maybeWhen(
           orElse: () => null,
           data: (res) {
-            if (res.actionError is String && !res.isActionLoading && prev?.value?.isActionLoading == true) {
+            if (res.actionError is String &&
+                !res.isActionLoading &&
+                prev?.value?.isActionLoading == true) {
               return showErrorFlushbar(context, res.actionError!);
-            } else if (res.actionError == null && (res.actionError == null && prev?.value?.isActionLoading == true)) {
+            } else if (res.actionError == null &&
+                (res.actionError == null &&
+                    prev?.value?.isActionLoading == true)) {
               showSuccessFlushbar(context, context.locale.operationSuccess);
             }
           },
@@ -74,9 +80,13 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
             !(ref.watch(merchandColisNotifierProvider).value!.isLoadingMore)) {
           await ref
               .read(merchandColisNotifierProvider.notifier)
-              .getAllProducts(params.copyWith(page: params.page + 1), isMore: true)
+              .getAllProducts(params.copyWith(page: params.page + 1),
+                  isMore: true)
               .whenComplete(() {
-            if (!(ref.watch(merchandColisNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(merchandColisNotifierProvider)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -146,7 +156,8 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                       );
               }),
           gapH10,
-          if (((products.value?.hasMore ?? false) || (products.value?.isLoadingMore ?? false)))
+          if (((products.value?.hasMore ?? false) ||
+              (products.value?.isLoadingMore ?? false)))
             const Center(
               child: CircularProgressIndicator(),
             ),
@@ -157,9 +168,13 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                 onPressed: () async {
                   await ref
                       .read(merchandColisNotifierProvider.notifier)
-                      .getAllProducts(params.copyWith(page: params.page + 1), isMore: true)
+                      .getAllProducts(params.copyWith(page: params.page + 1),
+                          isMore: true)
                       .whenComplete(() {
-                    if (!(ref.watch(merchandColisNotifierProvider).value!.hasErrorOnLoadMore)) {
+                    if (!(ref
+                        .watch(merchandColisNotifierProvider)
+                        .value!
+                        .hasErrorOnLoadMore)) {
                       setState(() {
                         params = params.copyWith(page: params.page + 1);
                       });
@@ -190,7 +205,11 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
           ),
         ],
       ),
-      child: Text(status.name.capitalize().toString(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor)),
+      child: Text(status.name.capitalize().toString(),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.whiteColor)),
     );
   }
 
@@ -230,8 +249,11 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                       ),
                       gapW10,
                       buildStatusContainer(
-                        OrderStatus.values
-                            .firstWhere((e) => e.value.toLowerCase() == record.statut?.toLowerCase(), orElse: () => OrderStatus.accepte),
+                        OrderStatus.values.firstWhere(
+                            (e) =>
+                                e.value.toLowerCase() ==
+                                record.statut?.toLowerCase(),
+                            orElse: () => OrderStatus.accepte),
                       ),
                     ],
                   ),
@@ -240,12 +262,18 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                     children: [
                       Text(
                         "${context.locale.address}:",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: AppColors.greyTextColor),
                       ),
                       gapW10,
                       Expanded(
                         child: Text('${record.localisationGps}'.capitalize(),
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.blackColor)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: AppColors.blackColor)),
                       ),
                     ],
                   ),
@@ -254,11 +282,15 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                     children: [
                       Text(
                         "${context.locale.designation}:",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: AppColors.greyTextColor),
                       ),
                       gapW10,
                       Expanded(
-                        child: Text(record.designation?.capitalize() ?? "", style: Theme.of(context).textTheme.bodySmall),
+                        child: Text(record.designation?.capitalize() ?? "",
+                            style: Theme.of(context).textTheme.bodySmall),
                       ),
                     ],
                   ),
@@ -267,11 +299,15 @@ class _ColisTabScreenState extends ConsumerState<ColisTabScreen> {
                     children: [
                       Text(
                         "${context.locale.amount}:",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: AppColors.greyTextColor),
                       ),
                       gapW10,
                       Expanded(
-                        child: Text('${record.dueAmount ?? 0} XAF', style: Theme.of(context).textTheme.bodySmall),
+                        child: Text('${record.dueAmount ?? 0} XAF',
+                            style: Theme.of(context).textTheme.bodySmall),
                       ),
                     ],
                   ),

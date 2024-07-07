@@ -14,7 +14,7 @@ _$AddColisRequestImpl _$$AddColisRequestImplFromJson(
       clientPhone: json['clientPhone'] as String,
       quartier: Quartier.fromJson(json['quartier'] as Map<String, dynamic>),
       modePayement: json['modePayement'] as String,
-      localisationGps: json['localisationGps'] as String,
+      localisationGps: json['localisationGps'] as String?,
       description: json['description'] as String,
       isParcel: json['isParcel'] as bool? ?? true,
       dueAmount: (json['dueAmount'] as num).toDouble(),

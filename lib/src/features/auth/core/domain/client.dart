@@ -11,12 +11,15 @@ class Client with _$Client {
     int? version,
     String? code,
     String? designation,
+    String? name,
     String? nom,
     String? prenom,
     String? adresse,
     String? tel,
     String? localisationGps,
     String? user,
+    String? email,
+    String? phone,
   }) = _Client;
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);

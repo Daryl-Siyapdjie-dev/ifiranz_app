@@ -13,11 +13,12 @@ class AddColisRequest with _$AddColisRequest {
     required String clientPhone,
     required Quartier quartier,
     required String modePayement,
-    required String localisationGps,
+    required String? localisationGps,
     required String description,
     @Default(true) bool? isParcel,
     required double dueAmount,
   }) = _AddColisRequest;
 
-  factory AddColisRequest.fromJson(Map<String, dynamic> json) => _$AddColisRequestFromJson(json);
+  factory AddColisRequest.fromJson(Map<String, dynamic> json) =>
+      _$AddColisRequestFromJson(json);
 }

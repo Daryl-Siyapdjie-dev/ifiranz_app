@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
 
+import '../../../core/domain/api_failure.dart';
 import '../../../core/infrastructure/utils/api_exception.dart';
 import 'auth_remote_service.dart';
 

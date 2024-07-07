@@ -1,29 +1,31 @@
 import 'package:dartz/dartz.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/create_command_request.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/create_command_response.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/current_cart_response.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/filter_optional.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/quartier.dart';
-import 'package:ifiranz_client/src/features/client/home/infrastructure/merchant_products_remote_service.dart';
-import 'package:ifiranz_client/src/features/client/home/infrastructure/products_remote_service.dart';
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_exception.dart';
+
+import '../../../core/domain/api_failure.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
+import '../../../core/infrastructure/utils/api_exception.dart';
+import '../domain/create_command_request.dart';
+import '../domain/create_command_response.dart';
+import '../domain/current_cart_response.dart';
+import '../domain/filter_optional.dart';
+import '../domain/product_model.dart';
+import '../domain/quartier.dart';
+import 'merchant_products_remote_service.dart';
 
 class MerchantProductsRepository {
   final MerchantProductsRemoteService _merchantProductRemoteService;
 
   MerchantProductsRepository(this._merchantProductRemoteService);
 
-  Future<Either<ApiFailure, PaginatedResponse<ProductModel>>> getListProducts(
-      PaginatedRequest params,
-      List<FilterOptional> requests,
-      String merchantId) async {
+  Future<Either<ApiFailure, PaginatedResponse<ProductModel>>>
+      getListOfMerchantsProducts(PaginatedRequest params,
+          List<FilterOptional> requests, String merchantId) async {
     try {
       final response = await _merchantProductRemoteService.getMerchantProducts(
-          params, merchantId, requests);
+        params,
+        merchantId,
+        requests,
+      );
 
       return right(
         await response.when(

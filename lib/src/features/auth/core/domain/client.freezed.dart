@@ -24,12 +24,15 @@ mixin _$Client {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   String? get nom => throw _privateConstructorUsedError;
   String? get prenom => throw _privateConstructorUsedError;
   String? get adresse => throw _privateConstructorUsedError;
   String? get tel => throw _privateConstructorUsedError;
   String? get localisationGps => throw _privateConstructorUsedError;
   String? get user => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,12 +49,15 @@ abstract class $ClientCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      String? name,
       String? nom,
       String? prenom,
       String? adresse,
       String? tel,
       String? localisationGps,
-      String? user});
+      String? user,
+      String? email,
+      String? phone});
 }
 
 /// @nodoc
@@ -71,12 +77,15 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? name = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
     Object? adresse = freezed,
     Object? tel = freezed,
     Object? localisationGps = freezed,
     Object? user = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -95,6 +104,10 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       nom: freezed == nom
           ? _value.nom
           : nom // ignore: cast_nullable_to_non_nullable
@@ -119,6 +132,14 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -135,12 +156,15 @@ abstract class _$$ClientImplCopyWith<$Res> implements $ClientCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      String? name,
       String? nom,
       String? prenom,
       String? adresse,
       String? tel,
       String? localisationGps,
-      String? user});
+      String? user,
+      String? email,
+      String? phone});
 }
 
 /// @nodoc
@@ -158,12 +182,15 @@ class __$$ClientImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? name = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
     Object? adresse = freezed,
     Object? tel = freezed,
     Object? localisationGps = freezed,
     Object? user = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
   }) {
     return _then(_$ClientImpl(
       id: freezed == id
@@ -182,6 +209,10 @@ class __$$ClientImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       nom: freezed == nom
           ? _value.nom
           : nom // ignore: cast_nullable_to_non_nullable
@@ -206,6 +237,14 @@ class __$$ClientImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -219,12 +258,15 @@ class _$ClientImpl implements _Client {
       this.version,
       this.code,
       this.designation,
+      this.name,
       this.nom,
       this.prenom,
       this.adresse,
       this.tel,
       this.localisationGps,
-      this.user});
+      this.user,
+      this.email,
+      this.phone});
 
   factory _$ClientImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientImplFromJson(json);
@@ -238,6 +280,8 @@ class _$ClientImpl implements _Client {
   @override
   final String? designation;
   @override
+  final String? name;
+  @override
   final String? nom;
   @override
   final String? prenom;
@@ -249,10 +293,14 @@ class _$ClientImpl implements _Client {
   final String? localisationGps;
   @override
   final String? user;
+  @override
+  final String? email;
+  @override
+  final String? phone;
 
   @override
   String toString() {
-    return 'Client(id: $id, version: $version, code: $code, designation: $designation, nom: $nom, prenom: $prenom, adresse: $adresse, tel: $tel, localisationGps: $localisationGps, user: $user)';
+    return 'Client(id: $id, version: $version, code: $code, designation: $designation, name: $name, nom: $nom, prenom: $prenom, adresse: $adresse, tel: $tel, localisationGps: $localisationGps, user: $user, email: $email, phone: $phone)';
   }
 
   @override
@@ -265,19 +313,22 @@ class _$ClientImpl implements _Client {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.nom, nom) || other.nom == nom) &&
             (identical(other.prenom, prenom) || other.prenom == prenom) &&
             (identical(other.adresse, adresse) || other.adresse == adresse) &&
             (identical(other.tel, tel) || other.tel == tel) &&
             (identical(other.localisationGps, localisationGps) ||
                 other.localisationGps == localisationGps) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, version, code, designation,
-      nom, prenom, adresse, tel, localisationGps, user);
+      name, nom, prenom, adresse, tel, localisationGps, user, email, phone);
 
   @JsonKey(ignore: true)
   @override
@@ -299,12 +350,15 @@ abstract class _Client implements Client {
       final int? version,
       final String? code,
       final String? designation,
+      final String? name,
       final String? nom,
       final String? prenom,
       final String? adresse,
       final String? tel,
       final String? localisationGps,
-      final String? user}) = _$ClientImpl;
+      final String? user,
+      final String? email,
+      final String? phone}) = _$ClientImpl;
 
   factory _Client.fromJson(Map<String, dynamic> json) = _$ClientImpl.fromJson;
 
@@ -317,6 +371,8 @@ abstract class _Client implements Client {
   @override
   String? get designation;
   @override
+  String? get name;
+  @override
   String? get nom;
   @override
   String? get prenom;
@@ -328,6 +384,10 @@ abstract class _Client implements Client {
   String? get localisationGps;
   @override
   String? get user;
+  @override
+  String? get email;
+  @override
+  String? get phone;
   @override
   @JsonKey(ignore: true)
   _$$ClientImplCopyWith<_$ClientImpl> get copyWith =>

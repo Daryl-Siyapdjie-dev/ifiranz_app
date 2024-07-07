@@ -83,7 +83,7 @@
   "foodDetailsScreenSelectQuartier": "Sélectionner le quartier",
   "foodDetailsScreenLocation": "Emplacement",
   "foodDetailsScreenExactDeliveryPosition": "Position de livraison exacte",
-  "foodDetailsScreenAddGPSLocation": "Emplacement GPS",
+  "foodDetailsScreenAddGPSLocation": "Choisir l'adresse de livraison",
   "foodDetailsScreenCartAlreadyContainsProduct": "Le panier contient déjà ce produit",
   "foodDetailsScreenAddToCart": "Ajouter au panier",
   "foodDetailsScreenRateThisFood": "Évaluez cet article",
@@ -131,7 +131,6 @@
   "deliveryCodeIs": "Le code de livraison est {code}",
   "clearFilter": "Effacer les filtres",
   "youCanSelectFromDifferentSeller": "Vous ne pouvez pas sélectionner  deux article de vendeurs différents pour l'instant",
-
   "merchandHomeScreenWelcome": "Bienvenue",
   "merchandHomeScreenWhatsIfiranz": "Qu'est-ce qu'Ifiranz",
   "merchandHomeScreenHandsOn": "Pratique",
@@ -142,7 +141,6 @@
   "merchandHomeScreenInventory": "Inventaires",
   "merchandHomeScreenTransactions": "Transactions",
   "checkPrivate": "J'ai lu et j'accepte les conditions d'utilisation, les règles de combat et la politique de confidentialité",
-
   "products": "Produits",
   "pay": "Payer",
   "next": "Suivant",
@@ -154,7 +152,7 @@
   "noDataText": "Aucune donnée trouvée",
   "merchandUpdateProdut": "Mettre à jour le produit",
   "merchandProductType": "Type de produit",
-  "price":"Prix",
+  "price": "Prix",
   "deleteConfirmationTitle": "Confirmation de suppression",
   "deleteConfirmationAction": "Supprimer",
   "deleteConfirmationCancel": "Annuler",
@@ -173,6 +171,7 @@
   "operationSuccess": "Opération réussie",
   "operationError": "Échec de l'opération",
   "invalidPhoneNumber": "Numéro de télephone invalide",
-
-  "colis": "Colis"
+  "colis": "Colis",
+  "email": "Email",
+  "createNewColisScreenDueAmount": "Montant de la commande"
 }

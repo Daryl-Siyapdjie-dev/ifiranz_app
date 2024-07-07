@@ -86,7 +86,7 @@
   "foodDetailsScreenSelectQuartier": "Select neighborhood",
   "foodDetailsScreenLocation": "Location",
   "foodDetailsScreenExactDeliveryPosition": "Exact delivery position",
-  "foodDetailsScreenAddGPSLocation": "Add GPS location",
+  "foodDetailsScreenAddGPSLocation": "Choose delivery address",
   "foodDetailsScreenCartAlreadyContainsProduct": "The cart already contains this product",
   "foodDetailsScreenAddToCart": "Add to cart",
   "foodDetailsScreenRateThisFood": "Rate this article",
@@ -161,7 +161,6 @@
   "deleteConfirmationContent": "Are you sure you want to delete this item?",
   "startDate": "Start Date",
   "endDate": "End Date",
-
   "deliveryTodayClanhhenge": "Today’s challenge",
   "percentOn": "{value}% ON",
   "@percentOn": {
@@ -175,29 +174,24 @@
       "number": {}
     }
   },
-
   "promoDeliveryMessage": "+10 delivery\nbefore 6pm",
   "accept": "Accept",
   "deny": "Deny",
   "refresh": "refresh",
   "pay": "Pay",
-
   "validatePaymentTitle": "Veuillez confirmer l'opération en tapant le code sur votre mobile.",
   "validatePaymentOrange": "#150# - Orange",
   "validatePaymentMTN": "*126# - MTN",
   "annuler": "Annuler",
   "validatePaymentSubTitle": "Lorque vous achevez le paiement, cliquez sur vérifier",
-
   "emptyComment": "No comments",
   "comments": "Comments",
-
   "addClient": "Add Client",
   "operationSuccess": "Operation successful",
   "operationError": "Operation failed",
   "payment": "Payment",
   "invalidPhoneNumber": "Invalid Phone number",
-
-  "colis": "Colis"
-
-
+  "colis": "Colis",
+  "email": "Email",
+  "createNewColisScreenDueAmount": "Due Amount"
 }

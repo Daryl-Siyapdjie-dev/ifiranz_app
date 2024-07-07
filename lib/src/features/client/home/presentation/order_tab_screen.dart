@@ -2,22 +2,22 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/auth/core/domain/client_request.dart';
-import 'package:ifiranz_client/src/features/auth/core/shared/provider.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/transaction_response.dart';
-import 'package:ifiranz_client/src/features/client/home/shared/providers.dart';
-import 'package:ifiranz_client/src/features/client/payment/domain/cashout_model.dart';
-import 'package:ifiranz_client/src/features/client/payment/domain/transaction_request.dart';
-import 'package:ifiranz_client/src/features/client/payment/share/providers.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/common_textfield.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/phone_number.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
-import 'package:ifiranz_client/src/features/core/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
+import '../../../auth/core/domain/client_request.dart';
+import '../../../auth/core/shared/provider.dart';
+import '../domain/transaction_response.dart';
+import '../shared/providers.dart';
+import '../../payment/domain/cashout_model.dart';
+import '../../payment/domain/transaction_request.dart';
+import '../../payment/share/providers.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/services/local/shared_pref.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
+import '../../../core/presentation/widgets/common_textfield.dart';
+import '../../../core/presentation/widgets/phone_number.dart';
+import '../../../core/presentation/widgets/toats.dart';
+import '../../../core/shared/providers.dart';
+import '../../../../router/app_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
@@ -47,11 +47,14 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
 
   @override
   void initState() {
-    ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail()));
+    ref
+        .read(getCurrentClientProvider.notifier)
+        .getCurrentClient(ClientRequest(value: SharedPref.getEmail()));
     super.initState();
   }
 
-  removeCountryCode({required String phoneNumber, required String phoneCode}) {
+  String removeCountryCode(
+      {required String phoneNumber, required String phoneCode}) {
     if (phoneNumber.startsWith(phoneCode)) {
       return phoneNumber.substring(phoneCode.length);
     }
@@ -67,15 +70,20 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
     final phoneFocus = useFocusNode();
     final nameFocus = useFocusNode();
     final checkBoxFocusNode = useFocusNode();
-    final emailController = useTextEditingController(text: getCurrentClient.value?.user);
+    final emailController =
+        useTextEditingController(text: getCurrentClient.value?.user);
     final phoneController = useTextEditingController();
     final isoCode = useTextEditingController();
     final phoneCode = useTextEditingController();
-    final nameController = useTextEditingController(text: getCurrentClient.value?.nom);
+    final nameController =
+        useTextEditingController(text: getCurrentClient.value?.nom);
 
     useEffect(() {
-      emailController.text = getCurrentClient.value?.user ?? emailController.text;
-      phoneController.text = getCurrentClient.value?.tel?.replaceAll('+237', '') ?? phoneController.text;
+      emailController.text =
+          getCurrentClient.value?.user ?? emailController.text;
+      phoneController.text =
+          getCurrentClient.value?.tel?.replaceAll('+237', '') ??
+              phoneController.text;
       nameController.text = getCurrentClient.value?.nom ?? nameController.text;
 
       return;
@@ -109,7 +117,10 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
           // },
           finalyse: (res) {
             progress?.dismiss();
-            showDialog(context: context, barrierDismissible: false, builder: (context) => PaymentValidationWidget(res: res));
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => PaymentValidationWidget(res: res));
           },
           success: () async {
             ref.read(cartProvider.notifier).getCurrentCart();
@@ -130,7 +141,8 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                                   Navigator.of(context).pop();
                                   Navigator.of(context).pop();
 
-                                  context.navigateTo(const OrderClientDeliveriesRoute());
+                                  context.navigateTo(
+                                      const OrderClientDeliveriesRoute());
                                 },
                                 child: const Text('Ok')),
                             gapH10,
@@ -146,169 +158,207 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
     });
 
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ProgressHUD(
-            barrierEnabled: true,
-            borderWidth: 0,
-            child: Builder(builder: (_) {
-              if (mounted && _context is! BuildContext) {
-                _context = _;
-              }
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+          builder: (_) {
+            if (mounted && _context is! BuildContext) {
+              _context = _;
+            }
 
-              return Scaffold(
-                appBar: CustomAppBar(
-                  title: context.locale.editPaymentInfo,
-                  canPop: true,
-                ),
-                body: Scaffold(
-                  body: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Form(
-                        key: _formKey,
-                        child: SingleChildScrollView(
-                            child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          gapH32,
-                          PhoneNumberWidget(
-                            controller: phoneController,
-                            isoCode: isoCode,
-                            phoneCode: phoneCode,
-                          ),
-                          gapH20,
-                          CommonTextFormField(
-                            controller: emailController,
-                            focusNode: emailFocus,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            hintText: 'Email',
-                            textInputAction: TextInputAction.done,
-                            isEnabled: true,
-                            textInputType: TextInputType.text,
-                            hasLabel: true,
-                            label: 'Email',
-                            obscureText: false,
-                          ),
-                          gapH20,
-                          CommonTextFormField(
-                            controller: nameController,
-                            focusNode: nameFocus,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            hintText: context.locale.name,
-                            textInputAction: TextInputAction.done,
-                            textInputType: TextInputType.text,
-                            isLabelRequired: true,
-                            hasLabel: true,
-                            validator: ref.read(formValidationServiceProvider).validateFirstName,
-                            label: context.locale.name,
-                          ),
-                          gapH20,
-                          gapH10,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Theme(
-                                data: ThemeData(
-                                    checkboxTheme: CheckboxThemeData(
-                                  checkColor: MaterialStateColor.resolveWith(
-                                    (states) => AppColors.whiteColor,
-                                  ),
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) {
-                                      if (states.contains(MaterialState.selected)) {
-                                        return AppColors.primaryColor;
-                                      }
-                                      return AppColors.greyBackground;
+            return Scaffold(
+              appBar: CustomAppBar(
+                title: context.locale.editPaymentInfo,
+                canPop: true,
+              ),
+              body: Scaffold(
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            gapH32,
+                            PhoneNumberWidget(
+                              controller: phoneController,
+                              isoCode: isoCode,
+                              phoneCode: phoneCode,
+                            ),
+                            gapH20,
+                            CommonTextFormField(
+                              controller: emailController,
+                              focusNode: emailFocus,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              hintText: 'Email',
+                              textInputAction: TextInputAction.done,
+                              isEnabled: true,
+                              textInputType: TextInputType.text,
+                              hasLabel: true,
+                              label: 'Email',
+                              obscureText: false,
+                            ),
+                            gapH20,
+                            CommonTextFormField(
+                              controller: nameController,
+                              focusNode: nameFocus,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              hintText: context.locale.name,
+                              textInputAction: TextInputAction.done,
+                              textInputType: TextInputType.text,
+                              isLabelRequired: true,
+                              hasLabel: true,
+                              validator: ref
+                                  .read(formValidationServiceProvider)
+                                  .validateFirstName,
+                              label: context.locale.name,
+                            ),
+                            gapH20,
+                            gapH10,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Theme(
+                                  data: ThemeData(
+                                      checkboxTheme: CheckboxThemeData(
+                                    checkColor: MaterialStateColor.resolveWith(
+                                      (states) => AppColors.whiteColor,
+                                    ),
+                                    fillColor: MaterialStateColor.resolveWith(
+                                      (states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return AppColors.primaryColor;
+                                        }
+                                        return AppColors.greyBackground;
+                                      },
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      side:
+                                          const BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  )),
+                                  child: Checkbox(
+                                    value: _remeberMe,
+                                    focusNode: checkBoxFocusNode,
+                                    onChanged: (newValue) {
+                                      checkBoxFocusNode.requestFocus();
+                                      setState(() {
+                                        _remeberMe = !_remeberMe;
+                                      });
                                     },
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                )),
-                                child: Checkbox(
-                                  value: _remeberMe,
-                                  focusNode: checkBoxFocusNode,
-                                  onChanged: (newValue) {
-                                    checkBoxFocusNode.requestFocus();
-                                    setState(() {
-                                      _remeberMe = !_remeberMe;
-                                    });
-                                  },
                                 ),
-                              ),
-                              const SizedBox(width: 2),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _remeberMe = !_remeberMe;
-                                    });
-                                  },
-                                  child: Text(
-                                    context.locale.checkPrivate,
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          gapH32,
-                          gapH32,
-                          ElevatedButton(
-                            onPressed: !_remeberMe || widget.operatorInfo is! CashoutModel
-                                ? null
-                                : () {
-                                    //FIXME: Uncomment and repair this
-                                    // initiate the transaction
-                                    final progress = ProgressHUD.of(_);
-                                    // progress?.show();
-
-                                    // ref
-                                    //     .read(paymentProvider.notifier)
-                                    //     .finalyse(InitiateRequest(
-                                    //         command: cart.id,
-                                    //         paymentMethod: widget
-                                    //             .paymentIOPtionInfo.id))
-                                    //     // .then((value) => null)
-                                    //     .whenComplete(
-                                    //         () => progress?.dismiss());
-                                    if (_formKey.currentState!.validate() && _remeberMe) {
-                                      print(phoneCode.text);
-                                      removeCountryCode(
-                                        phoneCode: phoneCode.text.trim(),
-                                        phoneNumber: phoneController.text.trim(),
-                                      ).then((value) {
-                                        final progress = ProgressHUD.of(_);
-                                        // progress?.show();
-                                        ref.read(paymentProvider.notifier).finalyse(TransactionRequest(
-                                              transactionId: widget.transactionResponse!.idDeal!,
-                                              customerPhone: value,
-                                              customerEmail: "${nameController.text}@ifiranz.com",
-                                              customerName: nameController.text,
-                                              customerAddress: cart.client?.adresse,
-                                              // serviceNumber:
-                                              //     trouverNumeroTelephone(widget.operatorInfo!.serviceId!),
-                                              // trid: "",
-                                            ));
-                                        // ref
-                                        //     .read(paymentProvider.notifier)
-                                        //     .initTranstion(InitiateRequest(
-                                        //         command: cart.id,
-                                        //         paymentMethod: widget
-                                        //             .operatorInfo?.id));
+                                const SizedBox(width: 2),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _remeberMe = !_remeberMe;
                                       });
-                                    }
-                                  },
-                            child: Text(context.locale.pay),
-                          ),
-                          gapH30,
-                        ]))),
+                                    },
+                                    child: Text(
+                                      context.locale.checkPrivate,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            gapH32,
+                            gapH32,
+                            ElevatedButton(
+                              onPressed: !_remeberMe ||
+                                      widget.operatorInfo is! CashoutModel
+                                  ? null
+                                  : () async {
+                                      //FIXME: Uncomment and repair this
+                                      // initiate the transaction
+                                      final progress = ProgressHUD.of(_);
+                                      // progress?.show();
+
+                                      // ref
+                                      //     .read(paymentProvider.notifier)
+                                      //     .finalyse(InitiateRequest(
+                                      //         command: cart.id,
+                                      //         paymentMethod: widget
+                                      //             .paymentIOPtionInfo.id))
+                                      //     // .then((value) => null)
+                                      //     .whenComplete(
+                                      //         () => progress?.dismiss());
+                                      if (_formKey.currentState!.validate() &&
+                                          _remeberMe) {
+                                        print("${phoneCode.text}CALLLLL");
+
+                                        final newPhoneNumber =
+                                            removeCountryCode(
+                                          phoneCode: phoneCode.text.trim(),
+                                          phoneNumber:
+                                              phoneController.text.trim(),
+                                        );
+                                        print(
+                                            "New phone number $newPhoneNumber");
+
+                                        final progress = ProgressHUD.of(_);
+                                        progress?.show();
+                                        // removeCountryCode(
+                                        //   phoneCode: phoneCode.text.trim(),
+                                        //   phoneNumber:
+                                        //       phoneController.text.trim(),
+                                        // ).then((value) {
+                                        //   final progress = ProgressHUD.of(_);
+                                        //   // progress?.show();
+                                        ref
+                                            .read(paymentProvider.notifier)
+                                            .finalyse(TransactionRequest(
+                                              transactionId: widget
+                                                  .transactionResponse!.idDeal!,
+                                              customerPhone: newPhoneNumber,
+                                              customerEmail:
+                                                  "${nameController.text}@ifiranz.com",
+                                              customerName: nameController.text,
+                                              customerAddress:
+                                                  cart.client?.adresse,
+                                            ))
+                                            .whenComplete(() {
+                                          progress!.dismiss();
+                                        });
+                                        //   // ref
+                                        //   //     .read(paymentProvider.notifier)
+                                        //   //     .initTranstion(InitiateRequest(
+                                        //   //         command: cart.id,
+                                        //   //         paymentMethod: widget
+                                        //   //             .operatorInfo?.id));
+                                        // });
+                                      }
+                                    },
+                              child: Text(context.locale.pay),
+                            ),
+                            gapH30,
+                          ]),
+                    ),
                   ),
                 ),
-              );
-            })));
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -333,10 +383,12 @@ class PaymentValidationWidget extends StatefulHookConsumerWidget {
   const PaymentValidationWidget({super.key, required this.res});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PaymentValidationWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PaymentValidationWidgetState();
 }
 
-class _PaymentValidationWidgetState extends ConsumerState<PaymentValidationWidget> {
+class _PaymentValidationWidgetState
+    extends ConsumerState<PaymentValidationWidget> {
   Timer? _timer;
   int _secondsRemaining = 15, initial = 15; // 5 minutes = 300 seconds
 
@@ -383,7 +435,8 @@ class _PaymentValidationWidgetState extends ConsumerState<PaymentValidationWidge
               return Dialog(
                   child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                   child: Column(
                     children: [
                       Padding(
@@ -424,12 +477,16 @@ class _PaymentValidationWidgetState extends ConsumerState<PaymentValidationWidge
                                       progress2?.show();
                                       ref
                                           .read(paymentProvider.notifier)
-                                          .verifyTransaction(VerifyTransactionRequest(transactionId: widget.res.idDeal!))
+                                          .verifyTransaction(
+                                              VerifyTransactionRequest(
+                                                  transactionId:
+                                                      widget.res.idDeal!))
                                           .whenComplete(() {
                                         progress2?.dismiss();
                                       });
                                     },
-                              child: Text('${_secondsRemaining != initial && _secondsRemaining != 0 ? '${_secondsRemaining}s' : ''} Vérifier'),
+                              child: Text(
+                                  '${_secondsRemaining != initial && _secondsRemaining != 0 ? '${_secondsRemaining}s' : ''} Vérifier'),
                             ),
                           ),
                         ],

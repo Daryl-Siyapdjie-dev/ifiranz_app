@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/user_local_credentials_repository.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/handle_api_call.dart';
+import '../../../core/infrastructure/services/local/user_local_credentials_repository.dart';
+import '../../../core/infrastructure/utils/handle_api_call.dart';
 import '../../../core/infrastructure/utils/api_response.dart';
 import '../../../core/infrastructure/utils/url_builder.dart';
 
@@ -24,7 +24,8 @@ class AuthRemoteService {
       ),
       (data) {
         _userLocalCredentialsRepository.updateUserLocalCredentials(
-            accesToken: data["datas"]["token"]);
+          accesToken: data["datas"]["token"],
+        );
         return ApiResponse.success(data["datas"]["token"]);
       },
     );

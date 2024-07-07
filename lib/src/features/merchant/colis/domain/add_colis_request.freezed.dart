@@ -25,7 +25,7 @@ mixin _$AddColisRequest {
   String get clientPhone => throw _privateConstructorUsedError;
   Quartier get quartier => throw _privateConstructorUsedError;
   String get modePayement => throw _privateConstructorUsedError;
-  String get localisationGps => throw _privateConstructorUsedError;
+  String? get localisationGps => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool? get isParcel => throw _privateConstructorUsedError;
   double get dueAmount => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $AddColisRequestCopyWith<$Res> {
       String clientPhone,
       Quartier quartier,
       String modePayement,
-      String localisationGps,
+      String? localisationGps,
       String description,
       bool? isParcel,
       double dueAmount});
@@ -74,7 +74,7 @@ class _$AddColisRequestCopyWithImpl<$Res, $Val extends AddColisRequest>
     Object? clientPhone = null,
     Object? quartier = null,
     Object? modePayement = null,
-    Object? localisationGps = null,
+    Object? localisationGps = freezed,
     Object? description = null,
     Object? isParcel = freezed,
     Object? dueAmount = null,
@@ -100,10 +100,10 @@ class _$AddColisRequestCopyWithImpl<$Res, $Val extends AddColisRequest>
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String,
-      localisationGps: null == localisationGps
+      localisationGps: freezed == localisationGps
           ? _value.localisationGps
           : localisationGps // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -142,7 +142,7 @@ abstract class _$$AddColisRequestImplCopyWith<$Res>
       String clientPhone,
       Quartier quartier,
       String modePayement,
-      String localisationGps,
+      String? localisationGps,
       String description,
       bool? isParcel,
       double dueAmount});
@@ -167,7 +167,7 @@ class __$$AddColisRequestImplCopyWithImpl<$Res>
     Object? clientPhone = null,
     Object? quartier = null,
     Object? modePayement = null,
-    Object? localisationGps = null,
+    Object? localisationGps = freezed,
     Object? description = null,
     Object? isParcel = freezed,
     Object? dueAmount = null,
@@ -193,10 +193,10 @@ class __$$AddColisRequestImplCopyWithImpl<$Res>
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String,
-      localisationGps: null == localisationGps
+      localisationGps: freezed == localisationGps
           ? _value.localisationGps
           : localisationGps // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -241,7 +241,7 @@ class _$AddColisRequestImpl implements _AddColisRequest {
   @override
   final String modePayement;
   @override
-  final String localisationGps;
+  final String? localisationGps;
   @override
   final String description;
   @override
@@ -316,7 +316,7 @@ abstract class _AddColisRequest implements AddColisRequest {
       required final String clientPhone,
       required final Quartier quartier,
       required final String modePayement,
-      required final String localisationGps,
+      required final String? localisationGps,
       required final String description,
       final bool? isParcel,
       required final double dueAmount}) = _$AddColisRequestImpl;
@@ -335,7 +335,7 @@ abstract class _AddColisRequest implements AddColisRequest {
   @override
   String get modePayement;
   @override
-  String get localisationGps;
+  String? get localisationGps;
   @override
   String get description;
   @override

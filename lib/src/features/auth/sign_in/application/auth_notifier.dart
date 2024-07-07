@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ifiranz_client/src/features/auth/core/infrastructure/firebase_authenticator_repository.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../../core/infrastructure/firebase_authenticator_repository.dart';
 import '../infrastructure/auth_repository.dart';
 
 part 'auth_notifier.freezed.dart';

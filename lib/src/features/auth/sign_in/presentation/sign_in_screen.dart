@@ -85,6 +85,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               print(decodedToken);
               SharedPref.setId(decodedToken['user']);
               SharedPref.setEmail(decodedToken['sub']);
+              SharedPref.setProfile(decodedToken['profile']);
+
+              print("Profile: ${SharedPref.getProfile() ?? ""}");
               if (findAuthorityRole((decodedToken['authorities'] as List)
                       .map((e) => Map<String, dynamic>.from(e))
                       .toList()) ==

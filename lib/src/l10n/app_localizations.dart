@@ -600,7 +600,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodDetailsScreenAddGPSLocation.
   ///
   /// In en, this message translates to:
-  /// **'Add GPS location'**
+  /// **'Choose delivery address'**
   String get foodDetailsScreenAddGPSLocation;
 
   /// No description provided for @foodDetailsScreenCartAlreadyContainsProduct.
@@ -1172,6 +1172,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Colis'**
   String get colis;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @createNewColisScreenDueAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Amount'**
+  String get createNewColisScreenDueAmount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

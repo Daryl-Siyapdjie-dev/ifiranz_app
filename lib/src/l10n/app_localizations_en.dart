@@ -295,7 +295,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get foodDetailsScreenExactDeliveryPosition => 'Exact delivery position';
 
   @override
-  String get foodDetailsScreenAddGPSLocation => 'Add GPS location';
+  String get foodDetailsScreenAddGPSLocation => 'Choose delivery address';
 
   @override
   String get foodDetailsScreenCartAlreadyContainsProduct => 'The cart already contains this product';
@@ -587,4 +587,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get colis => 'Colis';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get createNewColisScreenDueAmount => 'Due Amount';
 }

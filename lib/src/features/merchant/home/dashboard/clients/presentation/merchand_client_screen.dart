@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/auth/core/domain/client.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/clients/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
+import '../../../../../auth/core/domain/client.dart';
+import '../../../../../core/domain/paginated_request.dart';
+import '../../../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../../../core/infrastructure/extensions/string_extension.dart';
+import '../../../../../core/presentation/themes/app_colors.dart';
+import '../../../../../core/presentation/widgets/app_bars.dart';
+import '../../../../../core/presentation/widgets/no_data.dart';
+import '../../../../core/presentation/widget/order_drawer_widget.dart';
+import '../shared/providers.dart';
+import '../../../../../../router/app_router.dart';
 
 import '../../../../../core/infrastructure/utils/common_import.dart';
 
@@ -81,14 +81,14 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
             scaffoldKey: _scaffoldKey,
             actionnable: true,
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.primaryColor,
-            onPressed: () {
-              context.pushRoute(const CreateMerchandAddRoute());
-            },
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add),
-          ),
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: AppColors.primaryColor,
+          //   onPressed: () {
+          //     context.pushRoute(const CreateMerchandAddRoute());
+          //   },
+          //   shape: const CircleBorder(),
+          //   child: const Icon(Icons.add),
+          // ),
           body: orders.when(
             data: (response) {
               return response.data.isEmpty
@@ -162,121 +162,94 @@ class _MerchandClientScreenState extends ConsumerState<MerchandClientScreen> {
 
   Widget clientItem(Client item) {
     return InkWell(
-        child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: AppColors.bgGreyContainer,
-              boxShadow: const [
-                BoxShadow(
-                  color: AppColors.containerShadow,
-                  offset: Offset(0, 8),
-                  blurRadius: 24,
-                  spreadRadius: 0,
+      // onTap: () {
+      //   print("CLIENT INFOS: ${item.toJson()}");
+      // },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.bgGreyContainer,
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.containerShadow,
+              offset: Offset(0, 8),
+              blurRadius: 24,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '#${item.id ?? ""}',
+              style: const TextStyle(color: AppColors.blackColor),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    context.locale.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
+                  ),
                 ),
+                Text(item.name ?? "",
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ))
               ],
             ),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '#${item.code ?? ""}',
-                    style: const TextStyle(color: AppColors.blackColor),
+            gapH6,
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    context.locale.email,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          context.locale.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.greyTextColor),
-                        ),
+                ),
+                Text((item.email ?? "-/-").capitalize(),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ))
+              ],
+            ),
+            gapH6,
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    context.locale.phone,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
+                  ),
+                ),
+                Text(
+                  (item.phone ?? "").capitalize(),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(item.nom ?? "",
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                      )
-                    ],
-                  ),
-                  gapH2,
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          context.locale.surname,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.greyTextColor),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text((item.prenom ?? "").capitalize(),
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                      )
-                    ],
-                  ),
-                  gapH2,
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          context.locale.address,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.greyTextColor),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text((item.adresse ?? "").capitalize(),
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                      )
-                    ],
-                  ),
-                  gapH2,
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          context
-                              .locale.registerAdditionnalLocationNeighborhood,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.greyTextColor),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text((item.localisationGps ?? "").capitalize(),
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                      )
-                    ],
-                  ),
-                ])));
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

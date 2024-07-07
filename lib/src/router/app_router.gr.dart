@@ -27,6 +27,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AdditionalInfoScreen(),
       );
     },
+    AnotherMerchantProductRoute.name: (routeData) {
+      final args = routeData.argsAs<AnotherMerchantProductRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AnotherMerchantProductScreen(
+          key: args.key,
+          merchantId: args.merchantId,
+        ),
+      );
+    },
     CartRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -585,6 +595,45 @@ class AdditionalInfoRoute extends PageRouteInfo<void> {
   static const String name = 'AdditionalInfoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AnotherMerchantProductScreen]
+class AnotherMerchantProductRoute
+    extends PageRouteInfo<AnotherMerchantProductRouteArgs> {
+  AnotherMerchantProductRoute({
+    Key? key,
+    required int merchantId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AnotherMerchantProductRoute.name,
+          args: AnotherMerchantProductRouteArgs(
+            key: key,
+            merchantId: merchantId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AnotherMerchantProductRoute';
+
+  static const PageInfo<AnotherMerchantProductRouteArgs> page =
+      PageInfo<AnotherMerchantProductRouteArgs>(name);
+}
+
+class AnotherMerchantProductRouteArgs {
+  const AnotherMerchantProductRouteArgs({
+    this.key,
+    required this.merchantId,
+  });
+
+  final Key? key;
+
+  final int merchantId;
+
+  @override
+  String toString() {
+    return 'AnotherMerchantProductRouteArgs{key: $key, merchantId: $merchantId}';
+  }
 }
 
 /// generated route for

@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
 
+import '../../../client/home/domain/product_model.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
 import '../infrastructure/merchand_products_repository.dart';
 
 class MerchandProductNotifier

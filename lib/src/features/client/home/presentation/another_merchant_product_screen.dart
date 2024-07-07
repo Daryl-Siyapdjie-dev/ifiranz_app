@@ -17,22 +17,30 @@ import '../../../core/presentation/widgets/product_item.dart';
 import '../../../core/presentation/widgets/product_skeleton.dart';
 import '../../../core/presentation/widgets/refeshing_indicator.dart';
 import '../domain/filter_optional.dart';
-import '../domain/infrastructur_model.dart';
 import '../domain/product_model.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
-class MerchantProductScreen extends StatefulHookConsumerWidget {
-  final InfrastructurModel infra;
-  const MerchantProductScreen({super.key, required this.infra});
+class AnotherMerchantProductScreen extends StatefulHookConsumerWidget {
+  final int merchantId;
+  const AnotherMerchantProductScreen({super.key, required this.merchantId});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _MerchantProductScreenState();
+      _AnotherMerchantProductScreenState();
 }
 
-class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
+class _AnotherMerchantProductScreenState
+    extends ConsumerState<AnotherMerchantProductScreen> {
   PaginatedRequest params = PaginatedRequest(page: 0, size: 6);
+
+  final List<FilterOptional> promotionRequests = [
+    FilterOptional(
+      key: 'inPromotion',
+      value: true,
+      type: "EQUAL",
+    )
+  ];
   final List<FilterOptional> requests = [
     FilterOptional(
       key: 'validationStatus',
@@ -66,10 +74,9 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
     //     .read(promotionnalProductsNotifierProvider.notifier)
     //     .findPromotions(filterRequest);
     // if (isAll) {
-    print(widget.infra.toJson());
-    await ref
-        .read(merchantProductNotifier.notifier)
-        .fetchMerchantProducts(requests, localPage, widget.infra.id.toString());
+
+    await ref.read(merchantProductNotifier.notifier).fetchMerchantProducts(
+        requests, localPage, widget.merchantId.toString());
     // } else {
     //   await ref.read(getTop10ProductsProductsNotifier.notifier).fetchMerchantProducts();
     // }
@@ -88,7 +95,9 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
     final products = ref.watch(merchantProductNotifier);
     final top10Products = ref.watch(getTop10ProductsProductsNotifier);
 
-    final promotionProducts = ref.watch(promotionnalProductsNotifierProvider);
+    final promotionProducts = ref
+        .watch(promotionnalProductsNotifierProvider.notifier)
+        .findPromotions(promotionRequests);
 
     useEffect(() {
       void pageChangeListener() {
@@ -116,7 +125,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
               .fetchMerchantProducts(
                   requests,
                   params.copyWith(page: params.page + 1),
-                  widget.infra.merchantId.toString(),
+                  widget.merchantId.toString(),
                   isMore: true)
               .whenComplete(() {
             if (!(ref
@@ -144,14 +153,16 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
             Row(
               children: [
                 Container(
-                    margin: const EdgeInsets.only(left: 24),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: AppColors.greyBackground),
-                    child: InkWell(
-                        onTap: context.popRoute,
-                        child: SvgPicture.asset('assets/icons/back.svg'))),
+                  margin: const EdgeInsets.only(left: 24),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: AppColors.greyBackground),
+                  child: InkWell(
+                    onTap: context.popRoute,
+                    child: SvgPicture.asset('assets/icons/back.svg'),
+                  ),
+                ),
               ],
             ),
             switch (promotionProducts) {
@@ -182,22 +193,13 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                                     gapW20
                                   ],
                                 ))),
-              _ => Container(
-                  height: 172,
-                  margin: const EdgeInsets.only(
-                    top: AppSizes.p12,
-                  ),
-                  child: PageView.builder(
-                      itemCount: 1,
-                      controller: pageContoller,
-                      itemBuilder: (_, index) =>
-                          skeletonpromotionProduct(context))),
+              _ => Container(),
             },
             gapH25,
-            Center(
-              child: Text(widget.infra.designation,
-                  style: Theme.of(context).textTheme.headlineMedium),
-            ),
+            // Center(
+            //   child: Text(widget.infra.designation,
+            //       style: Theme.of(context).textTheme.headlineMedium),
+            // ),
             gapH25,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -369,7 +371,7 @@ class _MerchantProductScreenState extends ConsumerState<MerchantProductScreen> {
                         .fetchMerchantProducts(
                             requests,
                             params.copyWith(page: params.page + 1),
-                            widget.infra.merchantId.toString(),
+                            widget.merchantId.toString(),
                             isMore: true)
                         .whenComplete(() {
                       if (!(ref
