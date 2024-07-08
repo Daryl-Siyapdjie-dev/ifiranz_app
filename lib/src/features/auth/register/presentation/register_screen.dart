@@ -1,22 +1,22 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/auth/register/domain/profile_response.dart';
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
 import 'package:libphonenumber/libphonenumber.dart';
 
+import '../../../../router/app_router.dart';
+import '../../../core/domain/api_failure.dart';
 import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
 import '../../../core/infrastructure/extensions/theme_extension.dart';
+import '../../../core/infrastructure/services/local/shared_pref.dart';
 import '../../../core/infrastructure/utils/api_constants.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/themes/app_colors.dart';
 import '../../../core/presentation/widgets/common_textfield.dart';
 import '../../../core/presentation/widgets/phone_number.dart';
+import '../../../core/presentation/widgets/toats.dart';
 import '../../../core/shared/providers.dart';
+import '../domain/profile_response.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -28,7 +28,9 @@ class RegisterScreen extends StatefulHookConsumerWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  String _phoneCode = "00237";
+  final String _phoneCode = "00237";
+
+  final String _cmPhoneCode = "";
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -37,8 +39,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final phoneNumberFocusNode = useFocusNode();
     final passwordFocusNode = useFocusNode();
     final confirmPasswordFocusNode = useFocusNode();
+
     final emailController = useTextEditingController();
+    final nameController = useTextEditingController();
+    final lastnameController = useTextEditingController();
+    final addressController = useTextEditingController();
     final phoneController = useTextEditingController();
+    final phoneCodeController = useTextEditingController();
     final isoCode = useTextEditingController();
     final passwordController = useTextEditingController();
     final confirmPasswordController = useTextEditingController();
@@ -141,6 +148,48 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         gapH32,
                         gapH10,
                         CommonTextFormField(
+                          controller: nameController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.text,
+                          isLabelRequired: false,
+                          hasLabel: true,
+                          hintText: context.locale.name,
+                          label: context.locale.name,
+                          validator: ref
+                              .read(formValidationServiceProvider)
+                              .validateFirstName,
+                        ),
+                        gapH20,
+                        CommonTextFormField(
+                          controller: lastnameController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.text,
+                          isLabelRequired: false,
+                          hasLabel: true,
+                          hintText: context.locale.lastname,
+                          label: context.locale.lastname,
+                          validator: ref
+                              .read(formValidationServiceProvider)
+                              .validateLastName,
+                        ),
+                        gapH20,
+                        CommonTextFormField(
+                          controller: addressController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.text,
+                          isLabelRequired: false,
+                          hasLabel: true,
+                          hintText: context.locale.address,
+                          label: context.locale.address,
+                          validator: ref
+                              .read(formValidationServiceProvider)
+                              .validateSimple,
+                        ),
+                        gapH20,
+                        CommonTextFormField(
                           controller: emailController,
                           // focusNode: emailFocusNode,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -162,6 +211,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         PhoneNumberWidget(
                           controller: phoneController,
                           isoCode: isoCode,
+                          phoneCode: phoneCodeController,
                         ),
                         gapH20,
                         CommonTextFormField(
@@ -207,13 +257,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     PhoneNumberUtil.normalizePhoneNumber(
                                       isoCode: isoCode.text.trim(),
                                       phoneNumber: phoneController.text.trim(),
-                                    ).then((res) {
+                                    ).then((res) async {
                                       final progress = ProgressHUD.of(_);
+
                                       progress?.show();
                                       ref
                                           .read(
                                               registerNotifierProvider.notifier)
                                           .register(
+                                              name: nameController.text,
+                                              lastname: nameController.text,
+                                              address: addressController.text,
+                                              countryCode:
+                                                  phoneCodeController.text,
                                               profile: profile.value!,
                                               phoneNumber: res!,
                                               email: emailController.text

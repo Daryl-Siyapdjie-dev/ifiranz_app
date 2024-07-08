@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:ifiranz_client/src/features/auth/register/domain/add_merchant_client_request.dart';
 import 'package:ifiranz_client/src/features/auth/register/domain/profile_response.dart';
 import 'package:ifiranz_client/src/features/core/domain/type_defs.dart';
@@ -51,20 +52,36 @@ class RegisterRemoteService {
     );
   }
 
-  Future<ApiResponse<Unit>> register(
-      {required String phoneNumber,
-      required String email,
-      required String password,
-      required String confirmPassword,
-      required ProfileResponse profile}) async {
+  Future<ApiResponse<Unit>> register({
+    required String name,
+    required String lastname,
+    required String address,
+    required String phoneNumber,
+    required String countryCode,
+    String? email,
+    required String password,
+    required String confirmPassword,
+    required ProfileResponse profile,
+  }) async {
     final requestData = {
       "email": email,
       "password": password,
       "phone": phoneNumber,
-      "profil": profile.toJson(),
-      "connexion": "autres",
+      "role": profile.name,
       "status": ApiConstants.activeStatusLower,
+      "countryCode": countryCode,
+      "client": {
+        "nom": name,
+        "prenom": lastname,
+        "adresse": address,
+        "latitude": null,
+        "longitude": null
+      },
+      // "profil": profile.toJson(),
+      // "connexion": "autres",
     };
+
+    debugPrint("REGISTER POST DATA: $requestData");
 
     return handleApiCall<ApiResponse<Unit>>(
       () => _dio.post(_urlBuilder.buildRegisterUser(), data: requestData),

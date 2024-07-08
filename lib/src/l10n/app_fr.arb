@@ -49,6 +49,7 @@
   "registerAdditionnalLocation": "Emplacement",
   "submit": "Soumettre",
   "name": "Nom",
+  "lastname": "Prénom",
   "surname": "Nom de famille",
   "address": "Adresse",
   "home": "Accueil",

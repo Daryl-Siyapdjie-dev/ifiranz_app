@@ -25,9 +25,28 @@ class RegisterRepository {
     }
   }
 
-  Future<Either<ApiFailure, Unit>> register({required String phoneNumber, required String email, required String password, required String confirmPassword, required ProfileResponse profile}) async {
+  Future<Either<ApiFailure, Unit>> register({
+    required String name,
+    required String lastname,
+    required String address,
+    required String phoneNumber,
+    required String countryCode,
+    required String email,
+    required String password,
+    required String confirmPassword,
+    required ProfileResponse profile,
+  }) async {
     try {
-      final registerResponse = await _remoteService.register(email: email, phoneNumber: phoneNumber, password: password, confirmPassword: confirmPassword, profile: profile);
+      final registerResponse = await _remoteService.register(
+          name: name,
+          lastname: lastname,
+          address: address,
+          countryCode: countryCode,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          confirmPassword: confirmPassword,
+          profile: profile);
       return right(
         await registerResponse.when(
           success: (_) => unit,
@@ -56,8 +75,7 @@ class RegisterRepository {
   Future<Either<ApiFailure, Client>> addCostumer(
       {required AddMerchantClientRequest request}) async {
     try {
-      final registerResponse =
-          await _remoteService.addCostumer(request);
+      final registerResponse = await _remoteService.addCostumer(request);
       return right(
         await registerResponse.when(
           success: (res) => Client.fromJson(res!['record']),

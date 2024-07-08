@@ -49,6 +49,7 @@
   "registerAdditionnalLocation": "Location",
   "submit": "Submit",
   "name": "Name",
+  "lastname": "Lastname",
   "surname": "Surname",
   "address": "Address",
   "home": "Home",

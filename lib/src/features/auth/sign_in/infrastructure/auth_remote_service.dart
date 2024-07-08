@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../../../core/infrastructure/services/local/user_local_credentials_repository.dart';
 import '../../../core/infrastructure/utils/handle_api_call.dart';
 import '../../../core/infrastructure/utils/api_response.dart';
@@ -14,6 +15,7 @@ class AuthRemoteService {
 
   Future<ApiResponse<String?>> loginUser(
       String emailOrPhone, String password) async {
+    debugPrint("LOG IN CREDENTIALS: $emailOrPhone");
     return handleApiCall<ApiResponse<String?>>(
       () => _dio.post(
         _urlBuilder.buildLoginUser(),

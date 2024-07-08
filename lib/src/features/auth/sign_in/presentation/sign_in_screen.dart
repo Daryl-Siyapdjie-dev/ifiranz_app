@@ -64,10 +64,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           authenticate: (value) async {
             ref.read(notificationServiceProvider).init();
 
-            if ((SharedPref.getHasEndAccountCreationPhone() is String)) {
-              AutoRouter.of(context).push(const RegisterAdditionalInfoRoute());
-              return;
-            }
+            //? Uncomment this code if needed
+
+            // if ((SharedPref.getHasEndAccountCreationPhone() is String)) {
+            //   AutoRouter.of(context).push(const RegisterAdditionalInfoRoute());
+            //   return;
+            // }
 
             Flushbar(
               message: context.locale.loginScreenSucces,

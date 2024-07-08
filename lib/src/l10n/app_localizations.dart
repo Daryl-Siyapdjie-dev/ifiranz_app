@@ -375,6 +375,12 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get name;
 
+  /// No description provided for @lastname.
+  ///
+  /// In en, this message translates to:
+  /// **'Lastname'**
+  String get lastname;
+
   /// No description provided for @surname.
   ///
   /// In en, this message translates to:
