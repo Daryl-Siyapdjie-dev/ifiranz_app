@@ -15,19 +15,16 @@ class ProductsRemoteService {
 
   ProductsRemoteService(this._urlBuilder, this._dio);
 
-  Future<ApiResponse<Json>> getAllProducts(PaginatedRequest params,
-      [List<FilterOptional> request = const []]) async {
+  Future<ApiResponse<Json>> getAllProducts(PaginatedRequest params, [List<FilterOptional> request = const []]) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildGetAllProduit(params),
-          data: request.map((e) => e.toJson()).toList()),
+      () async => _dio.post(_urlBuilder.buildGetAllProduit(params), data: request.map((e) => e.toJson()).toList()),
       (data) {
         return ApiResponse.success(data as Json);
       },
     );
   }
 
-  Future<ApiResponse<Json>> getTop10Products(PaginatedRequest params,
-      [List<FilterOptional> request = const []]) async {
+  Future<ApiResponse<Json>> getTop10Products(PaginatedRequest params, [List<FilterOptional> request = const []]) async {
     return handleApiCall<ApiResponse<Json>>(
       () async => _dio.get(
         _urlBuilder.buildGetMostSellOfRestaurant(),
@@ -49,27 +46,23 @@ class ProductsRemoteService {
 
   Future<ApiResponse<Json>> findArticleDuMarchand(FilterOptional params) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildFindArticleDuMarchand(),
-          data: params.toJson()),
+      () async => _dio.post(_urlBuilder.buildFindArticleDuMarchand(), data: params.toJson()),
       (data) {
         return ApiResponse.success(data as Json);
       },
     );
   }
 
-  Future<ApiResponse<Json>> findProductByDesignation(
-      List<FilterOptional> params) async {
+  Future<ApiResponse<Json>> findProductByDesignation(List<FilterOptional> params) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildFindProduitByDesignation(),
-          data: params.map((e) => e.toJson()).toList()),
+      () async => _dio.post(_urlBuilder.buildFindProduitByDesignation(), data: params.map((e) => e.toJson()).toList()),
       (data) {
         return ApiResponse.success(data as Json);
       },
     );
   }
 
-  Future<ApiResponse<Json>> buildMakeNotation(
-      int idArticle, int note, String comment) async {
+  Future<ApiResponse<Json>> buildMakeNotation(int idArticle, int note, String comment) async {
     return handleApiCall<ApiResponse<Json>>(
       () async => _dio.post(
         _urlBuilder.buildMakeNotation(idArticle, note, comment),
@@ -80,12 +73,9 @@ class ProductsRemoteService {
     );
   }
 
-  Future<ApiResponse<Json>> findFilterAllQuartier(
-      [List<FilterOptional>? filters]) async {
+  Future<ApiResponse<Json>> findFilterAllQuartier([List<FilterOptional>? filters]) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildFindAllQuartier(),
-          data:
-              filters is List ? filters!.map((e) => e.toJson()).toList() : []),
+      () async => _dio.post(_urlBuilder.buildFindAllQuartier(), data: filters is List ? filters!.map((e) => e.toJson()).toList() : []),
       (data) {
         return ApiResponse.success(data as Json);
       },
@@ -93,10 +83,8 @@ class ProductsRemoteService {
   }
 
   Future<ApiResponse<Json>> createCommande(CreateCommandRequest params) async {
-    print(params.toApiJson());
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildCreateCommande(),
-          data: params.toApiJson()),
+      () async => _dio.post(_urlBuilder.buildMerchandCreateCommande(), data: params.toJson()),
       (data) {
         return ApiResponse.success(data as Json);
       },
@@ -107,8 +95,7 @@ class ProductsRemoteService {
     return handleApiCall<ApiResponse<Json>>(
       () async {
         print(params.toJson());
-        return _dio.put(_urlBuilder.buildUpdateCommande(),
-            data: params.toJson());
+        return _dio.put(_urlBuilder.buildUpdateCommande(), data: params.toJson());
       },
       (data) {
         return ApiResponse.success(data as Json);
@@ -118,8 +105,7 @@ class ProductsRemoteService {
 
   Future<ApiResponse<Json>> deleteCommande(CurrentCartResponse params) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async =>
-          _dio.delete(_urlBuilder.builDeleteCommand(params.id!), data: {}),
+      () async => _dio.delete(_urlBuilder.builDeleteCommand(params.id!), data: {}),
       (data) {
         return ApiResponse.success(data as Json);
       },

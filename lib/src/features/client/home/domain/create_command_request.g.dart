@@ -19,10 +19,13 @@ _$CreateCommandRequestImpl _$$CreateCommandRequestImplFromJson(
       client: json['client'] == null
           ? null
           : Client.fromJson(json['client'] as Map<String, dynamic>),
+      clientName: json['clientName'] as String?,
+      clientPhone: json['clientPhone'] as String?,
       quartier: json['quartier'] == null
           ? null
           : Quartier.fromJson(json['quartier'] as Map<String, dynamic>),
       modePayement: json['modePayement'] as String?,
+      isParcel: json['isParcel'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$CreateCommandRequestImplToJson(
@@ -34,8 +37,11 @@ Map<String, dynamic> _$$CreateCommandRequestImplToJson(
       'designation': instance.designation,
       'articles': instance.articles?.map((e) => e.toJson()).toList(),
       'client': instance.client?.toJson(),
+      'clientName': instance.clientName,
+      'clientPhone': instance.clientPhone,
       'quartier': instance.quartier?.toJson(),
       'modePayement': instance.modePayement,
+      'isParcel': instance.isParcel,
     };
 
 _$OrderArticleImpl _$$OrderArticleImplFromJson(Map<String, dynamic> json) =>

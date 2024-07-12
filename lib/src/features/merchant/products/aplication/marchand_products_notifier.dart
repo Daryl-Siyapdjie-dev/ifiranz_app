@@ -7,16 +7,14 @@ import '../../../core/domain/paginated_request.dart';
 import '../../../core/domain/paginated_response.dart';
 import '../infrastructure/merchand_products_repository.dart';
 
-class MerchandProductNotifier
-    extends StateNotifier<AsyncValue<PaginatedResponse<ProductModel>>> {
+class MerchandProductNotifier extends StateNotifier<AsyncValue<PaginatedResponse<ProductModel>>> {
   final ProductsRepository _repository;
 
   MerchandProductNotifier(this._repository) : super(const AsyncLoading());
 
-  Future getAllProducts(PaginatedRequest params, {bool isMore = false}) async {
+  Future getAllProducts(PaginatedRequest params, String marchandId, {bool isMore = false}) async {
     if (state.value?.isLoadingMore == true) return;
-    if (!state.hasValue ||
-        (state.hasValue && (state.value?.data.isEmpty ?? false))) {
+    if (!state.hasValue || (state.hasValue && (state.value?.data.isEmpty ?? false))) {
       state = const AsyncLoading();
     } else if (!isMore) {
       state = AsyncData(state.value!.copyWith(
@@ -25,23 +23,16 @@ class MerchandProductNotifier
     }
 
     if (isMore) {
-      state = AsyncData(state.value!.copyWith(
-          hasErrorOnLoadMore: false,
-          isLoadingMore: true,
-          isRefetching: false) as PaginatedResponse<ProductModel>);
+      state =
+          AsyncData(state.value!.copyWith(hasErrorOnLoadMore: false, isLoadingMore: true, isRefetching: false) as PaginatedResponse<ProductModel>);
     }
 
-    final failureOrSuccess = await _repository.getListProducts(
-      params,
-    );
+    final failureOrSuccess = await _repository.getListProducts(params, marchandId);
 
     state = failureOrSuccess.fold(
       (l) => isMore
-          ? AsyncData(state.value!.copyWith(
-              hasErrorOnLoadMore: true,
-              isRefetching: false,
-              hasMore: false,
-              isLoadingMore: false) as PaginatedResponse<ProductModel>)
+          ? AsyncData(state.value!.copyWith(hasErrorOnLoadMore: true, isRefetching: false, hasMore: false, isLoadingMore: false)
+              as PaginatedResponse<ProductModel>)
           : AsyncError(l.message as Object, StackTrace.current),
       (r) {
         if (isMore) {
@@ -49,23 +40,15 @@ class MerchandProductNotifier
 
           List<ProductModel> oldData = oldStatement.data as List<ProductModel>;
 
-          List<ProductModel> newData = [
-            ...oldData,
-            ...(r.data as List<ProductModel>)
-          ];
+          List<ProductModel> newData = [...oldData, ...(r.data as List<ProductModel>)];
 
           return isMore
               ? AsyncData(
                   r.copyWith(
                       data: newData,
-                      totalElements: r.data.isNotEmpty
-                          ? r.totalElements
-                          : oldStatement.totalElements,
-                      totalPages: r.data.isNotEmpty
-                          ? r.totalPages
-                          : oldStatement.totalPages,
-                      hasMore: ((r.data.length % params.size == 0) &&
-                          r.data.isNotEmpty),
+                      totalElements: r.data.isNotEmpty ? r.totalElements : oldStatement.totalElements,
+                      totalPages: r.data.isNotEmpty ? r.totalPages : oldStatement.totalPages,
+                      hasMore: ((r.data.length % params.size == 0) && r.data.isNotEmpty),
                       isLoadingMore: false,
                       isRefetching: false) as PaginatedResponse<ProductModel>,
                 )
@@ -73,10 +56,7 @@ class MerchandProductNotifier
         }
 
         return AsyncData(
-          r.copyWith(
-              isLoadingMore: false,
-              hasMore: ((r.data.length % params.size == 0) &&
-                  r.data.isNotEmpty)) as PaginatedResponse<ProductModel>,
+          r.copyWith(isLoadingMore: false, hasMore: ((r.data.length % params.size == 0) && r.data.isNotEmpty)) as PaginatedResponse<ProductModel>,
         );
       },
     );
@@ -138,9 +118,7 @@ class MerchandProductNotifier
 
         List<ProductModel> oldData = oldStatement.data as List<ProductModel>;
 
-        List<ProductModel> newData = [
-          ...oldData.map((e) => e.id == r.id ? r : e)
-        ];
+        List<ProductModel> newData = [...oldData.map((e) => e.id == r.id ? r : e)];
 
         return AsyncData(oldStatement.copyWith(
           data: newData,
@@ -155,25 +133,19 @@ class MerchandProductNotifier
     if (state.hasValue) {
       PaginatedResponse<ProductModel> oldStatement = state.value!;
 
-      state = AsyncData(oldStatement.copyWith(
-          actionError: null,
-          isActionLoading: true) as PaginatedResponse<ProductModel>);
+      state = AsyncData(oldStatement.copyWith(actionError: null, isActionLoading: true) as PaginatedResponse<ProductModel>);
     }
 
     final failureOrSuccess = await _repository.deleteProdcuct(id);
 
     state = failureOrSuccess.fold(
-      (l) => AsyncData(
-          state.value!.copyWith(actionError: l.message, isActionLoading: false)
-              as PaginatedResponse<ProductModel>),
+      (l) => AsyncData(state.value!.copyWith(actionError: l.message, isActionLoading: false) as PaginatedResponse<ProductModel>),
       (r) {
         PaginatedResponse<ProductModel> oldStatement = state.value!;
 
         List<ProductModel> oldData = oldStatement.data as List<ProductModel>;
 
-        return AsyncData(oldStatement.copyWith(
-                isActionLoading: false,
-                data: oldData.where((element) => element.id != id).toList())
+        return AsyncData(oldStatement.copyWith(isActionLoading: false, data: oldData.where((element) => element.id != id).toList())
             as PaginatedResponse<ProductModel>);
       },
     );

@@ -49,7 +49,6 @@ class _CreateNewProductScreenState extends ConsumerState<CreateNewProductScreen>
   Widget build(BuildContext context) {
     final name = useTextEditingController();
     final nameFocus = useFocusNode();
-    final codeFocus = useFocusNode();
     final price = useTextEditingController();
     final priceFocus = useFocusNode();
 

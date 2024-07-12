@@ -18,9 +18,13 @@ import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.d
 import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
 import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
 import 'package:ifiranz_client/src/features/merchant/home/dashboard/clients/shared/providers.dart';
+import 'package:libphonenumber/libphonenumber.dart';
 
 import '../../../client/home/domain/quartier.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/widgets/common_textfield.dart';
+import '../../../core/presentation/widgets/phone_number.dart';
+import '../../../core/shared/providers.dart';
 import '../../../onboarding/presentation/widgets/page_indicators.dart';
 
 @RoutePage()
@@ -30,29 +34,26 @@ class MerchandProductDetailScreen extends StatefulHookConsumerWidget {
   const MerchandProductDetailScreen({super.key, required this.item});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _MerchandProductDetailScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MerchandProductDetailScreenState();
 }
 
-class _MerchandProductDetailScreenState
-    extends ConsumerState<MerchandProductDetailScreen>
-    with SingleTickerProviderStateMixin {
+class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDetailScreen> with SingleTickerProviderStateMixin {
   Quartier? quartier;
   Client? client;
   final gpsLocationController = TextEditingController();
   int activeTabIndex = 0;
   PaginatedRequest params = PaginatedRequest(page: 0, size: 100);
+  final _formKey = GlobalKey<FormState>();
 
   final _scaffold = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(findQuartierPoductsProvider.notifier).findProductQuartier();
-      ref
-          .refresh(merchandClientsNotifierProvider.notifier)
-          .fetchMerchantClients(params);
+      ref.refresh(merchandClientsNotifierProvider.notifier).fetchMerchantClients(params);
       // ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail()));
     });
   }
@@ -68,7 +69,11 @@ class _MerchandProductDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final clients = ref.watch(merchandClientsNotifierProvider);
+    final clientName = useTextEditingController();
+    final clientNameFocus = useFocusNode();
+
+    final clientPhone = useTextEditingController();
+    final isoCode = useTextEditingController();
 
     ref.listen(createCommandPoductsNotifierProvider, (prev, curr) {
       curr.maybeWhen(
@@ -86,291 +91,257 @@ class _MerchandProductDetailScreenState
             barrierEnabled: true,
             borderWidth: 0,
             child: Builder(builder: (_) {
-              return Scaffold(
-                key: _scaffold,
-                drawer: const OrdinaryDrawerWidget(),
-                appBar: CustomMarchandAppBar(
-                  actionnable: true,
-                  scaffoldKey: _scaffold,
-                ),
-                body: ListView(children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(left: 24),
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: AppColors.greyBackground),
-                              child: InkWell(
-                                  onTap: context.popRoute,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/back.svg'))),
-                        ],
-                      ),
-                      CurvedCarousel(
-                        onChangeEnd: (index, isAutomatic) {
-                          setState(() {
-                            selected = index;
-                          });
-                        },
-                        itemBuilder: (context, i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            margin: const EdgeInsets.only(top: 20),
-                            height: context.proportionnalHeight(100),
-                            width: double.infinity,
-                            child: AnimatedSize(
-                              duration: const Duration(milliseconds: 100),
-                              child: Hero(
-                                tag: widget.item.id!,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.item.url ??
-                                      "http://via.placeholder.com/350x150",
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: 1,
-                        reverseAutomaticMovement: true,
-                        curveScale: -70,
-                        viewPortSize: 1,
-                        middleItemScaleRatio: 1.5,
-                      ),
-                      gapH32,
-                      PageIndicators(
-                        index: 1,
-                        currentIndex: selected,
-                        count: 1,
-                        isMin: true,
-                      ),
-                      gapH6,
-                      Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.symmetric(horizontal: 48),
-                        child: Stack(
-                          fit: StackFit.passthrough,
-                          children: [
-                            Positioned(
-                              top: 16,
-                              child: SvgPicture.string(
-                                rawSvg,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            Positioned(
-                              child: SizedBox(
-                                height: 33 + 20 + 60,
-                                child: Stack(
-                                  alignment: AlignmentDirectional.topCenter,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 33,
-                                      width: 33,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.primaryColor),
-                                      child: Text(
-                                        number.toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(
-                                                color: AppColors.whiteColor,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 12),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 31,
-                                      child: SizedBox(
-                                        height: 13,
-                                        child: SvgPicture.string(
-                                          linkCiccle,
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Row(
-                                        children: [
-                                          const Spacer(),
-                                          SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: FittedBox(
-                                                  child: (FloatingActionButton(
-                                                backgroundColor: number == 1
-                                                    ? AppColors.greyBackground
-                                                    : AppColors.greyLight,
-                                                elevation: 0,
-                                                onPressed: number == 1
-                                                    ? null
-                                                    : () {
-                                                        setState(() {
-                                                          number--;
-                                                        });
-                                                      },
-                                                child: const Icon(Icons.remove),
-                                              )))),
-                                          gapW10,
-                                          Container(
-                                            alignment: Alignment.center,
-                                            height: 70,
-                                            width: 70,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppColors.primaryColor),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "${number * widget.item.prix!}",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .whiteColor,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 16),
-                                                ),
-                                                Text(
-                                                  "XAF",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .whiteColor,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          gapW10,
-                                          SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: FittedBox(
-                                                  child: FloatingActionButton(
-                                                heroTag: "#2",
-                                                backgroundColor: number == 10
-                                                    ? AppColors.greyBackground
-                                                    : AppColors.greyLight,
-                                                elevation: 0,
-                                                onPressed: number >= 10
-                                                    ? null
-                                                    : () {
-                                                        setState(() {
-                                                          number++;
-                                                        });
-                                                      },
-                                                child: const Icon(
-                                                  Icons.add,
-                                                ),
-                                              ))),
-                                          const Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+              return Form(
+                key: _formKey,
+                child: Scaffold(
+                  key: _scaffold,
+                  drawer: const OrdinaryDrawerWidget(),
+                  appBar: CustomMarchandAppBar(
+                    actionnable: true,
+                    scaffoldKey: _scaffold,
                   ),
-                  Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 36.0,
-                      ),
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: AppColors.primaryColor, width: 1))),
-                      child: const Text('Details',
-                          style: TextStyle(color: AppColors.primaryColor))),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 36.0, vertical: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  body: ListView(children: [
+                    Column(
                       children: [
-                        gapH4,
-                        Text(
-                          'Client',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        gapH4,
                         Row(
                           children: [
-                            Expanded(
-                              child: CustomDropdown<Client>.searchRequest(
-                                futureRequest: ref
-                                    .watch(merchandClientsRepositoryProvider)
-                                    .getSearchPatternClients,
-                                decoration: CustomDropdownDecoration(
-                                    closedShadow: [
-                                      const BoxShadow(
-                                          color: Colors.white, spreadRadius: 3),
-                                    ],
-                                    closedBorder: Border.all(
-                                        color: AppColors.primaryColor),
-                                    closedFillColor: AppColors.bgBlue),
-                                hintText: 'Select Client',
-                                headerBuilder: (context, val) => Text(
-                                    "${val.nom ?? ""} ${val.prenom ?? ""}"),
-                                listItemBuilder: (context, q, val, func) =>
-                                    Text("${q.nom ?? ""} ${q.prenom ?? ""}"),
-                                onChanged: (value) {
-                                  client = value;
-                                  setState(() {});
-                                },
-                                items: clients.value?.data
-                                    .map((e) => e as Client)
-                                    .toList(),
-                              ),
-                            ),
-                            if (clients.isLoading ||
-                                clients.isRefreshing ||
-                                clients.isReloading)
-                              const Center(
-                                  child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2)))
+                            Container(
+                                margin: const EdgeInsets.only(left: 24),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBackground),
+                                child: InkWell(onTap: context.popRoute, child: SvgPicture.asset('assets/icons/back.svg'))),
                           ],
                         ),
-                        gapH4,
-                        detailWidget(_),
+                        CurvedCarousel(
+                          onChangeEnd: (index, isAutomatic) {
+                            setState(() {
+                              selected = index;
+                            });
+                          },
+                          itemBuilder: (context, i) {
+                            return Container(
+                              alignment: Alignment.center,
+                              color: Colors.transparent,
+                              margin: const EdgeInsets.only(top: 20),
+                              height: context.proportionnalHeight(100),
+                              width: double.infinity,
+                              child: AnimatedSize(
+                                duration: const Duration(milliseconds: 100),
+                                child: Hero(
+                                  tag: widget.item.id!,
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.item.url ?? "http://via.placeholder.com/350x150",
+                                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                                      child: CircularProgressIndicator(value: downloadProgress.progress),
+                                    ),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: 1,
+                          reverseAutomaticMovement: true,
+                          curveScale: -70,
+                          viewPortSize: 1,
+                          middleItemScaleRatio: 1.5,
+                        ),
+                        gapH32,
+                        PageIndicators(
+                          index: 1,
+                          currentIndex: selected,
+                          count: 1,
+                          isMin: true,
+                        ),
+                        gapH6,
+                        Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.symmetric(horizontal: 48),
+                          child: Stack(
+                            fit: StackFit.passthrough,
+                            children: [
+                              Positioned(
+                                top: 16,
+                                child: SvgPicture.string(
+                                  rawSvg,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              Positioned(
+                                child: SizedBox(
+                                  height: 33 + 20 + 60,
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.topCenter,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        height: 33,
+                                        width: 33,
+                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryColor),
+                                        child: Text(
+                                          number.toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(color: AppColors.whiteColor, fontWeight: FontWeight.w700, fontSize: 12),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 31,
+                                        child: SizedBox(
+                                          height: 13,
+                                          child: SvgPicture.string(
+                                            linkCiccle,
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Row(
+                                          children: [
+                                            const Spacer(),
+                                            SizedBox(
+                                                width: 30,
+                                                height: 30,
+                                                child: FittedBox(
+                                                    child: (FloatingActionButton(
+                                                  backgroundColor: number == 1 ? AppColors.greyBackground : AppColors.greyLight,
+                                                  elevation: 0,
+                                                  onPressed: number == 1
+                                                      ? null
+                                                      : () {
+                                                          setState(() {
+                                                            number--;
+                                                          });
+                                                        },
+                                                  child: const Icon(Icons.remove),
+                                                )))),
+                                            gapW10,
+                                            Container(
+                                              alignment: Alignment.center,
+                                              height: 70,
+                                              width: 70,
+                                              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryColor),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "${number * widget.item.prix!}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(color: AppColors.whiteColor, fontWeight: FontWeight.w700, fontSize: 16),
+                                                  ),
+                                                  Text(
+                                                    "XAF",
+                                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                          color: AppColors.whiteColor,
+                                                          fontSize: 8,
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            gapW10,
+                                            SizedBox(
+                                                width: 30,
+                                                height: 30,
+                                                child: FittedBox(
+                                                    child: FloatingActionButton(
+                                                  heroTag: "#2",
+                                                  backgroundColor: number == 10 ? AppColors.greyBackground : AppColors.greyLight,
+                                                  elevation: 0,
+                                                  onPressed: number >= 10
+                                                      ? null
+                                                      : () {
+                                                          setState(() {
+                                                            number++;
+                                                          });
+                                                        },
+                                                  child: const Icon(
+                                                    Icons.add,
+                                                  ),
+                                                ))),
+                                            const Spacer(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                ]),
+                    Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 36.0,
+                        ),
+                        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.primaryColor, width: 1))),
+                        child: const Text('Details', style: TextStyle(color: AppColors.primaryColor))),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 12),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          gapH4,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonTextFormField(
+                                controller: clientName,
+                                focusNode: clientNameFocus,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                hintText: 'Client name',
+                                textInputAction: TextInputAction.done,
+                                textInputType: TextInputType.text,
+                                isLabelRequired: true,
+                                hasLabel: true,
+                                validator: ref.read(formValidationServiceProvider).validateSimple,
+                                label: 'Client name',
+                                obscureText: false,
+                              ),
+                              gapH20,
+                              PhoneNumberWidget(controller: clientPhone, isoCode: isoCode),
+                              gapH20,
+                              gapH4,
+                              detailWidget(_),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate() && quartier != null && quartier is Quartier) {
+                                      PhoneNumberUtil.normalizePhoneNumber(
+                                        isoCode: isoCode.text.trim(),
+                                        phoneNumber: clientPhone.text.trim(),
+                                      ).then((phone) {
+                                        final progress = ProgressHUD.of(_);
+                                        progress?.show();
+
+                                        ref
+                                            .read(createCommandPoductsNotifierProvider.notifier)
+                                            .createCommand(CreateCommandRequest(
+                                                localisationGps: gpsLocationController.text.trim(),
+                                                designation: widget.item.designation,
+                                                quartier: quartier!,
+                                                articles: [OrderArticle(article: widget.item, quantite: number)],
+                                                modePayement: "livraison",
+                                                clientName: clientName.text.trim(),
+                                                clientPhone: phone))
+                                            .whenComplete(() {
+                                          progress?.dismiss();
+                                        });
+                                      });
+                                    }
+                                  },
+                                  child: const Text('Add to cart')),
+                              gapH30,
+                            ],
+                          ),
+                        ]))
+                  ]),
+                ),
               );
             })));
   }
@@ -398,35 +369,22 @@ class _MerchandProductDetailScreenState
           children: [
             Expanded(
               child: CustomDropdown<Quartier>.searchRequest(
-                futureRequest: ref
-                    .watch(productsRepositoryProvider)
-                    .findFilterAllQuartierByPatter,
-                decoration: CustomDropdownDecoration(
-                    closedShadow: [
-                      const BoxShadow(color: Colors.white, spreadRadius: 3),
-                    ],
-                    closedBorder: Border.all(color: AppColors.primaryColor),
-                    closedFillColor: AppColors.bgBlue),
+                futureRequest: ref.watch(productsRepositoryProvider).findFilterAllQuartierByPatter,
+                decoration: CustomDropdownDecoration(closedShadow: [
+                  const BoxShadow(color: Colors.white, spreadRadius: 3),
+                ], closedBorder: Border.all(color: AppColors.primaryColor), closedFillColor: AppColors.bgBlue),
                 hintText: context.locale.foodDetailsScreenSelectQuartier,
                 headerBuilder: (context, val) => Text("${val.designation}"),
-                items:
-                    allQuartier.value?.data.map((e) => e as Quartier).toList(),
-                listItemBuilder: (context, q, val, func) =>
-                    Text('${q.designation}'),
+                items: allQuartier.value?.data.map((e) => e as Quartier).toList(),
+                listItemBuilder: (context, q, val, func) => Text('${q.designation}'),
                 onChanged: (value) {
                   quartier = value;
                   setState(() {});
                 },
               ),
             ),
-            if (allQuartier.isLoading ||
-                allQuartier.isRefreshing ||
-                allQuartier.isReloading)
-              const Center(
-                  child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2)))
+            if (allQuartier.isLoading || allQuartier.isRefreshing || allQuartier.isReloading)
+              const Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)))
           ],
         ),
         gapH4,
@@ -443,47 +401,7 @@ class _MerchandProductDetailScreenState
           ),
           textInputAction: TextInputAction.done,
         ),
-
         gapH20,
-
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 10)),
-            onPressed: () async {
-              if (ref.watch(cartProvider).articles.indexWhere(
-                      (element) => element.article?.id == widget.item.id) !=
-                  -1) {
-                return await showErrorFlushbar(context, "Already Contains");
-              }
-
-              final progress = ProgressHUD.of(context);
-              progress?.show();
-
-              ref
-                  .read(createCommandPoductsNotifierProvider.notifier)
-                  .createCommand(CreateCommandRequest(
-                      localisationGps: gpsLocationController.text.trim(),
-                      designation: widget.item.designation,
-                      quartier: quartier,
-                      articles: [
-                        OrderArticle(article: widget.item, quantite: number)
-                      ],
-                      modePayement: "livraison",
-                      client: client))
-                  .whenComplete(() {
-                progress?.dismiss();
-              });
-            },
-            child: const Text('Add to cart')),
-        // gapH12,
-        // OutlinedButton(
-        //     style: OutlinedButton.styleFrom(
-        //         foregroundColor: AppColors.primaryColor,
-        //         side: const BorderSide(color: AppColors.primaryColor),
-        //         padding: const EdgeInsets.symmetric(vertical: 10)),
-        //     onPressed: () {},
-        //     child: const Text('About manufacture')),
-        gapH30,
       ],
     );
   }
