@@ -26,8 +26,11 @@ mixin _$CreateCommandRequest {
   String? get designation => throw _privateConstructorUsedError;
   List<OrderArticle>? get articles => throw _privateConstructorUsedError;
   Client? get client => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get clientPhone => throw _privateConstructorUsedError;
   Quartier? get quartier => throw _privateConstructorUsedError;
   String? get modePayement => throw _privateConstructorUsedError;
+  bool get isParcel => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,8 +51,11 @@ abstract class $CreateCommandRequestCopyWith<$Res> {
       String? designation,
       List<OrderArticle>? articles,
       Client? client,
+      String? clientName,
+      String? clientPhone,
       Quartier? quartier,
-      String? modePayement});
+      String? modePayement,
+      bool isParcel});
 
   $ClientCopyWith<$Res>? get client;
   $QuartierCopyWith<$Res>? get quartier;
@@ -75,8 +81,11 @@ class _$CreateCommandRequestCopyWithImpl<$Res,
     Object? designation = freezed,
     Object? articles = freezed,
     Object? client = freezed,
+    Object? clientName = freezed,
+    Object? clientPhone = freezed,
     Object? quartier = freezed,
     Object? modePayement = freezed,
+    Object? isParcel = null,
   }) {
     return _then(_value.copyWith(
       localisationGps: freezed == localisationGps
@@ -103,6 +112,14 @@ class _$CreateCommandRequestCopyWithImpl<$Res,
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
               as Client?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientPhone: freezed == clientPhone
+          ? _value.clientPhone
+          : clientPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
       quartier: freezed == quartier
           ? _value.quartier
           : quartier // ignore: cast_nullable_to_non_nullable
@@ -111,6 +128,10 @@ class _$CreateCommandRequestCopyWithImpl<$Res,
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String?,
+      isParcel: null == isParcel
+          ? _value.isParcel
+          : isParcel // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -154,8 +175,11 @@ abstract class _$$CreateCommandRequestImplCopyWith<$Res>
       String? designation,
       List<OrderArticle>? articles,
       Client? client,
+      String? clientName,
+      String? clientPhone,
       Quartier? quartier,
-      String? modePayement});
+      String? modePayement,
+      bool isParcel});
 
   @override
   $ClientCopyWith<$Res>? get client;
@@ -180,8 +204,11 @@ class __$$CreateCommandRequestImplCopyWithImpl<$Res>
     Object? designation = freezed,
     Object? articles = freezed,
     Object? client = freezed,
+    Object? clientName = freezed,
+    Object? clientPhone = freezed,
     Object? quartier = freezed,
     Object? modePayement = freezed,
+    Object? isParcel = null,
   }) {
     return _then(_$CreateCommandRequestImpl(
       localisationGps: freezed == localisationGps
@@ -208,6 +235,14 @@ class __$$CreateCommandRequestImplCopyWithImpl<$Res>
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
               as Client?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientPhone: freezed == clientPhone
+          ? _value.clientPhone
+          : clientPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
       quartier: freezed == quartier
           ? _value.quartier
           : quartier // ignore: cast_nullable_to_non_nullable
@@ -216,6 +251,10 @@ class __$$CreateCommandRequestImplCopyWithImpl<$Res>
           ? _value.modePayement
           : modePayement // ignore: cast_nullable_to_non_nullable
               as String?,
+      isParcel: null == isParcel
+          ? _value.isParcel
+          : isParcel // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -231,8 +270,11 @@ class _$CreateCommandRequestImpl implements _CreateCommandRequest {
       this.designation,
       final List<OrderArticle>? articles,
       this.client,
+      this.clientName,
+      this.clientPhone,
       this.quartier,
-      this.modePayement})
+      this.modePayement,
+      this.isParcel = false})
       : _articles = articles;
 
   factory _$CreateCommandRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -259,13 +301,20 @@ class _$CreateCommandRequestImpl implements _CreateCommandRequest {
   @override
   final Client? client;
   @override
+  final String? clientName;
+  @override
+  final String? clientPhone;
+  @override
   final Quartier? quartier;
   @override
   final String? modePayement;
+  @override
+  @JsonKey()
+  final bool isParcel;
 
   @override
   String toString() {
-    return 'CreateCommandRequest(localisationGps: $localisationGps, longitude: $longitude, latitude: $latitude, designation: $designation, articles: $articles, client: $client, quartier: $quartier, modePayement: $modePayement)';
+    return 'CreateCommandRequest(localisationGps: $localisationGps, longitude: $longitude, latitude: $latitude, designation: $designation, articles: $articles, client: $client, clientName: $clientName, clientPhone: $clientPhone, quartier: $quartier, modePayement: $modePayement, isParcel: $isParcel)';
   }
 
   @override
@@ -283,10 +332,16 @@ class _$CreateCommandRequestImpl implements _CreateCommandRequest {
                 other.designation == designation) &&
             const DeepCollectionEquality().equals(other._articles, _articles) &&
             (identical(other.client, client) || other.client == client) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.clientPhone, clientPhone) ||
+                other.clientPhone == clientPhone) &&
             (identical(other.quartier, quartier) ||
                 other.quartier == quartier) &&
             (identical(other.modePayement, modePayement) ||
-                other.modePayement == modePayement));
+                other.modePayement == modePayement) &&
+            (identical(other.isParcel, isParcel) ||
+                other.isParcel == isParcel));
   }
 
   @JsonKey(ignore: true)
@@ -299,8 +354,11 @@ class _$CreateCommandRequestImpl implements _CreateCommandRequest {
       designation,
       const DeepCollectionEquality().hash(_articles),
       client,
+      clientName,
+      clientPhone,
       quartier,
-      modePayement);
+      modePayement,
+      isParcel);
 
   @JsonKey(ignore: true)
   @override
@@ -326,8 +384,11 @@ abstract class _CreateCommandRequest implements CreateCommandRequest {
       final String? designation,
       final List<OrderArticle>? articles,
       final Client? client,
+      final String? clientName,
+      final String? clientPhone,
       final Quartier? quartier,
-      final String? modePayement}) = _$CreateCommandRequestImpl;
+      final String? modePayement,
+      final bool isParcel}) = _$CreateCommandRequestImpl;
 
   factory _CreateCommandRequest.fromJson(Map<String, dynamic> json) =
       _$CreateCommandRequestImpl.fromJson;
@@ -345,9 +406,15 @@ abstract class _CreateCommandRequest implements CreateCommandRequest {
   @override
   Client? get client;
   @override
+  String? get clientName;
+  @override
+  String? get clientPhone;
+  @override
   Quartier? get quartier;
   @override
   String? get modePayement;
+  @override
+  bool get isParcel;
   @override
   @JsonKey(ignore: true)
   _$$CreateCommandRequestImplCopyWith<_$CreateCommandRequestImpl>

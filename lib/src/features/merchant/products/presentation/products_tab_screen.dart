@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
 
 import '../../../../router/app_router.dart';
 import '../../../client/home/domain/product_model.dart';
-import '../../../client/home/shared/providers.dart';
 import '../../../core/domain/paginated_request.dart';
 import '../../../core/infrastructure/constants/app_sizes.dart';
 import '../../../core/infrastructure/extensions/localization_extension.dart';
@@ -25,13 +25,13 @@ class ProductsTabScreen extends StatefulHookConsumerWidget {
   const ProductsTabScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ProductsTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProductsTabScreenState();
 }
 
 class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
   PaginatedRequest params = PaginatedRequest(page: 0, size: 20);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final marchandId = SharedPref.getId().toString();
 
   @override
   void initState() {
@@ -43,9 +43,7 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
 
   Future _onTabsRouterChange() async {
     final localPage = PaginatedRequest(page: 0, size: 20);
-    await ref
-        .read(merchandProductsNotifierProvider.notifier)
-        .getAllProducts(localPage);
+    await ref.read(merchandProductsNotifierProvider.notifier).getAllProducts(localPage, marchandId);
 
     setState(() {
       params = localPage;
@@ -65,13 +63,11 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
       next.maybeWhen(
           orElse: () => null,
           data: (res) {
-            if (res.actionError is String &&
-                !res.isActionLoading &&
-                prev?.value?.isActionLoading == true) {
+            if (res.actionError is String && !res.isActionLoading && prev?.value?.isActionLoading == true) {
               return showErrorFlushbar(context, res.actionError!);
             } else if (res.actionError == null &&
-                (res.actionError == null &&
-                    prev?.value?.isActionLoading == true)) {
+                res.totalElements != prev?.value?.totalElements &&
+                (res.actionError == null && prev?.value?.isActionLoading == true)) {
               showSuccessFlushbar(context, context.locale.operationSuccess);
             }
           },
@@ -84,19 +80,12 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
       if (controller.position.maxScrollExtent == controller.position.pixels) {
         if (ref.watch(merchandProductsNotifierProvider).hasValue &&
             (ref.watch(merchandProductsNotifierProvider).value!.hasMore) &&
-            !(ref
-                .watch(merchandProductsNotifierProvider)
-                .value!
-                .isLoadingMore)) {
+            !(ref.watch(merchandProductsNotifierProvider).value!.isLoadingMore)) {
           await ref
               .read(merchandProductsNotifierProvider.notifier)
-              .getAllProducts(params.copyWith(page: params.page + 1),
-                  isMore: true)
+              .getAllProducts(params.copyWith(page: params.page + 1), marchandId, isMore: true)
               .whenComplete(() {
-            if (!(ref
-                .watch(merchandProductsNotifierProvider)
-                .value!
-                .hasErrorOnLoadMore)) {
+            if (!(ref.watch(merchandProductsNotifierProvider).value!.hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -169,8 +158,7 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
                       );
               }),
           gapH10,
-          if (((products.value?.hasMore ?? false) ||
-              (products.value?.isLoadingMore ?? false)))
+          if (((products.value?.hasMore ?? false) || (products.value?.isLoadingMore ?? false)))
             const Center(
               child: CircularProgressIndicator(),
             ),
@@ -181,13 +169,9 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
                 onPressed: () async {
                   await ref
                       .read(merchandProductsNotifierProvider.notifier)
-                      .getAllProducts(params.copyWith(page: params.page + 1),
-                          isMore: true)
+                      .getAllProducts(params.copyWith(page: params.page + 1), marchandId, isMore: true)
                       .whenComplete(() {
-                    if (!(ref
-                        .watch(merchandProductsNotifierProvider)
-                        .value!
-                        .hasErrorOnLoadMore)) {
+                    if (!(ref.watch(merchandProductsNotifierProvider).value!.hasErrorOnLoadMore)) {
                       setState(() {
                         params = params.copyWith(page: params.page + 1);
                       });
@@ -234,17 +218,13 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
                           maxHeight: 204,
                         ),
                         child: CachedNetworkImage(
-                          imageUrl:
-                              item.url ?? "http://via.placeholder.com/350x150",
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) => Container(
+                          imageUrl: item.url ?? "http://via.placeholder.com/350x150",
+                          progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                             alignment: Alignment.center,
                             height: 50,
-                            child: CircularProgressIndicator(
-                                value: downloadProgress.progress),
+                            child: CircularProgressIndicator(value: downloadProgress.progress),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                          errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
                         ),
                       ),
                     ],
@@ -415,13 +395,11 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
+                                    Navigator.of(context).pop(); // Close the dialog
                                   },
                                   child: Text(
                                     context.locale.deleteConfirmationCancel,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -431,17 +409,12 @@ class _ProductsTabScreenState extends ConsumerState<ProductsTabScreen> {
                                     final progress = ProgressHUD.of(_);
                                     progress?.show();
 
-                                    ref
-                                        .read(merchandProductsNotifierProvider
-                                            .notifier)
-                                        .deleteProdcuct(item.id!)
-                                        .whenComplete(() {
+                                    ref.read(merchandProductsNotifierProvider.notifier).deleteProdcuct(item.id!).whenComplete(() {
                                       context.popRoute();
                                       progress?.dismiss();
                                     });
                                   },
-                                  child: Text(
-                                      context.locale.deleteConfirmationAction),
+                                  child: Text(context.locale.deleteConfirmationAction),
                                 ),
                               ),
                             ],

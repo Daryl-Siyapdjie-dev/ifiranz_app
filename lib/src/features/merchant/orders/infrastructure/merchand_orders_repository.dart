@@ -18,7 +18,7 @@ class MerchandOrdersRepository {
       [List<FilterOptional> request = const []]) async {
     try {
       final response = await _productRemoteService.getAllOrders(params, [
-        FilterOptional.fromJson({"key": "pourMarchand", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true}),
+        FilterOptional.fromJson({"key": "isParcel", "value": false, "applyAnd": true, "type": "EQUAL"}),
         ...request
       ]);
 

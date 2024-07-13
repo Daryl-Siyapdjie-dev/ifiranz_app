@@ -10,16 +10,18 @@ part 'create_command_request.g.dart';
 @freezed
 class CreateCommandRequest with _$CreateCommandRequest {
   @JsonSerializable(explicitToJson: true)
-  factory CreateCommandRequest({
-    String? localisationGps,
-    double? longitude,
-    double? latitude,
-    String? designation,
-    List<OrderArticle>? articles,
-    Client? client,
-    Quartier? quartier,
-    String? modePayement,
-  }) = _CreateCommandRequest;
+  factory CreateCommandRequest(
+      {String? localisationGps,
+      double? longitude,
+      double? latitude,
+      String? designation,
+      List<OrderArticle>? articles,
+      Client? client,
+      String? clientName,
+      String? clientPhone,
+      Quartier? quartier,
+      String? modePayement,
+      @Default(false) bool isParcel}) = _CreateCommandRequest;
 
 // @override
 //   Map<String, dynamic> toJson(CreateCommandRequest instance) => {
@@ -31,8 +33,7 @@ class CreateCommandRequest with _$CreateCommandRequest {
 //         'modePayement': instance.modePayement
 //       };
 
-  factory CreateCommandRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateCommandRequestFromJson(json);
+  factory CreateCommandRequest.fromJson(Map<String, dynamic> json) => _$CreateCommandRequestFromJson(json);
 }
 
 extension CreateCommandResponseToFormData on CreateCommandRequest {
@@ -58,6 +59,5 @@ class OrderArticle with _$OrderArticle {
     num? quantite,
   }) = _OrderArticle;
 
-  factory OrderArticle.fromJson(Map<String, dynamic> json) =>
-      _$OrderArticleFromJson(json);
+  factory OrderArticle.fromJson(Map<String, dynamic> json) => _$OrderArticleFromJson(json);
 }

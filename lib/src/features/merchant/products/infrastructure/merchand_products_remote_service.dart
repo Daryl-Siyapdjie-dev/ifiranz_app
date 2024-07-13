@@ -16,9 +16,9 @@ class MerchandProductsRemoteService {
 
   MerchandProductsRemoteService(this._urlBuilder, this._dio);
 
-  Future<ApiResponse<Json>> getAllProducts(PaginatedRequest params, List<FilterOptional> request) async {
+  Future<ApiResponse<Json>> getAllProducts(PaginatedRequest params, String marchandId, List<FilterOptional> request) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildGetAllProduit(params), data: request.map((e) => e.toJson()).toList()),
+      () async => _dio.post(_urlBuilder.buildGetMerchantProduit(params, marchandId), data: request.map((e) => e.toJson()).toList()),
       (data) {
         return ApiResponse.success(data as Json);
       },
