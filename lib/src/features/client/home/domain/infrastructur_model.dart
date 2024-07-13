@@ -21,7 +21,7 @@ class InfrastructurModel with _$InfrastructurModel {
     required String type,
     required double latitude,
     required double longitude,
-    dynamic? indice,
+    indice,
   }) = _InfrastructurModel;
 
   factory InfrastructurModel.fromJson(Map<String, dynamic> json) =>

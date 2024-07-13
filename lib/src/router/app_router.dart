@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/auth/additional_info/presentation/additional_option_screen.dart';
 import '../features/auth/register/presentation/register_additional_info_screen.dart';
@@ -31,11 +32,13 @@ import '../features/client/home/presentation/order_detail_screen.dart';
 import '../features/client/home/presentation/order_tab_screen.dart';
 import '../features/client/home/presentation/payment_screen.dart';
 import '../features/client/home/presentation/research_screen.dart';
+import '../features/client/home/presentation/search_product_result_screen.dart';
 import '../features/client/main_app_screen.dart';
 import '../features/client/orders/presentation/client_orders_details_screen.dart';
 import '../features/client/orders/presentation/orders_clients_deliveries_screen.dart';
 import '../features/client/payment/domain/cashout_model.dart';
 import '../features/client/profile/presentation/profile_screen.dart';
+import '../features/core/domain/paginated_response.dart';
 import '../features/core/presentation/widgets/language_selector_screen.dart';
 import '../features/core/presentation/widgets/report_bug_screen.dart';
 import '../features/delivery/delivery/presentation/delivery_delivery_screen.dart';
@@ -126,26 +129,33 @@ class AppRouter extends _$AppRouter {
                   initial: true)
             ],
           ),
-          AutoRoute(page: HomeRoute.page, maintainState: false, children: [
-            AutoRoute(path: "client-cart", page: CartRoute.page),
-            AutoRoute(path: "client-research_page", page: ResearchRoute.page),
-            AutoRoute(
-                path: "client-food_restaurant",
+          AutoRoute(
+            page: HomeRoute.page,
+            maintainState: false,
+            children: [
+              AutoRoute(path: "client-cart", page: CartRoute.page),
+              AutoRoute(
+                  path: "search-product", page: SearchProductResultRoute.page),
+              AutoRoute(path: "client-research_page", page: ResearchRoute.page),
+              AutoRoute(
+                  path: "client-food_restaurant",
+                  maintainState: false,
+                  page: FoodRestaurantRoute.page),
+              AutoRoute(
+                path: "client-home_tab",
                 maintainState: false,
-                page: FoodRestaurantRoute.page),
-            AutoRoute(
-              path: "client-home_tab",
-              maintainState: false,
-              page: HomeTabRoute.page,
-              initial: true,
-            ),
-            AutoRoute(path: "client-payment", page: PaymentRoute.page),
-            AutoRoute(
-                path: "client-order_details", page: OrderDetailsRoute.page),
-            AutoRoute(
-                path: "client-additional_info", page: AdditionalInfoRoute.page),
-            AutoRoute(path: "client-ordertab", page: OrderTabRoute.page),
-          ]),
+                page: HomeTabRoute.page,
+                initial: true,
+              ),
+              AutoRoute(path: "client-payment", page: PaymentRoute.page),
+              AutoRoute(
+                  path: "client-order_details", page: OrderDetailsRoute.page),
+              AutoRoute(
+                  path: "client-additional_info",
+                  page: AdditionalInfoRoute.page),
+              AutoRoute(path: "client-ordertab", page: OrderTabRoute.page),
+            ],
+          ),
           AutoRoute(
               path: "client-delivery",
               maintainState: false,

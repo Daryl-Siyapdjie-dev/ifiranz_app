@@ -10,6 +10,7 @@ import 'package:ifiranz_client/src/features/client/home/application/make_notatio
 import 'package:ifiranz_client/src/features/client/home/application/merchant_products_notifier.dart';
 import 'package:ifiranz_client/src/features/client/home/application/products_notifier.dart';
 import 'package:ifiranz_client/src/features/client/home/application/promotion_notifier.dart';
+import 'package:ifiranz_client/src/features/client/home/application/search_product_notifier.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/create_command_response.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/current_cart_response.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/infrastructur_model.dart';
@@ -130,6 +131,14 @@ final productNotifier =
     StateNotifierProvider.autoDispose<ProductsNotifier, AsyncValue>((ref) {
   ref.keepAlive();
   return ProductsNotifier(
+    ref.watch(productsRepositoryProvider),
+  );
+});
+
+final searchProductNotifier = StateNotifierProvider.autoDispose<
+    SearchProductNotifier, AsyncValue<PaginatedResponse<ProductModel>>>((ref) {
+  // ref.keepAlive();
+  return SearchProductNotifier(
     ref.watch(productsRepositoryProvider),
   );
 });

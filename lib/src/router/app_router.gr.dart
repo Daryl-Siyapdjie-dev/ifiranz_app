@@ -533,6 +533,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SearchProductResultRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchProductResultRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchProductResultScreen(
+          key: args.key,
+          products: args.products,
+          productName: args.productName,
+        ),
+      );
+    },
     SignInRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -2122,6 +2133,50 @@ class ResetPasswordRouteArgs {
   @override
   String toString() {
     return 'ResetPasswordRouteArgs{request: $request, isPhoneNumber: $isPhoneNumber, key: $key}';
+  }
+}
+
+/// generated route for
+/// [SearchProductResultScreen]
+class SearchProductResultRoute
+    extends PageRouteInfo<SearchProductResultRouteArgs> {
+  SearchProductResultRoute({
+    Key? key,
+    required AsyncData<PaginatedResponse<ProductModel>> products,
+    required String productName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchProductResultRoute.name,
+          args: SearchProductResultRouteArgs(
+            key: key,
+            products: products,
+            productName: productName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchProductResultRoute';
+
+  static const PageInfo<SearchProductResultRouteArgs> page =
+      PageInfo<SearchProductResultRouteArgs>(name);
+}
+
+class SearchProductResultRouteArgs {
+  const SearchProductResultRouteArgs({
+    this.key,
+    required this.products,
+    required this.productName,
+  });
+
+  final Key? key;
+
+  final AsyncData<PaginatedResponse<ProductModel>> products;
+
+  final String productName;
+
+  @override
+  String toString() {
+    return 'SearchProductResultRouteArgs{key: $key, products: $products, productName: $productName}';
   }
 }
 

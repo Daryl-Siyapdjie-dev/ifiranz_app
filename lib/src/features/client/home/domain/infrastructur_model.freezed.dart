@@ -35,7 +35,7 @@ mixin _$InfrastructurModel {
   String get type => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
-  dynamic? get indice => throw _privateConstructorUsedError;
+  dynamic get indice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -65,7 +65,7 @@ abstract class $InfrastructurModelCopyWith<$Res> {
       String type,
       double latitude,
       double longitude,
-      dynamic? indice});
+      dynamic indice});
 }
 
 /// @nodoc
@@ -162,7 +162,7 @@ class _$InfrastructurModelCopyWithImpl<$Res, $Val extends InfrastructurModel>
       indice: freezed == indice
           ? _value.indice
           : indice // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ) as $Val);
   }
 }
@@ -191,7 +191,7 @@ abstract class _$$InfrastructurModelImplCopyWith<$Res>
       String type,
       double latitude,
       double longitude,
-      dynamic? indice});
+      dynamic indice});
 }
 
 /// @nodoc
@@ -283,10 +283,7 @@ class __$$InfrastructurModelImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      indice: freezed == indice
-          ? _value.indice
-          : indice // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+      indice: freezed == indice ? _value.indice! : indice,
     ));
   }
 }
@@ -364,7 +361,7 @@ class _$InfrastructurModelImpl implements _InfrastructurModel {
   @override
   final double longitude;
   @override
-  final dynamic? indice;
+  final dynamic indice;
 
   @override
   String toString() {
@@ -454,7 +451,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
       required final String type,
       required final double latitude,
       required final double longitude,
-      final dynamic? indice}) = _$InfrastructurModelImpl;
+      final dynamic indice}) = _$InfrastructurModelImpl;
 
   factory _InfrastructurModel.fromJson(Map<String, dynamic> json) =
       _$InfrastructurModelImpl.fromJson;
@@ -490,7 +487,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
   @override
   double get longitude;
   @override
-  dynamic? get indice;
+  dynamic get indice;
   @override
   @JsonKey(ignore: true)
   _$$InfrastructurModelImplCopyWith<_$InfrastructurModelImpl> get copyWith =>

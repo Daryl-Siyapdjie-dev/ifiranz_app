@@ -1,18 +1,21 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../domain/infrastructur_model.dart';
-import '../shared/providers.dart';
+
+import '../../../../router/app_router.dart';
 import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
 import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/utils/api_constants.dart';
+import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/themes/app_colors.dart';
 import '../../../core/presentation/widgets/app_bars.dart';
 import '../../../core/presentation/widgets/no_data.dart';
 import '../../../core/presentation/widgets/product_skeleton.dart';
-import '../../../../router/app_router.dart';
-
-import '../../../core/domain/paginated_response.dart';
-import '../../../core/infrastructure/utils/common_import.dart';
 import '../domain/filter_optional.dart';
+import '../domain/infrastructur_model.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class HomeTabScreen extends StatefulHookConsumerWidget {
@@ -111,15 +114,17 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
   Widget build(BuildContext context) {
     final activeIndex = useState(0);
 
+    final searchProductController = useTextEditingController();
+
     final pageContoller = usePageController(viewportFraction: .87);
     final controller = useScrollController();
 
-    final products = ref.watch(productsNotifierProvider);
+    // final products = ref.watch(productsNotifierProvider);
     // final restaurants = ref.watch(infrasNotifierProvider);
     final supermarkets = ref.watch(supermarketNotifierProvider);
     final infras = ref.watch(restaurantsNotifierProvider);
     final shops = ref.watch(shopsNotifierProvider);
-    final top10Products = ref.watch(getTop10ProductsProductsNotifier);
+    // final top10Products = ref.watch(getTop10ProductsProductsNotifier);
 
     final promotionProducts = ref.watch(promotionnalProductsNotifierProvider);
 
@@ -162,364 +167,426 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
       }
     });
 
-    final search = useTextEditingController();
-    return RefreshIndicator(
-      onRefresh: _onTabsRouterChange,
-      child: Scaffold(
-        extendBody: true,
-        backgroundColor: Colors.white,
-        appBar: const CustomAppBar(isHome: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Column(
-                    children: [
-                      TextField(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        controller: search,
-                        onEditingComplete: () async {},
-                        decoration: InputDecoration(
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: AppColors.greyTextColor),
-                            suffixIcon: const Icon(Icons.search),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 9.5, horizontal: 16.0),
-                            isDense: true,
-                            hintText: 'Rechercher'),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        // height: 80.0,
-                        // width: 70.0,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0.0, vertical: 11.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.bgGrey,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: promotionProducts.when(
-                          data: (response) {
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+    ref.listen(
+      searchProductNotifier,
+      (previous, next) {
+        next.maybeMap(
+          orElse: () {},
+          data: (data) {
+            context.navigateTo(
+              SearchProductResultRoute(
+                  products: data, productName: searchProductController.text),
+            );
+          },
+          error: (_) {
+            Flushbar(
+              message: "${_.error}",
+              icon: const Icon(
+                Icons.info,
+                color: AppColors.alertError,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              backgroundColor: AppColors.bgRed,
+              messageColor: AppColors.alertError,
+              duration: const Duration(seconds: ApiConstants.flushbarDuration),
+              margin: const EdgeInsets.all(16),
+            ).show(context);
+          },
+        );
+      },
+    );
+
+    return ProgressHUD(
+      barrierEnabled: true,
+      borderWidth: 0,
+      child: Builder(builder: (_) {
+        return RefreshIndicator(
+          onRefresh: _onTabsRouterChange,
+          child: Scaffold(
+            extendBody: true,
+            backgroundColor: Colors.white,
+            appBar: const CustomAppBar(isHome: true),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: searchProductController,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(color: AppColors.greyTextColor),
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.search),
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  final progress = ProgressHUD.of(_);
+                                  progress?.show();
+                                  ref
+                                      .read(searchProductNotifier.notifier)
+                                      .findProductByName(params,
+                                          searchProductController.text.trim())
+                                      .whenComplete(
+                                    () {
+                                      progress?.dismiss();
+                                    },
+                                  );
+                                },
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 9.5, horizontal: 16.0),
+                              isDense: true,
+                              hintText: 'Rechercher',
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            // height: 80.0,
+                            // width: 70.0,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0.0, vertical: 11.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.bgGrey,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: promotionProducts.when(
+                              data: (response) {
+                                return Column(
                                   children: [
-                                    Text(
-                                      "Offres",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall!
-                                          .copyWith(fontSize: 16),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Offres",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displaySmall!
+                                              .copyWith(fontSize: 16),
+                                        ),
+                                        // InkWell(
+                                        //   onTap: () {
+                                        //     context.pushRoute(
+                                        //       MerchantPerTypeRoute(
+                                        //           merchants: response.data
+                                        //               as List<InfrastructurModel>),
+                                        //     );
+                                        //   },
+                                        //   child: const Row(
+                                        //     children: [
+                                        //       Text("Tout"),
+                                        //       SizedBox(width: 10.0),
+                                        //       Icon(
+                                        //         FontAwesomeIcons.chevronRight,
+                                        //         size: 18.0,
+                                        //       )
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                      ],
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        // context.pushRoute(
-                                        //     MerchantPerType(
-                                        //     merchants: response.data[index]));
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Text("Tout"),
-                                          SizedBox(width: 10.0),
-                                          Icon(
-                                            FontAwesomeIcons.chevronRight,
-                                            size: 18.0,
+                                    const SizedBox(height: 8),
+                                    response.data.isEmpty
+                                        ? NoData(
+                                            text: context.locale
+                                                .clientHomeTabNoDataFound,
                                           )
-                                        ],
-                                      ),
-                                    ),
+                                        : SizedBox(
+                                            height: 110,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: response.data.length,
+                                              itemBuilder: (contex, index) =>
+                                                  GestureDetector(
+                                                onTap: () {
+                                                  // await Future.delayed(
+                                                  //     const Duration(
+                                                  //         milliseconds: 100));
+                                                  context.pushRoute(
+                                                    FoodDetailsRoute(
+                                                      item:
+                                                          response.data[index],
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 7.0),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 15.0,
+                                                      vertical: 11.0),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.bgGreen,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                          child: Text("${response.data[index].designation}"
+                                                                      .length <
+                                                                  20
+                                                              ? "${response.data[index].designation}"
+                                                              : "${"${response.data[index].designation}".substring(0, 20)} ...")),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              "-${response.data[index].priceReductionPercentage}%"),
+                                                          const SizedBox(
+                                                              width: 8),
+                                                          Container(
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                10,
+                                                            decoration: BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image: NetworkImage(response
+                                                                            .data[index]
+                                                                            .url ??
+                                                                        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                  ],
+                                );
+                              },
+                              error: (error, _) => Center(
+                                  child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  children: [
+                                    SelectableText(error.toString()),
+                                    TextButton.icon(
+                                        style: TextButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.primaryColor),
+                                        onPressed: () {
+                                          _onTabsRouterChange();
+                                        },
+                                        icon: const Icon(Icons.refresh,
+                                            color: AppColors.whiteColor),
+                                        label: const Text(
+                                          'Refresh',
+                                          style: TextStyle(
+                                              color: AppColors.whiteColor),
+                                        )),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
-                                response.data.isEmpty
-                                    ? NoData(
-                                        text: context
-                                            .locale.clientHomeTabNoDataFound,
-                                      )
-                                    : SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: List.generate(
-                                                response.data.length,
-                                                (index) => GestureDetector(
-                                                      onTap: () async {
-                                                        await Future.delayed(
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    100));
-                                                        context.pushRoute(
-                                                            FoodDetailsRoute(
-                                                                item: response
-                                                                        .data[
-                                                                    index]));
-                                                      },
-                                                      child: Container(
-                                                        margin: const EdgeInsets
-                                                            .only(left: 7.0),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    15.0,
-                                                                vertical: 11.0),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              AppColors.bgGreen,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(16),
-                                                        ),
-                                                        child: Column(
-                                                          children: [
-                                                            SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    5,
-                                                                child: Text("${response.data[index].designation}"
-                                                                            .length <
-                                                                        20
-                                                                    ? "${response.data[index].designation}"
-                                                                    : "${"${response.data[index].designation}".substring(0, 20)} ...")),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                    "-${response.data[index].priceReductionPercentage}%"),
-                                                                const SizedBox(
-                                                                    width: 8),
-                                                                Container(
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width /
-                                                                      10,
-                                                                  width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width /
-                                                                      10,
-                                                                  decoration: BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                          image:
-                                                                              NetworkImage(response.data[index].url ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ))),
-                                      ),
-                              ],
-                            );
-                          },
-                          error: (error, _) => Center(
-                              child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              children: [
-                                SelectableText(error.toString()),
-                                TextButton.icon(
-                                    style: TextButton.styleFrom(
-                                        backgroundColor:
-                                            AppColors.primaryColor),
-                                    onPressed: () {
-                                      _onTabsRouterChange();
-                                    },
-                                    icon: const Icon(Icons.refresh,
-                                        color: AppColors.whiteColor),
-                                    label: const Text(
-                                      'Refresh',
-                                      style: TextStyle(
-                                          color: AppColors.whiteColor),
-                                    )),
-                              ],
+                              )),
+                              loading: () => MasonryGridView.count(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 3,
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                itemBuilder: (context, index) {
+                                  return skeletonProduct(context);
+                                },
+                              ),
                             ),
-                          )),
-                          loading: () => MasonryGridView.count(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 3,
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            itemBuilder: (context, index) {
-                              return skeletonProduct(context);
-                            },
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 15),
-                mainItem(infras, "Restaurants"),
-                mainItem(supermarkets, "Supermarchés"),
-                mainItem(shops, "Boutiques"),
-                mainItem(infras, "Mieux Notes"),
-                mainItem(infras, "Plus Vendu"),
-                Text(
-                  "Restaurants",
-                  style: Theme.of(context)
-                      .textTheme
-                      .displaySmall!
-                      .copyWith(fontSize: 16),
-                ),
-                const SizedBox(height: 10.0),
-                infras.when(
-                  data: (response) {
-                    return response.data.isEmpty
-                        ? NoData(
-                            text: context.locale.clientHomeTabNoDataFound,
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: response.data.length,
-                            itemBuilder: (context, index) => InkWell(
-                                  onTap: () async {
-                                    await Future.delayed(
-                                        const Duration(milliseconds: 100));
-                                    context.pushRoute(MerchantProductRoute(
-                                        infra: response.data[index]));
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 100.0,
-                                        margin:
-                                            const EdgeInsets.only(right: 16.0),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.bgGreyLike,
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            image: DecorationImage(
+                    ),
+                    const SizedBox(height: 15),
+                    mainItem(infras, "Restaurants"),
+                    mainItem(supermarkets, "Supermarchés"),
+                    mainItem(shops, "Boutiques"),
+                    mainItem(infras, "Mieux Notes"),
+                    mainItem(infras, "Plus Vendu"),
+                    Text(
+                      "Restaurants",
+                      style: Theme.of(context)
+                          .textTheme
+                          .displaySmall!
+                          .copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(height: 10.0),
+                    infras.when(
+                      data: (response) {
+                        return response.data.isEmpty
+                            ? NoData(
+                                text: context.locale.clientHomeTabNoDataFound,
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: response.data.length,
+                                itemBuilder: (context, index) => InkWell(
+                                      onTap: () async {
+                                        await Future.delayed(
+                                            const Duration(milliseconds: 100));
+                                        context.pushRoute(MerchantProductRoute(
+                                            infra: response.data[index]));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 100.0,
+                                            margin: const EdgeInsets.only(
+                                                right: 16.0),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.bgGreyLike,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              image: DecorationImage(
                                                 fit: BoxFit.cover,
-                                                image: NetworkImage(response
-                                                        .data[index]
-                                                        .url
-                                                        .isNotEmpty
-                                                    ? response.data[index].url
-                                                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg"))),
-                                        child: Column(
-                                          children: [
-                                            Row(
+                                                image: NetworkImage(
+                                                  response.data[index].url
+                                                          .isNotEmpty
+                                                      ? response.data[index].url
+                                                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Barbieri_-_ViaSophia25668.jpg/220px-Barbieri_-_ViaSophia25668.jpg",
+                                                ),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    // Container(
+                                                    //   padding: const EdgeInsets
+                                                    //       .symmetric(
+                                                    //       horizontal: 10.0,
+                                                    //       vertical: 7.0),
+                                                    //   decoration: BoxDecoration(
+                                                    //       color: AppColors.bgYellow,
+                                                    //       borderRadius:
+                                                    //           BorderRadius.circular(
+                                                    //               10.0)),
+                                                    //   child: const Center(
+                                                    //       child: Text(
+                                                    //           'Livraison gratuite')),
+                                                    // ),
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10.0),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(),
+                                                          shape:
+                                                              BoxShape.circle),
+                                                      child: const Icon(
+                                                        FontAwesomeIcons.heart,
+                                                        size: 17.0,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                // Center(child: Text("Image"))
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 16.0,
+                                                bottom: 18.0,
+                                                top: 6.0),
+                                            child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 10.0,
-                                                      vertical: 7.0),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.bgYellow,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
-                                                  child: const Center(
-                                                      child: Text(
-                                                          'Livraison gratuite')),
-                                                ),
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  margin: const EdgeInsets.only(
-                                                      right: 10.0),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(),
-                                                      shape: BoxShape.circle),
-                                                  child: const Icon(
-                                                    FontAwesomeIcons.heart,
-                                                    size: 17.0,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            // Center(child: Text("Image"))
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 16.0,
-                                            bottom: 18.0,
-                                            top: 6.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 35,
-                                                  width: 35,
-                                                  margin: const EdgeInsets.only(
-                                                      right: 24, left: 10),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                          "assets/images/fake_profile.png"),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 35,
+                                                      width: 40,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                        right: 24,
+                                                        left: 10,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Colors
+                                                            .grey.shade500,
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.store,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Text(response.data[index]
+                                                        .designation),
+                                                  ],
                                                 ),
-                                                Text(response
-                                                    .data[index].designation),
+                                                // Row(
+                                                //   crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   children: [
+                                                //     const Icon(
+                                                //       FontAwesomeIcons.star,
+                                                //       size: 17.0,
+                                                //     ),
+                                                //     const SizedBox(width: 8.0),
+                                                //     Text(
+                                                //       response.data[index].designation,
+                                                //       style: const TextStyle(fontSize: 14.0),
+                                                //     ),
+                                                //   ],
+                                                // ),
                                               ],
                                             ),
-                                            // Row(
-                                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                                            //   children: [
-                                            //     const Icon(
-                                            //       FontAwesomeIcons.star,
-                                            //       size: 17.0,
-                                            //     ),
-                                            //     const SizedBox(width: 8.0),
-                                            //     Text(
-                                            //       response.data[index].designation,
-                                            //       style: const TextStyle(fontSize: 14.0),
-                                            //     ),
-                                            //   ],
-                                            // ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ));
-                  },
-                  error: (error, _) => const Center(),
-                  loading: () => MasonryGridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 6,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    itemBuilder: (context, index) {
-                      return skeletonProduct(context);
-                    },
-                  ),
+                                    ));
+                      },
+                      error: (error, _) => const Center(),
+                      loading: () => MasonryGridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 6,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        itemBuilder: (context, index) {
+                          return skeletonProduct(context);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

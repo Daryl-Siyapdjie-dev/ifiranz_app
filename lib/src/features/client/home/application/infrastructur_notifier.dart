@@ -11,7 +11,8 @@ class InfrastructursNotifier
     extends StateNotifier<AsyncValue<PaginatedResponse<InfrastructurModel>>> {
   final InfrastructursRepository _producstRepository;
 
-  InfrastructursNotifier(this._producstRepository) : super(const AsyncLoading());
+  InfrastructursNotifier(this._producstRepository)
+      : super(const AsyncLoading());
 
   Future fetchRestaurants(
       PaginatedRequest params, List<FilterOptional> requests,

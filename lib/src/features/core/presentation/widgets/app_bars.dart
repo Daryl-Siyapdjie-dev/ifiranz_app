@@ -125,15 +125,9 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
               onTap: () {
                 context.pushRoute(const ProfileRoute());
               },
-              child: Container(
-                height: 35,
-                width: 35,
-                margin: const EdgeInsets.only(right: 24, left: 10),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/fake_profile.png"),
-                  ),
-                ),
+              child: const Icon(
+                Icons.account_circle_rounded,
+                size: 40,
               ),
             ),
           if (!widget.isHome)
