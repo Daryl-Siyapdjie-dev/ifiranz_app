@@ -2,27 +2,28 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../../../router/app_router.dart';
 import '../../../auth/core/domain/client_request.dart';
 import '../../../auth/core/shared/provider.dart';
-import '../domain/transaction_response.dart';
-import '../shared/providers.dart';
-import '../../payment/domain/cashout_model.dart';
-import '../../payment/domain/transaction_request.dart';
-import '../../payment/share/providers.dart';
 import '../../../core/infrastructure/constants/app_sizes.dart';
 import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/string_extension.dart';
 import '../../../core/infrastructure/services/local/shared_pref.dart';
+import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
 import '../../../core/presentation/widgets/app_bars.dart';
 import '../../../core/presentation/widgets/common_textfield.dart';
 import '../../../core/presentation/widgets/phone_number.dart';
 import '../../../core/presentation/widgets/toats.dart';
 import '../../../core/shared/providers.dart';
-import '../../../../router/app_router.dart';
-import 'package:lottie/lottie.dart';
-
-import '../../../core/infrastructure/utils/common_import.dart';
-import '../../../core/presentation/themes/app_colors.dart';
+import '../../payment/domain/cashout_model.dart';
+import '../../payment/domain/transaction_request.dart';
 import '../../payment/domain/verify_transaction_request.dart';
+import '../../payment/share/providers.dart';
+import '../domain/transaction_response.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class OrderTabScreen extends StatefulHookConsumerWidget {
@@ -302,16 +303,12 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                                       //         () => progress?.dismiss());
                                       if (_formKey.currentState!.validate() &&
                                           _remeberMe) {
-                                        print("${phoneCode.text}CALLLLL");
-
                                         final newPhoneNumber =
                                             removeCountryCode(
                                           phoneCode: phoneCode.text.trim(),
                                           phoneNumber:
                                               phoneController.text.trim(),
                                         );
-                                        print(
-                                            "New phone number $newPhoneNumber");
 
                                         final progress = ProgressHUD.of(_);
                                         progress?.show();
@@ -327,7 +324,8 @@ class _OrderTabScreenState extends ConsumerState<OrderTabScreen> {
                                             .finalyse(TransactionRequest(
                                               transactionId: widget
                                                   .transactionResponse!.idDeal!,
-                                              customerPhone: newPhoneNumber,
+                                              customerPhone: newPhoneNumber
+                                                  .removeAllSpace(),
                                               customerEmail:
                                                   "${nameController.text}@ifiranz.com",
                                               customerName: nameController.text,

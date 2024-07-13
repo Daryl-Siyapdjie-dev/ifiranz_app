@@ -1,24 +1,26 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ifiranz_client/src/features/auth/core/shared/provider.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/media_query_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/common_import.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/presentation/widget/delivery_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
+
+import '../../../../router/app_router.dart';
+import '../../../auth/core/shared/provider.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/media_query_extension.dart';
+import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
+import '../../orders/presentation/widget/delivery_drawer_widget.dart';
+import '../../orders/shared/providers.dart';
 
 @RoutePage()
 class HomeDeliveryTabScreen extends StatefulHookConsumerWidget {
   const HomeDeliveryTabScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeDeliveryTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomeDeliveryTabScreenState();
 }
 
 class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
@@ -39,9 +41,13 @@ class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
     setState(() {
       isRefrechin = true;
     });
-    await ref.read(deliveryOrdersNotifierProvider.notifier).fetchDeliveryOrders(params);
+    await ref
+        .read(deliveryOrdersNotifierProvider.notifier)
+        .fetchDeliveryOrders(params);
 
-    await ref.read(deliveryDashboardOrdersNotifierProvider.notifier).fetchDeliveryOrders(params);
+    await ref
+        .read(deliveryDashboardOrdersNotifierProvider.notifier)
+        .fetchDeliveryOrders(params);
 
     setState(() {
       isRefrechin = false;
@@ -51,13 +57,18 @@ class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
   @override
   Widget build(BuildContext context) {
     final deliveryOrders = ref.watch(deliveryOrdersNotifierProvider);
-    final deliveryDashOrders = ref.watch(deliveryDashboardOrdersNotifierProvider);
+    final deliveryDashOrders =
+        ref.watch(deliveryDashboardOrdersNotifierProvider);
     final livreur = ref.watch(currentDeliverNotifierProvider);
 
     return RefreshIndicator(
       onRefresh: () => Future.microtask(() {
-        ref.refresh(deliveryOrdersNotifierProvider.notifier).fetchDeliveryOrders(params);
-        ref.refresh(deliveryDashboardOrdersNotifierProvider.notifier).fetchDeliveryOrders(params);
+        ref
+            .refresh(deliveryOrdersNotifierProvider.notifier)
+            .fetchDeliveryOrders(params);
+        ref
+            .refresh(deliveryDashboardOrdersNotifierProvider.notifier)
+            .fetchDeliveryOrders(params);
       }),
       child: Scaffold(
         key: _scaffoldKey,
@@ -70,7 +81,10 @@ class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
                 '${context.locale.merchandHomeScreenWelcome} ${'${livreur.value?.nom ?? ""} ${livreur.value?.prenom ?? ""}'}',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontSize: 16),
               ),
             ),
             gapH8,
@@ -90,14 +104,19 @@ class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
               ],
             ),
             gapH25,
-            Text(context.locale.merchandHomeScreenDashboard, style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16)),
+            Text(context.locale.merchandHomeScreenDashboard,
+                style: Theme.of(context)
+                    .textTheme
+                    .displaySmall!
+                    .copyWith(fontSize: 16)),
             gapH16,
             Row(
               children: [
                 dashboardItem(
                     nbre: deliveryOrders,
                     onTap: () {
-                      context.navigateTo(const OrderLayoutRoute(children: [OrderDeliveryTabRoute()]));
+                      context.navigateTo(const OrderLayoutRoute(
+                          children: [OrderDeliveryTabRoute()]));
                     },
                     color: AppColors.alertInfo,
                     title: context.locale.orders,
@@ -147,44 +166,52 @@ class _HomeDeliveryTabScreenState extends ConsumerState<HomeDeliveryTabScreen> {
                 ),
               ],
             ),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Stack(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SvgPicture.asset(
-                      imageBg,
-                      height: 60,
-                      width: 60,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: SvgPicture.asset(
-                      imageFg,
-                      height: 30,
-                      width: 30,
-                    ),
-                  )
-                ],
-              ),
-              gapH16,
-              nbre.hasError
-                  ? IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: () {},
-                    )
-                  : nbre.isLoading
-                      ? const SizedBox(
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: SvgPicture.asset(
+                          imageBg,
+                          height: 60,
+                          width: 60,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SvgPicture.asset(
+                          imageFg,
+                          height: 30,
                           width: 30,
-                          child: LinearProgressIndicator(),
+                        ),
+                      )
+                    ],
+                  ),
+                  gapH16,
+                  nbre.hasError
+                      ? IconButton(
+                          icon: const Icon(Icons.refresh),
+                          onPressed: () {},
                         )
-                      : Text(nbre.value?.totalPages.toString() ?? "",
-                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 20, color: color)),
-              Text(title,
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 14, color: Theme.of(context).textTheme.bodyMedium!.color)),
-            ])),
+                      : nbre.isLoading
+                          ? const SizedBox(
+                              width: 30,
+                              child: LinearProgressIndicator(),
+                            )
+                          : Text(nbre.value?.totalPages.toString() ?? "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .copyWith(fontSize: 20, color: color)),
+                  Text(title,
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          fontSize: 14,
+                          color:
+                              Theme.of(context).textTheme.bodyMedium!.color)),
+                ])),
       ),
     );
   }
@@ -215,7 +242,11 @@ class FirstWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(context.locale.deliveryTodayClanhhenge, style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 14)),
+          Text(context.locale.deliveryTodayClanhhenge,
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall!
+                  .copyWith(fontSize: 14)),
           Row(
             children: [
               Padding(
@@ -232,10 +263,13 @@ class FirstWidget extends StatelessWidget {
                           ..color = AppColors.primaryColor,
                         decoration: TextDecoration.none,
                         shadows: const [
-                          Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
-                          Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
+                          Shadow(
+                              offset: Offset(-1.5, -1.5), color: Colors.white),
+                          Shadow(
+                              offset: Offset(1.5, -1.5), color: Colors.white),
                           Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
-                          Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
+                          Shadow(
+                              offset: Offset(-1.5, 1.5), color: Colors.white),
                         ]),
                   ),
                 ),
@@ -248,10 +282,15 @@ class FirstWidget extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8, top: 21),
                     child: Text(
                       context.locale.percentOn(10),
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 28, color: AppColors.primaryColor),
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          fontSize: 28, color: AppColors.primaryColor),
                     ),
                   ),
-                  Text(context.locale.promoDeliveryMessage, style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 14))
+                  Text(context.locale.promoDeliveryMessage,
+                      style: Theme.of(context)
+                          .textTheme
+                          .displaySmall!
+                          .copyWith(fontSize: 14))
                 ],
               )
             ],

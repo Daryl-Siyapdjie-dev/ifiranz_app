@@ -25,14 +25,16 @@ AppBar simpleBackAppBar() {
               child: Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(left: 24, top: 5),
-                padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 22),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 17, horizontal: 22),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: AppColors.bgGreyIcon,
                 ),
                 child: SvgPicture.asset(
                   "assets/icons/back.svg",
-                  colorFilter: const ColorFilter.mode(AppColors.blackColor, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(
+                      AppColors.blackColor, BlendMode.srcIn),
                 ),
               )),
         ],
@@ -55,14 +57,16 @@ AppBar simpleBackAndTextAppBar(String title) {
               child: Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(left: 24, top: 5),
-                padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 22),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 17, horizontal: 22),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: AppColors.bgGreyIcon,
                 ),
                 child: SvgPicture.asset(
                   "assets/icons/back.svg",
-                  colorFilter: const ColorFilter.mode(AppColors.blackColor, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(
+                      AppColors.blackColor, BlendMode.srcIn),
                 ),
               )),
           gapW30,
@@ -76,7 +80,8 @@ AppBar simpleBackAndTextAppBar(String title) {
   );
 }
 
-class CustomAppBar extends StatefulHookConsumerWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulHookConsumerWidget
+    implements PreferredSizeWidget {
   final String? title;
   final Widget? action;
   final bool isHome;
@@ -86,13 +91,23 @@ class CustomAppBar extends StatefulHookConsumerWidget implements PreferredSizeWi
   final GlobalKey<ScaffoldState>? scaffoldKey;
 
   const CustomAppBar(
-      {super.key, this.title, this.action, this.isHome = false, this.canPop = true, this.isDelivery = false, this.scaffoldKey, this.appBar});
+      {super.key,
+      this.title,
+      this.action,
+      this.isHome = false,
+      this.canPop = true,
+      this.isDelivery = false,
+      this.scaffoldKey,
+      this.appBar});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight((title is String || appBar is TabBar) ? kToolbarHeight * 2 : kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight((title is String || appBar is TabBar)
+          ? kToolbarHeight * 2
+          : kToolbarHeight);
 }
 
 class _CustomAppBarState extends ConsumerState<CustomAppBar> {
@@ -209,7 +224,8 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   }
 }
 
-class CustomMarchandAppBar extends StatefulHookConsumerWidget implements PreferredSizeWidget {
+class CustomMarchandAppBar extends StatefulHookConsumerWidget
+    implements PreferredSizeWidget {
   final String? title;
   final Widget? action, leading;
   final bool isHome;
@@ -228,10 +244,12 @@ class CustomMarchandAppBar extends StatefulHookConsumerWidget implements Preferr
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomMarchandAppBarState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomMarchandAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(title is String ? kToolbarHeight * 2 : kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(title is String ? kToolbarHeight * 2 : kToolbarHeight);
 }
 
 class _CustomMarchandAppBarState extends ConsumerState<CustomMarchandAppBar> {
@@ -271,12 +289,16 @@ class _CustomMarchandAppBarState extends ConsumerState<CustomMarchandAppBar> {
                 borderRadius: BorderRadius.circular(100),
                 child: merchand.hasValue && merchand.value?.url is String
                     ? CachedNetworkImage(
-                        imageUrl: merchand.value?.url ?? "http://via.placeholder.com/350x150",
+                        imageUrl: merchand.value?.url ??
+                            "http://via.placeholder.com/350x150",
                         fit: BoxFit.cover,
-                        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                          child: CircularProgressIndicator(value: downloadProgress.progress),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
                         ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       )
                     : merchand.value?.url is! String
                         ? Container()
@@ -320,7 +342,8 @@ class _CustomMarchandAppBarState extends ConsumerState<CustomMarchandAppBar> {
   }
 }
 
-class CustomDeliveryAppBar extends StatefulHookConsumerWidget implements PreferredSizeWidget {
+class CustomDeliveryAppBar extends StatefulHookConsumerWidget
+    implements PreferredSizeWidget {
   final String? title;
   final Widget? action;
   final Widget? leading;
@@ -341,18 +364,24 @@ class CustomDeliveryAppBar extends StatefulHookConsumerWidget implements Preferr
       this.appBar});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomDeliveryAppBarState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomDeliveryAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(title is String ? kToolbarHeight * 2 : kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(title is String ? kToolbarHeight * 2 : kToolbarHeight);
 }
 
 class _CustomDeliveryAppBarState extends ConsumerState<CustomDeliveryAppBar> {
   @override
   void initState() {
-    ref
-        .read(currentDeliverNotifierProvider.notifier)
-        .getCurrentLivreur(FilterOptional.fromJson({"key": "user", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true}));
+    ref.read(currentDeliverNotifierProvider.notifier).getCurrentLivreur(
+            FilterOptional.fromJson({
+          "key": "user",
+          "value": SharedPref.getEmail(),
+          "type": "EQUAL",
+          "applyAnd": true
+        }));
     super.initState();
   }
 
@@ -385,15 +414,24 @@ class _CustomDeliveryAppBarState extends ConsumerState<CustomDeliveryAppBar> {
               borderRadius: BorderRadius.circular(100),
               child: livreur.hasValue && livreur.value?.url is String
                   ? CachedNetworkImage(
-                      imageUrl: livreur.value?.url ?? "http://via.placeholder.com/350x150",
+                      imageUrl: livreur.value?.url ??
+                          "http://via.placeholder.com/350x150",
                       fit: BoxFit.cover,
-                      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                        child: CircularProgressIndicator(value: downloadProgress.progress),
+                      color: Colors.grey,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
                       ),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     )
                   : livreur.value?.url is! String
-                      ? Container()
+                      ? CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey.shade300,
+                          child: const Icon(Icons.person),
+                        )
                       : const CircularProgressIndicator(),
             ),
           ),

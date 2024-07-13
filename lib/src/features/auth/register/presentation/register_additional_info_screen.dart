@@ -1,19 +1,18 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/auth/register/domain/add_merchant_client_request.dart';
-import 'package:ifiranz_client/src/features/auth/register/shared/providers.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_constants.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/common_textfield.dart';
-import 'package:ifiranz_client/src/features/core/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
 
+import '../../../../router/app_router.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/services/local/shared_pref.dart';
+import '../../../core/infrastructure/utils/api_constants.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/common_textfield.dart';
+import '../../../core/shared/providers.dart';
 import '../domain/add_client_request.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class RegisterAdditionalInfoScreen extends StatefulHookConsumerWidget {
