@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/presentation/widget/delivery_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/transactions/domain/transaction_response.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/transactions/shared/providers.dart';
+
+import '../../../../../core/domain/paginated_request.dart';
+import '../../../../../core/infrastructure/constants/app_sizes.dart';
 import '../../../../../core/infrastructure/utils/common_import.dart';
+import '../../../../../core/presentation/themes/app_colors.dart';
+import '../../../../../core/presentation/widgets/app_bars.dart';
+import '../../../../../core/presentation/widgets/no_data.dart';
+import '../../../../../delivery/orders/presentation/widget/delivery_drawer_widget.dart';
+import '../domain/transaction_response.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class MerchandDashboardTransactionScreen extends StatefulHookConsumerWidget {

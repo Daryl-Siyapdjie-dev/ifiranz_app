@@ -1,28 +1,29 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/shared/providers.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/inventory/domain/inventory.dart';
 
+import '../../../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../../../core/infrastructure/extensions/localization_extension.dart';
 import '../../../../../core/infrastructure/utils/common_import.dart';
+import '../../../../../core/presentation/themes/app_colors.dart';
+import '../../../../../core/presentation/widgets/app_bars.dart';
+import '../../../../../core/presentation/widgets/toats.dart';
 import '../../../../../delivery/orders/domain/delivery_models.dart';
+import '../../../../../delivery/orders/shared/providers.dart';
 
 @RoutePage()
 class MerchandInventoryDetailsScreen extends StatefulHookConsumerWidget {
-  final Inventory data;
+  final Records data;
   const MerchandInventoryDetailsScreen({
     super.key,
     required this.data,
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => MerchandInventoryDetailsScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      MerchandInventoryDetailsScreenState();
 }
 
-class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventoryDetailsScreen> {
+class MerchandInventoryDetailsScreenState
+    extends ConsumerState<MerchandInventoryDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(
@@ -56,8 +57,11 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  decoration: BoxDecoration(color: AppColors.bgGreyD, borderRadius: BorderRadius.circular(8)),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  decoration: BoxDecoration(
+                      color: AppColors.bgGreyD,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Column(
                     children: [
                       const Row(
@@ -70,26 +74,33 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                         ],
                       ),
                       gapH4,
-                      ...(widget.data.commande?.articles ?? []).map((aricle) => Column(
-                            children: [
-                              cartItem(aricle),
-                              gapH8,
-                            ],
-                          )),
+                      ...(widget.data.commande?.articles ?? [])
+                          .map((aricle) => Column(
+                                children: [
+                                  cartItem(aricle),
+                                  gapH8,
+                                ],
+                              )),
                       gapH16,
                       const Divider(
                         thickness: 2,
                         color: AppColors.whiteColor,
                       ),
                       gapH4,
-                      cartListTile(amount: widget.data.commande?.montantLivraison?.ceil() ?? 0, title: "Shipping fee"),
+                      cartListTile(
+                        amount: widget.data.montantLivraison?.ceil() ?? 0,
+                        title: "Shipping fee",
+                      ),
                       gapH20,
                       const Divider(
                         thickness: 2,
                         color: AppColors.whiteColor,
                       ),
                       gapH12,
-                      cartListTile(amount: widget.data.commande?.montant ?? 0, title: "Total", isTotal: true),
+                      cartListTile(
+                          amount: widget.data.dueAmount ?? 0,
+                          title: "Total",
+                          isTotal: true),
                       gapH25,
                     ],
                   ),
@@ -101,29 +112,18 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                       Row(
                         children: [
                           Text(
-                            context.locale.ditance,
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                            context.locale.deliveryAddress,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: AppColors.greyTextColor),
                           ),
                           const Spacer(),
-                          Text('${widget.data.commande?.localisationGps} to ${widget.data.commande?.client?.adresse}',
-                              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold))
-                        ],
-                      ),
-                      gapH8,
-                      Row(
-                        children: [
-                          Text(
-                            context.locale.address,
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                          ),
-                          const Spacer(),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text('  ${widget.data.commande?.client?.adresse} ',
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
-                            ),
-                          )
+                          Text('${widget.data.localisationGps ?? " "} ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontWeight: FontWeight.bold))
                         ],
                       ),
                       gapH8,
@@ -132,14 +132,24 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                         children: [
                           Text(
                             "Customer",
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: AppColors.greyTextColor),
                           ),
                           const Spacer(),
                           Expanded(
                             child: Align(
                               alignment: Alignment.centerRight,
-                              child: Text('  ${widget.data.commande?.client?.nom} ${widget.data.commande?.client?.prenom}',
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+                              child: Text(
+                                '  ${widget.data.clientName}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
                           )
                         ],
@@ -149,11 +159,17 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                         children: [
                           Text(
                             "Payement method",
-                            style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: AppColors.greyTextColor),
                           ),
                           const Spacer(),
-                          Text('   ${widget.data.commande?.modePayement}',
-                              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold))
+                          Text('   ${widget.data.modePayement ?? " "}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontWeight: FontWeight.bold))
                         ],
                       ),
                     ],
@@ -163,12 +179,19 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
         ));
   }
 
-  Row cartListTile({required String title, required num amount, bool isTotal = false, bool isCoupon = false}) {
+  Row cartListTile(
+      {required String title,
+      required num amount,
+      bool isTotal = false,
+      bool isCoupon = false}) {
     return Row(
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextColor),
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: AppColors.greyTextColor),
         ),
         const Spacer(),
         RichText(
@@ -176,12 +199,24 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
           TextSpan(
               text: isCoupon ? "(-) $amount" : "$amount ",
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor, fontWeight: FontWeight.bold, fontSize: isTotal ? 20 : 12)),
+                  color: !isTotal
+                      ? AppColors.greyTextColor
+                      : AppColors.secondaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTotal ? 20 : 12)),
           isCoupon
-              ? TextSpan(text: "%", style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12, color: AppColors.greyTextColor))
+              ? TextSpan(
+                  text: "%",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 12, color: AppColors.greyTextColor))
               : TextSpan(
                   text: "XAF",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor)),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: !isTotal
+                          ? AppColors.greyTextColor
+                          : AppColors.secondaryColor)),
         ]))
       ],
     );
@@ -199,7 +234,10 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
                 children: [
                   Text(
                     "${article.article?.designation}",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -212,8 +250,16 @@ class MerchandInventoryDetailsScreenState extends ConsumerState<MerchandInventor
           text: TextSpan(children: [
         TextSpan(
             text: "${article.montant?.ceil()} ",
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.secondaryColor, fontWeight: FontWeight.bold, fontSize: 12)),
-        TextSpan(text: "XAF", style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 8, color: AppColors.secondaryColor)),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: AppColors.secondaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 12)),
+        TextSpan(
+            text: "XAF",
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: 8, color: AppColors.secondaryColor)),
       ])),
     ]);
   }

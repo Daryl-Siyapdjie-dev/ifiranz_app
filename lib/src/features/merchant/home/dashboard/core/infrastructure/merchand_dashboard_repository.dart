@@ -1,6 +1,6 @@
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/core/infrastructure/merchand_dashbord_remote_service.dart';
+import '../../../../../core/domain/api_failure.dart';
 import '../../../../../core/infrastructure/utils/api_exception.dart';
+import 'merchand_dashbord_remote_service.dart';
 
 class MerchandDashboardRepository {
   final MerchandDashboardRemoteService _productRemoteService;

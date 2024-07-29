@@ -1,59 +1,70 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/core/domain/enum.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/delivery/shared/providers.dart';
 
 import '../../../../../../router/app_router.dart';
+import '../../../../../core/domain/enum.dart';
+import '../../../../../core/domain/paginated_request.dart';
+import '../../../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../../../core/infrastructure/extensions/string_extension.dart';
 import '../../../../../core/infrastructure/utils/common_import.dart';
+import '../../../../../core/presentation/themes/app_colors.dart';
+import '../../../../../core/presentation/widgets/app_bars.dart';
+import '../../../../../core/presentation/widgets/no_data.dart';
 import '../../../../../delivery/orders/domain/delivery_models.dart';
+import '../../../../core/presentation/widget/order_drawer_widget.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
-class MerchandDashboardDashboardDeliveryScreen extends StatefulHookConsumerWidget {
+class MerchandDashboardDashboardDeliveryScreen
+    extends StatefulHookConsumerWidget {
   const MerchandDashboardDashboardDeliveryScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MerchandDashboardDashboardDeliveryScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MerchandDashboardDashboardDeliveryScreenState();
 }
 
-class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<MerchandDashboardDashboardDeliveryScreen> {
+class _MerchandDashboardDashboardDeliveryScreenState
+    extends ConsumerState<MerchandDashboardDashboardDeliveryScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  PaginatedRequest params = PaginatedRequest(page: 0, size: 7);
+  PaginatedRequest params = PaginatedRequest(page: 0, size: 10);
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.microtask(() {
-        ref.refresh(merchandDashBoardDeliveryNotifierProvider.notifier).fetchDeals(params);
+        ref
+            .refresh(merchantDeliveriesNotifier.notifier)
+            .getMerchantDeliveries(params);
       });
     });
 
     super.initState();
   }
 
+  // merchandDashBoardDeliveryNotifierProvider -> merchantDeliveriesNotifier
+
   @override
   Widget build(BuildContext context) {
-    final orders = ref.watch(merchandDashBoardDeliveryNotifierProvider);
+    final orders = ref.watch(merchantDeliveriesNotifier);
     final controller = useScrollController();
     final isFilter = useState(false);
 
     controller.addListener(() async {
       if (controller.position.maxScrollExtent == controller.position.pixels) {
-        if (ref.watch(merchandDashBoardDeliveryNotifierProvider).hasValue &&
-            (ref.watch(merchandDashBoardDeliveryNotifierProvider).value!.hasMore) &&
-            !(ref.watch(merchandDashBoardDeliveryNotifierProvider).value!.isLoadingMore)) {
+        if (ref.watch(merchantDeliveriesNotifier).hasValue &&
+            (ref.watch(merchantDeliveriesNotifier).value!.hasMore) &&
+            !(ref.watch(merchantDeliveriesNotifier).value!.isLoadingMore)) {
           await ref
-              .read(merchandDashBoardDeliveryNotifierProvider.notifier)
-              .fetchDeals(params.copyWith(page: params.page + 1), isMore: true)
+              .read(merchantDeliveriesNotifier.notifier)
+              .getMerchantDeliveries(params.copyWith(page: params.page + 1),
+                  isMore: true)
               .whenComplete(() {
-            if (!(ref.watch(merchandDashBoardDeliveryNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(merchantDeliveriesNotifier)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -64,7 +75,9 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
     });
 
     return RefreshIndicator(
-      onRefresh: () => ref.read(merchandDashBoardDeliveryNotifierProvider.notifier).fetchDeals(PaginatedRequest(page: 0, size: 7)),
+      onRefresh: () => ref
+          .read(merchantDeliveriesNotifier.notifier)
+          .getMerchantDeliveries(PaginatedRequest(page: 0, size: 10)),
       child: Scaffold(
           key: _scaffoldKey,
           appBar: CustomMarchandAppBar(
@@ -78,15 +91,24 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
                       children: [
                         if (isFilter.value) ...[
                           TextButton.icon(
-                              style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
+                              style: TextButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 0)),
                               onPressed: () {
                                 isFilter.value = false;
-                                ref.refresh(merchandDashBoardDeliveryNotifierProvider.notifier).fetchDeals(params.copyWith(page: 0));
+                                ref
+                                    .refresh(
+                                        merchantDeliveriesNotifier.notifier)
+                                    .getMerchantDeliveries(
+                                        params.copyWith(page: 0));
                               },
-                              icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                              icon: const Icon(Icons.close,
+                                  color: AppColors.primaryColor),
                               label: Text(
                                 context.locale.clearFilter,
-                                style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.primaryColor),
                               )),
                         ],
                         NoData(
@@ -100,36 +122,65 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
                       children: [
                         if (isFilter.value) ...[
                           TextButton.icon(
-                              style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
+                              style: TextButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 0)),
                               onPressed: () {
                                 isFilter.value = false;
-                                ref.refresh(merchandDashBoardDeliveryNotifierProvider.notifier).fetchDeals(params.copyWith(page: 0));
+                                ref
+                                    .refresh(
+                                        merchantDeliveriesNotifier.notifier)
+                                    .getMerchantDeliveries(
+                                        params.copyWith(page: 0));
                               },
-                              icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                              icon: const Icon(Icons.close,
+                                  color: AppColors.primaryColor),
                               label: Text(
                                 context.locale.clearFilter,
-                                style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.primaryColor),
                               )),
                         ],
-                        ...response.data.map((e) => orderItem(context, e)).toList(),
+                        ...response.data
+                            .map((e) => orderItem(context, e))
+                            .toList(),
                         gapH10,
-                        if (((ref.watch(merchandDashBoardDeliveryNotifierProvider).value?.hasMore ?? false) ||
-                            (ref.watch(merchandDashBoardDeliveryNotifierProvider).value?.isLoadingMore ?? false)))
+                        if (((ref
+                                    .watch(merchantDeliveriesNotifier)
+                                    .value
+                                    ?.hasMore ??
+                                false) ||
+                            (ref
+                                    .watch(merchantDeliveriesNotifier)
+                                    .value
+                                    ?.isLoadingMore ??
+                                false)))
                           const Center(
                             child: CircularProgressIndicator(),
                           ),
-                        if ((ref.watch(merchandDashBoardDeliveryNotifierProvider).value?.hasErrorOnLoadMore ?? false))
+                        if ((ref
+                                .watch(merchantDeliveriesNotifier)
+                                .value
+                                ?.hasErrorOnLoadMore ??
+                            false))
                           Center(
                             child: IconButton(
                               icon: const Icon(Icons.refresh),
                               onPressed: () async {
                                 await ref
-                                    .read(merchandDashBoardDeliveryNotifierProvider.notifier)
-                                    .fetchDeals(params.copyWith(page: params.page + 1), isMore: true)
+                                    .read(merchantDeliveriesNotifier.notifier)
+                                    .getMerchantDeliveries(
+                                        params.copyWith(page: params.page + 1),
+                                        isMore: true)
                                     .whenComplete(() {
-                                  if (!(ref.watch(merchandDashBoardDeliveryNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                  if (!(ref
+                                      .watch(merchantDeliveriesNotifier)
+                                      .value!
+                                      .hasErrorOnLoadMore)) {
                                     setState(() {
-                                      params = params.copyWith(page: params.page + 1);
+                                      params = params.copyWith(
+                                          page: params.page + 1);
                                     });
                                   }
                                 });
@@ -185,7 +236,10 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
                 ),
                 gapW10,
                 buildStatusContainer(
-                  OrderStatus.values.firstWhere((e) => e.value.toLowerCase() == record.statut?.toLowerCase(), orElse: () => OrderStatus.accepte),
+                  OrderStatus.values.firstWhere(
+                      (e) =>
+                          e.value.toLowerCase() == record.statut?.toLowerCase(),
+                      orElse: () => OrderStatus.accepte),
                 ),
               ],
             ),
@@ -193,13 +247,19 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
             Row(
               children: [
                 Text(
-                  "${context.locale.ditance}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  "${context.locale.deliveryAddress}:",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.commande?.localisationGps}',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.blackColor)),
+                  child: Text('${record.localisationGps}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.blackColor)),
                 ),
               ],
             ),
@@ -208,11 +268,17 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
               children: [
                 Text(
                   "${context.locale.designation}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text(record.commande?.designation?.capitalize() ?? "", style: Theme.of(context).textTheme.bodySmall),
+                  child: Text(
+                    record.designation?.capitalize() ?? "",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               ],
             ),
@@ -221,11 +287,15 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
               children: [
                 Text(
                   "${context.locale.amount}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.commande?.montant ?? 0} XAF', style: Theme.of(context).textTheme.bodySmall),
+                  child: Text('${record.dueAmount ?? 0} XAF',
+                      style: Theme.of(context).textTheme.bodySmall),
                 ),
               ],
             ),
@@ -251,7 +321,11 @@ class _MerchandDashboardDashboardDeliveryScreenState extends ConsumerState<Merch
           ),
         ],
       ),
-      child: Text(status.name.capitalize().toString(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor)),
+      child: Text(status.name.capitalize().toString(),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.whiteColor)),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
-import 'package:ifiranz_client/src/features/core/shared/providers.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/core/infrastructure/merchand_dashboard_repository.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/core/infrastructure/merchand_dashbord_remote_service.dart';
+
+import '../../../../../core/infrastructure/services/local/shared_pref.dart';
+import '../../../../../core/shared/providers.dart';
+import '../infrastructure/merchand_dashboard_repository.dart';
+import '../infrastructure/merchand_dashbord_remote_service.dart';
 
 final dashRemoteService = Provider<MerchandDashboardRemoteService>((ref) {
   return MerchandDashboardRemoteService(

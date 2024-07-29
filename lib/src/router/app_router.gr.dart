@@ -322,6 +322,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    MerchandCommissionRoute.name: (routeData) {
+      final args = routeData.argsAs<MerchandCommissionRouteArgs>(
+          orElse: () => const MerchandCommissionRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MerchandCommissionScreen(
+          key: args.key,
+          commissions: args.commissions,
+        ),
+      );
+    },
     MerchandDashboardDashboardDeliveryRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -1491,6 +1502,45 @@ class MerchandColisDetailRouteArgs {
 }
 
 /// generated route for
+/// [MerchandCommissionScreen]
+class MerchandCommissionRoute
+    extends PageRouteInfo<MerchandCommissionRouteArgs> {
+  MerchandCommissionRoute({
+    Key? key,
+    Commissions? commissions,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MerchandCommissionRoute.name,
+          args: MerchandCommissionRouteArgs(
+            key: key,
+            commissions: commissions,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MerchandCommissionRoute';
+
+  static const PageInfo<MerchandCommissionRouteArgs> page =
+      PageInfo<MerchandCommissionRouteArgs>(name);
+}
+
+class MerchandCommissionRouteArgs {
+  const MerchandCommissionRouteArgs({
+    this.key,
+    this.commissions,
+  });
+
+  final Key? key;
+
+  final Commissions? commissions;
+
+  @override
+  String toString() {
+    return 'MerchandCommissionRouteArgs{key: $key, commissions: $commissions}';
+  }
+}
+
+/// generated route for
 /// [MerchandDashboardDashboardDeliveryScreen]
 class MerchandDashboardDashboardDeliveryRoute extends PageRouteInfo<void> {
   const MerchandDashboardDashboardDeliveryRoute({List<PageRouteInfo>? children})
@@ -1524,7 +1574,7 @@ class MerchandInventoryDetailsRoute
     extends PageRouteInfo<MerchandInventoryDetailsRouteArgs> {
   MerchandInventoryDetailsRoute({
     Key? key,
-    required Inventory data,
+    required Records data,
     List<PageRouteInfo>? children,
   }) : super(
           MerchandInventoryDetailsRoute.name,
@@ -1549,7 +1599,7 @@ class MerchandInventoryDetailsRouteArgs {
 
   final Key? key;
 
-  final Inventory data;
+  final Records data;
 
   @override
   String toString() {

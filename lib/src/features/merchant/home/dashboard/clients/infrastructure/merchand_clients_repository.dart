@@ -23,11 +23,12 @@ class MerchandClientsRepository {
       return right(
         await response.when(
           success: (res) => PaginatedResponse<Client>(
-              data: (res!['record']['data']['content'] as List)
-                  .map((e) => Client.fromJson(e))
-                  .toList(),
-              totalElements: res['record']['data']['totalPages'],
-              totalPages: res['record']['data']['totalElements']),
+            data: (res!['record']['data']['content'] as List)
+                .map((e) => Client.fromJson(e))
+                .toList(),
+            totalElements: res['record']['data']['totalPages'],
+            totalPages: res['record']['data']['totalElements'],
+          ),
         ),
       );
     } on ApiException catch (apiException) {

@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ifiranz_client/src/features/client/delivery/infrastructure/remote_service/search_location_service.dart';
 
 import '../../../../core/infrastructure/utils/common_import.dart';
 import '../../domain/search_location_models.dart';
+import '../../infrastructure/remote_service/search_location_service.dart';
 
 part 'search_place_notifier.freezed.dart';
 

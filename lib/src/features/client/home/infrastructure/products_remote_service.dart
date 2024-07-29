@@ -120,8 +120,10 @@ class ProductsRemoteService {
 
   Future<ApiResponse<Json>> createCommande(CreateCommandRequest params) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildMerchandCreateCommande(),
-          data: params.toJson()),
+      // () async => _dio.post(_urlBuilder.buildMerchandCreateCommande(),
+      //     data: params.toJson()),
+      () async =>
+          _dio.post(_urlBuilder.buildCreateCommande(), data: params.toJson()),
       (data) {
         return ApiResponse.success(data as Json);
       },

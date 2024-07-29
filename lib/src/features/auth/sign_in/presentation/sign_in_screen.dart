@@ -1,11 +1,11 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/find_authority_role.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/phone_number.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/string_extension.dart';
+import '../../../core/infrastructure/services/local/shared_pref.dart';
+import '../../../core/infrastructure/utils/find_authority_role.dart';
+import '../../../core/presentation/widgets/phone_number.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:libphonenumber/libphonenumber.dart';
 
@@ -87,6 +87,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               SharedPref.setId(decodedToken['user'] ?? 0);
               SharedPref.setEmail(decodedToken['sub']);
               SharedPref.setProfile(decodedToken['profile']);
+
+              debugPrint("ID:::::::::: ${decodedToken['user']}");
 
               if (findAuthorityRole((decodedToken['authorities'] as List)
                       .map((e) => Map<String, dynamic>.from(e))

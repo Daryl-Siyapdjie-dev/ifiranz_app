@@ -513,13 +513,23 @@ mixin _$Records {
   String? get designation => throw _privateConstructorUsedError;
   Livreur? get livreur => throw _privateConstructorUsedError;
   String? get dateLivraison => throw _privateConstructorUsedError;
+  List<Article>? get articles => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
+  double? get montant => throw _privateConstructorUsedError;
+  double? get montantLivraison => throw _privateConstructorUsedError;
+  double? get montantTotal => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
   Commande? get commande => throw _privateConstructorUsedError;
+  Client? get client => throw _privateConstructorUsedError;
+  Quartier? get quartier => throw _privateConstructorUsedError;
   String? get localisationGps => throw _privateConstructorUsedError;
   String? get statut => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
   String? get otp => throw _privateConstructorUsedError;
+  double? get dueAmount => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get modePayement => throw _privateConstructorUsedError;
+  String? get dateCreate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -538,16 +548,28 @@ abstract class $RecordsCopyWith<$Res> {
       String? designation,
       Livreur? livreur,
       String? dateLivraison,
+      List<Article>? articles,
       double? latitude,
+      double? montant,
+      double? montantLivraison,
+      double? montantTotal,
       double? longitude,
       Commande? commande,
+      Client? client,
+      Quartier? quartier,
       String? localisationGps,
       String? statut,
       String? url,
-      String? otp});
+      String? otp,
+      double? dueAmount,
+      String? clientName,
+      String? modePayement,
+      String? dateCreate});
 
   $LivreurCopyWith<$Res>? get livreur;
   $CommandeCopyWith<$Res>? get commande;
+  $ClientCopyWith<$Res>? get client;
+  $QuartierCopyWith<$Res>? get quartier;
 }
 
 /// @nodoc
@@ -569,13 +591,23 @@ class _$RecordsCopyWithImpl<$Res, $Val extends Records>
     Object? designation = freezed,
     Object? livreur = freezed,
     Object? dateLivraison = freezed,
+    Object? articles = freezed,
     Object? latitude = freezed,
+    Object? montant = freezed,
+    Object? montantLivraison = freezed,
+    Object? montantTotal = freezed,
     Object? longitude = freezed,
     Object? commande = freezed,
+    Object? client = freezed,
+    Object? quartier = freezed,
     Object? localisationGps = freezed,
     Object? statut = freezed,
     Object? url = freezed,
     Object? otp = freezed,
+    Object? dueAmount = freezed,
+    Object? clientName = freezed,
+    Object? modePayement = freezed,
+    Object? dateCreate = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -602,9 +634,25 @@ class _$RecordsCopyWithImpl<$Res, $Val extends Records>
           ? _value.dateLivraison
           : dateLivraison // ignore: cast_nullable_to_non_nullable
               as String?,
+      articles: freezed == articles
+          ? _value.articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<Article>?,
       latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montant: freezed == montant
+          ? _value.montant
+          : montant // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montantLivraison: freezed == montantLivraison
+          ? _value.montantLivraison
+          : montantLivraison // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montantTotal: freezed == montantTotal
+          ? _value.montantTotal
+          : montantTotal // ignore: cast_nullable_to_non_nullable
               as double?,
       longitude: freezed == longitude
           ? _value.longitude
@@ -614,6 +662,14 @@ class _$RecordsCopyWithImpl<$Res, $Val extends Records>
           ? _value.commande
           : commande // ignore: cast_nullable_to_non_nullable
               as Commande?,
+      client: freezed == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as Client?,
+      quartier: freezed == quartier
+          ? _value.quartier
+          : quartier // ignore: cast_nullable_to_non_nullable
+              as Quartier?,
       localisationGps: freezed == localisationGps
           ? _value.localisationGps
           : localisationGps // ignore: cast_nullable_to_non_nullable
@@ -629,6 +685,22 @@ class _$RecordsCopyWithImpl<$Res, $Val extends Records>
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dueAmount: freezed == dueAmount
+          ? _value.dueAmount
+          : dueAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      modePayement: freezed == modePayement
+          ? _value.modePayement
+          : modePayement // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateCreate: freezed == dateCreate
+          ? _value.dateCreate
+          : dateCreate // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -656,6 +728,30 @@ class _$RecordsCopyWithImpl<$Res, $Val extends Records>
       return _then(_value.copyWith(commande: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ClientCopyWith<$Res>? get client {
+    if (_value.client == null) {
+      return null;
+    }
+
+    return $ClientCopyWith<$Res>(_value.client!, (value) {
+      return _then(_value.copyWith(client: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuartierCopyWith<$Res>? get quartier {
+    if (_value.quartier == null) {
+      return null;
+    }
+
+    return $QuartierCopyWith<$Res>(_value.quartier!, (value) {
+      return _then(_value.copyWith(quartier: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -672,18 +768,32 @@ abstract class _$$RecordsImplCopyWith<$Res> implements $RecordsCopyWith<$Res> {
       String? designation,
       Livreur? livreur,
       String? dateLivraison,
+      List<Article>? articles,
       double? latitude,
+      double? montant,
+      double? montantLivraison,
+      double? montantTotal,
       double? longitude,
       Commande? commande,
+      Client? client,
+      Quartier? quartier,
       String? localisationGps,
       String? statut,
       String? url,
-      String? otp});
+      String? otp,
+      double? dueAmount,
+      String? clientName,
+      String? modePayement,
+      String? dateCreate});
 
   @override
   $LivreurCopyWith<$Res>? get livreur;
   @override
   $CommandeCopyWith<$Res>? get commande;
+  @override
+  $ClientCopyWith<$Res>? get client;
+  @override
+  $QuartierCopyWith<$Res>? get quartier;
 }
 
 /// @nodoc
@@ -703,13 +813,23 @@ class __$$RecordsImplCopyWithImpl<$Res>
     Object? designation = freezed,
     Object? livreur = freezed,
     Object? dateLivraison = freezed,
+    Object? articles = freezed,
     Object? latitude = freezed,
+    Object? montant = freezed,
+    Object? montantLivraison = freezed,
+    Object? montantTotal = freezed,
     Object? longitude = freezed,
     Object? commande = freezed,
+    Object? client = freezed,
+    Object? quartier = freezed,
     Object? localisationGps = freezed,
     Object? statut = freezed,
     Object? url = freezed,
     Object? otp = freezed,
+    Object? dueAmount = freezed,
+    Object? clientName = freezed,
+    Object? modePayement = freezed,
+    Object? dateCreate = freezed,
   }) {
     return _then(_$RecordsImpl(
       id: freezed == id
@@ -736,9 +856,25 @@ class __$$RecordsImplCopyWithImpl<$Res>
           ? _value.dateLivraison
           : dateLivraison // ignore: cast_nullable_to_non_nullable
               as String?,
+      articles: freezed == articles
+          ? _value._articles
+          : articles // ignore: cast_nullable_to_non_nullable
+              as List<Article>?,
       latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montant: freezed == montant
+          ? _value.montant
+          : montant // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montantLivraison: freezed == montantLivraison
+          ? _value.montantLivraison
+          : montantLivraison // ignore: cast_nullable_to_non_nullable
+              as double?,
+      montantTotal: freezed == montantTotal
+          ? _value.montantTotal
+          : montantTotal // ignore: cast_nullable_to_non_nullable
               as double?,
       longitude: freezed == longitude
           ? _value.longitude
@@ -748,6 +884,14 @@ class __$$RecordsImplCopyWithImpl<$Res>
           ? _value.commande
           : commande // ignore: cast_nullable_to_non_nullable
               as Commande?,
+      client: freezed == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as Client?,
+      quartier: freezed == quartier
+          ? _value.quartier
+          : quartier // ignore: cast_nullable_to_non_nullable
+              as Quartier?,
       localisationGps: freezed == localisationGps
           ? _value.localisationGps
           : localisationGps // ignore: cast_nullable_to_non_nullable
@@ -764,6 +908,22 @@ class __$$RecordsImplCopyWithImpl<$Res>
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
               as String?,
+      dueAmount: freezed == dueAmount
+          ? _value.dueAmount
+          : dueAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      modePayement: freezed == modePayement
+          ? _value.modePayement
+          : modePayement // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dateCreate: freezed == dateCreate
+          ? _value.dateCreate
+          : dateCreate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -778,13 +938,24 @@ class _$RecordsImpl implements _Records {
       this.designation,
       this.livreur,
       this.dateLivraison,
+      final List<Article>? articles,
       this.latitude,
+      this.montant,
+      this.montantLivraison,
+      this.montantTotal,
       this.longitude,
       this.commande,
+      this.client,
+      this.quartier,
       this.localisationGps,
       this.statut,
       this.url,
-      this.otp});
+      this.otp,
+      this.dueAmount,
+      this.clientName,
+      this.modePayement,
+      this.dateCreate})
+      : _articles = articles;
 
   factory _$RecordsImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecordsImplFromJson(json);
@@ -801,12 +972,32 @@ class _$RecordsImpl implements _Records {
   final Livreur? livreur;
   @override
   final String? dateLivraison;
+  final List<Article>? _articles;
+  @override
+  List<Article>? get articles {
+    final value = _articles;
+    if (value == null) return null;
+    if (_articles is EqualUnmodifiableListView) return _articles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final double? latitude;
+  @override
+  final double? montant;
+  @override
+  final double? montantLivraison;
+  @override
+  final double? montantTotal;
   @override
   final double? longitude;
   @override
   final Commande? commande;
+  @override
+  final Client? client;
+  @override
+  final Quartier? quartier;
   @override
   final String? localisationGps;
   @override
@@ -815,10 +1006,18 @@ class _$RecordsImpl implements _Records {
   final String? url;
   @override
   final String? otp;
+  @override
+  final double? dueAmount;
+  @override
+  final String? clientName;
+  @override
+  final String? modePayement;
+  @override
+  final String? dateCreate;
 
   @override
   String toString() {
-    return 'Records(id: $id, version: $version, code: $code, designation: $designation, livreur: $livreur, dateLivraison: $dateLivraison, latitude: $latitude, longitude: $longitude, commande: $commande, localisationGps: $localisationGps, statut: $statut, url: $url, otp: $otp)';
+    return 'Records(id: $id, version: $version, code: $code, designation: $designation, livreur: $livreur, dateLivraison: $dateLivraison, articles: $articles, latitude: $latitude, montant: $montant, montantLivraison: $montantLivraison, montantTotal: $montantTotal, longitude: $longitude, commande: $commande, client: $client, quartier: $quartier, localisationGps: $localisationGps, statut: $statut, url: $url, otp: $otp, dueAmount: $dueAmount, clientName: $clientName, modePayement: $modePayement, dateCreate: $dateCreate)';
   }
 
   @override
@@ -834,36 +1033,64 @@ class _$RecordsImpl implements _Records {
             (identical(other.livreur, livreur) || other.livreur == livreur) &&
             (identical(other.dateLivraison, dateLivraison) ||
                 other.dateLivraison == dateLivraison) &&
+            const DeepCollectionEquality().equals(other._articles, _articles) &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
+            (identical(other.montant, montant) || other.montant == montant) &&
+            (identical(other.montantLivraison, montantLivraison) ||
+                other.montantLivraison == montantLivraison) &&
+            (identical(other.montantTotal, montantTotal) ||
+                other.montantTotal == montantTotal) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
             (identical(other.commande, commande) ||
                 other.commande == commande) &&
+            (identical(other.client, client) || other.client == client) &&
+            (identical(other.quartier, quartier) ||
+                other.quartier == quartier) &&
             (identical(other.localisationGps, localisationGps) ||
                 other.localisationGps == localisationGps) &&
             (identical(other.statut, statut) || other.statut == statut) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.otp, otp) || other.otp == otp));
+            (identical(other.otp, otp) || other.otp == otp) &&
+            (identical(other.dueAmount, dueAmount) ||
+                other.dueAmount == dueAmount) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.modePayement, modePayement) ||
+                other.modePayement == modePayement) &&
+            (identical(other.dateCreate, dateCreate) ||
+                other.dateCreate == dateCreate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      version,
-      code,
-      designation,
-      livreur,
-      dateLivraison,
-      latitude,
-      longitude,
-      commande,
-      localisationGps,
-      statut,
-      url,
-      otp);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        version,
+        code,
+        designation,
+        livreur,
+        dateLivraison,
+        const DeepCollectionEquality().hash(_articles),
+        latitude,
+        montant,
+        montantLivraison,
+        montantTotal,
+        longitude,
+        commande,
+        client,
+        quartier,
+        localisationGps,
+        statut,
+        url,
+        otp,
+        dueAmount,
+        clientName,
+        modePayement,
+        dateCreate
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -887,13 +1114,23 @@ abstract class _Records implements Records {
       final String? designation,
       final Livreur? livreur,
       final String? dateLivraison,
+      final List<Article>? articles,
       final double? latitude,
+      final double? montant,
+      final double? montantLivraison,
+      final double? montantTotal,
       final double? longitude,
       final Commande? commande,
+      final Client? client,
+      final Quartier? quartier,
       final String? localisationGps,
       final String? statut,
       final String? url,
-      final String? otp}) = _$RecordsImpl;
+      final String? otp,
+      final double? dueAmount,
+      final String? clientName,
+      final String? modePayement,
+      final String? dateCreate}) = _$RecordsImpl;
 
   factory _Records.fromJson(Map<String, dynamic> json) = _$RecordsImpl.fromJson;
 
@@ -910,11 +1147,23 @@ abstract class _Records implements Records {
   @override
   String? get dateLivraison;
   @override
+  List<Article>? get articles;
+  @override
   double? get latitude;
+  @override
+  double? get montant;
+  @override
+  double? get montantLivraison;
+  @override
+  double? get montantTotal;
   @override
   double? get longitude;
   @override
   Commande? get commande;
+  @override
+  Client? get client;
+  @override
+  Quartier? get quartier;
   @override
   String? get localisationGps;
   @override
@@ -923,6 +1172,14 @@ abstract class _Records implements Records {
   String? get url;
   @override
   String? get otp;
+  @override
+  double? get dueAmount;
+  @override
+  String? get clientName;
+  @override
+  String? get modePayement;
+  @override
+  String? get dateCreate;
   @override
   @JsonKey(ignore: true)
   _$$RecordsImplCopyWith<_$RecordsImpl> get copyWith =>

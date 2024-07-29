@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/filter_optional.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/type_defs.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_response.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/handle_api_call.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/url_builder.dart';
+
+import '../../../../core/domain/paginated_request.dart';
+import '../../../../core/domain/type_defs.dart';
+import '../../../../core/infrastructure/utils/api_response.dart';
+import '../../../../core/infrastructure/utils/handle_api_call.dart';
+import '../../../../core/infrastructure/utils/url_builder.dart';
+import '../../../home/domain/filter_optional.dart';
 
 class DeliveryOrdersRemoteService {
   final UrlBuilder _urlBuilder;
@@ -23,11 +24,22 @@ class DeliveryOrdersRemoteService {
     );
   }
 
-  Future<ApiResponse<Json>> getListDeliveryOrders(PaginatedRequest params, List<FilterOptional> filterOptions) async {
-    print('iic');
-    print(filterOptions.map((e) => e.toJson()).toList());
+  Future<ApiResponse<Json>> getListDeliveryOrders(
+      PaginatedRequest params, List<FilterOptional> filterOptions) async {
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.builMerchantDeliveries(params), data: filterOptions.map((e) => e.toJson()).toList()),
+      () async => _dio.post(_urlBuilder.builMerchantDeliveries(params),
+          data: filterOptions.map((e) => e.toJson()).toList()),
+      (data) {
+        return ApiResponse.success(data as Json);
+      },
+    );
+  }
+
+  Future<ApiResponse<Json>> getAllUserDeliveries(
+      PaginatedRequest params, List<FilterOptional> filterOptions) async {
+    return handleApiCall<ApiResponse<Json>>(
+      () async => _dio.post(_urlBuilder.buildGetAllUserDeliveries(params),
+          data: filterOptions.map((e) => e.toJson()).toList()),
       (data) {
         return ApiResponse.success(data as Json);
       },

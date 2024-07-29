@@ -53,6 +53,7 @@ import '../features/delivery/home/presentation/dashboard/dashboard_orders_screen
 import '../features/delivery/home/presentation/home_delivery_screen.dart';
 import '../features/delivery/home/presentation/home_delivery_tab_screen.dart';
 import '../features/delivery/main_app_delivery_screen.dart';
+import '../features/delivery/orders/domain/commission_model.dart';
 import '../features/delivery/orders/domain/delivery_models.dart';
 import '../features/delivery/orders/presentation/order_delivery_details_screen.dart';
 import '../features/delivery/orders/presentation/order_delivery_tab_screen.dart';
@@ -70,6 +71,7 @@ import '../features/merchant/home/dashboard/delivery/presentation/merchand_order
 import '../features/merchant/home/dashboard/inventory/domain/inventory.dart';
 import '../features/merchant/home/dashboard/inventory/presentation/merchand_inventory_details_screen.dart';
 import '../features/merchant/home/dashboard/inventory/presentation/merchand_inventory_screen.dart';
+import '../features/merchant/home/dashboard/transactions/presentation/merchand_commission_screen.dart';
 import '../features/merchant/home/dashboard/transactions/presentation/merchand_transactions_screen.dart';
 import '../features/merchant/home/presentation/home_merchant_screen.dart';
 import '../features/merchant/home/presentation/home_merchant_tab_screen.dart';
@@ -190,6 +192,7 @@ class AppRouter extends _$AppRouter {
                     AutoRoute(page: MerchandOrderDetailRoute.page),
                     AutoRoute(page: MerchandClientRoute.page),
                     AutoRoute(page: MerchandDashboardTransactionRoute.page),
+                    AutoRoute(page: MerchandCommissionRoute.page),
                     AutoRoute(page: CreateMerchandAddRoute.page),
                     AutoRoute(page: MerchandInventoryRoute.page),
                     AutoRoute(page: MerchandInventoryDetailsRoute.page),

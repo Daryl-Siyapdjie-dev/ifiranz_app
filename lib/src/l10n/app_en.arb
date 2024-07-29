@@ -145,8 +145,8 @@
   "merchandHomeScreenDashboard": "Dashboard",
   "merchandHomeScreenClients": "Clients",
   "merchandHomeScreenDeliveries": "Deliveries",
-  "merchandHomeScreenInventory": "Inventories",
-  "merchandHomeScreenTransactions": "Transactions",
+  "merchandHomeScreenInventory": "Orders",
+  "merchandHomeScreenTransactions": "Commission",
   "products": "Products",
   "valide": "Order received",
   "nonValide": "Order not completed",
@@ -194,5 +194,6 @@
   "invalidPhoneNumber": "Invalid Phone number",
   "colis": "Colis",
   "email": "Email",
-  "createNewColisScreenDueAmount": "Due Amount"
+  "createNewColisScreenDueAmount": "Due Amount",
+  "deliveryAddress": "Delivery address"
 }

@@ -31,231 +31,238 @@ class _ClientDeliveryOrderDetailScreenState
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ProgressHUD(
-            barrierEnabled: true,
-            borderWidth: 0,
-            child: Builder(builder: (_) {
-              return Scaffold(
-                appBar: CustomAppBar(title: context.locale.orderDetails),
-                body: ListView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                    ),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 17.0),
-                        child: Text(
-                          "${context.locale.order} #${widget.data.code}",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+          builder: (_) {
+            return Scaffold(
+              appBar: CustomAppBar(title: context.locale.orderDetails),
+              body: ListView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 17.0),
+                      child: Text(
+                        "${context.locale.order} #${widget.data.code}",
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 16),
-                        decoration: BoxDecoration(
-                            color: AppColors.bgGreyD,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 6, child: Text(context.locale.item)),
-                                const Spacer(),
-                                Text(context.locale.qty),
-                                const Spacer(),
-                                Text(context.locale.total),
-                              ],
-                            ),
-                            gapH4,
-                            ...(widget.data.commande?.articles ?? [])
-                                .map((article) => Column(
-                                      children: [
-                                        cartItem(article),
-                                        gapH8,
-                                        if (widget.data.statut ==
-                                            OrderStatus.livre.value) ...[
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Spacer(
-                                                flex: 3,
-                                              ),
-                                              Expanded(
-                                                child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                    vertical: 4,
-                                                  )),
-                                                  onPressed: () => {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return ProgressHUD(
-                                                              barrierEnabled:
-                                                                  true,
-                                                              borderWidth: 0,
-                                                              child: Builder(
-                                                                  builder:
-                                                                      (ctx) {
-                                                                return Dialog(
-                                                                    child: SingleChildScrollView(
-                                                                        child: NotationWidget(
-                                                                            id: article
-                                                                                .article!.id!,
-                                                                            ctx:
-                                                                                ctx)));
-                                                              }));
-                                                        })
-                                                  },
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      const Icon(Icons.star,
-                                                          size: 13,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: AppColors.bgGreyD,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 6, child: Text(context.locale.item)),
+                              const Spacer(),
+                              Text(context.locale.qty),
+                              const Spacer(),
+                              Text(context.locale.total),
+                            ],
+                          ),
+                          gapH4,
+                          ...(widget.data.commande?.articles ?? [])
+                              .map((article) => Column(
+                                    children: [
+                                      cartItem(article),
+                                      gapH8,
+                                      if (widget.data.statut ==
+                                          OrderStatus.livre.value) ...[
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Spacer(
+                                              flex: 3,
+                                            ),
+                                            Expanded(
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                  vertical: 4,
+                                                )),
+                                                onPressed: () => {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return ProgressHUD(
+                                                            barrierEnabled:
+                                                                true,
+                                                            borderWidth: 0,
+                                                            child: Builder(
+                                                                builder: (ctx) {
+                                                              return Dialog(
+                                                                  child: SingleChildScrollView(
+                                                                      child: NotationWidget(
+                                                                          id: article
+                                                                              .article!
+                                                                              .id!,
+                                                                          ctx:
+                                                                              ctx)));
+                                                            }));
+                                                      })
+                                                },
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    const Icon(Icons.star,
+                                                        size: 13,
+                                                        color: AppColors
+                                                            .whiteColor),
+                                                    gapW4,
+                                                    Text(
+                                                      context.locale.rate,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
                                                           color: AppColors
                                                               .whiteColor),
-                                                      gapW4,
-                                                      Text(
-                                                        context.locale.rate,
-                                                        style: const TextStyle(
-                                                            fontSize: 12,
-                                                            color: AppColors
-                                                                .whiteColor),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          )
-                                        ]
-                                      ],
-                                    )),
-                            gapH16,
-                            const Divider(
-                              thickness: 2,
-                              color: AppColors.whiteColor,
-                            ),
-                            gapH4,
-                            cartListTile(
-                                amount: widget.data.commande?.montantLivraison
-                                        ?.ceil() ??
-                                    0,
-                                title:
-                                    context.locale.clientCartScreenShippingFee),
-                            gapH20,
-                            const Divider(
-                              thickness: 2,
-                              color: AppColors.whiteColor,
-                            ),
-                            gapH12,
-                            cartListTile(
-                                amount: widget.data.commande?.montant ?? 0,
-                                title: context.locale.total,
-                                isTotal: true),
-                            gapH25,
-                          ],
-                        ),
+                                            ),
+                                          ],
+                                        )
+                                      ]
+                                    ],
+                                  )),
+                          gapH16,
+                          const Divider(
+                            thickness: 2,
+                            color: AppColors.whiteColor,
+                          ),
+                          gapH4,
+                          cartListTile(
+                              amount: widget.data.commande?.montantLivraison
+                                      ?.ceil() ??
+                                  widget.data.montantLivraison ??
+                                  0,
+                              title:
+                                  context.locale.clientCartScreenShippingFee),
+                          gapH20,
+                          const Divider(
+                            thickness: 2,
+                            color: AppColors.whiteColor,
+                          ),
+                          gapH12,
+                          cartListTile(
+                              amount: widget.data.commande?.montant ??
+                                  widget.data.montant ??
+                                  0,
+                              title: context.locale.total,
+                              isTotal: true),
+                          gapH25,
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  context.locale.ditance,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                context.locale.deliveryAddress,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: AppColors.greyTextColor),
+                              ),
+                              const Spacer(),
+                              Text(
+                                  widget.data.commande?.localisationGps ??
+                                      widget.data.localisationGps ??
+                                      "",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
-                                      .copyWith(color: AppColors.greyTextColor),
+                                      .copyWith(fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                          // gapH8,
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       context.locale.address,
+                          //       style: Theme.of(context)
+                          //           .textTheme
+                          //           .bodySmall!
+                          //           .copyWith(color: AppColors.greyTextColor),
+                          //     ),
+                          //     const Spacer(),
+                          //     Expanded(
+                          //       child: Align(
+                          //         alignment: Alignment.centerRight,
+                          //         child: Text(
+                          //             '  ${widget.data.commande?.client?.adresse} ',
+                          //             style: Theme.of(context)
+                          //                 .textTheme
+                          //                 .bodySmall!
+                          //                 .copyWith(
+                          //                     fontWeight: FontWeight.bold)),
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
+                          gapH8,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                context.locale.client,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: AppColors.greyTextColor),
+                              ),
+                              const Spacer(),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      '  ${widget.data.commande?.client?.nom ?? widget.data.client?.nom} ${widget.data.commande?.client?.prenom ?? widget.data.client?.prenom}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold)),
                                 ),
-                                const Spacer(),
-                                Text(
-                                    '${widget.data.commande?.localisationGps} ${context.locale.to} ${widget.data.commande?.client?.adresse}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(fontWeight: FontWeight.bold))
-                              ],
-                            ),
-                            gapH8,
-                            Row(
-                              children: [
-                                Text(
-                                  context.locale.address,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(color: AppColors.greyTextColor),
-                                ),
-                                const Spacer(),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                        '  ${widget.data.commande?.client?.adresse} ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                )
-                              ],
-                            ),
-                            gapH8,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  context.locale.client,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(color: AppColors.greyTextColor),
-                                ),
-                                const Spacer(),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                        '  ${widget.data.commande?.client?.nom} ${widget.data.commande?.client?.prenom}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                )
-                              ],
-                            ),
-                            gapH8,
-                          ],
-                        ),
+                              )
+                            ],
+                          ),
+                          gapH8,
+                        ],
                       ),
-                    ]),
-                bottomNavigationBar: (!widget.isPendingDeliveries ||
-                        widget.data.commande?.statut == OrderStatus.livre.value)
-                    ? null
-                    : Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              context.pushRoute(ClientDeliveryRoute(
-                                data: widget.data,
-                              ));
-                            },
-                            child: Text(context.locale.deliveryProcess)),
-                      ),
-              );
-            })));
+                    ),
+                  ]),
+              bottomNavigationBar: (!widget.isPendingDeliveries ||
+                      widget.data.commande?.statut == OrderStatus.livre.value)
+                  ? null
+                  : Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            context.pushRoute(ClientDeliveryRoute(
+                              data: widget.data,
+                            ));
+                          },
+                          child: Text(context.locale.deliveryProcess)),
+                    ),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   Row cartListTile(

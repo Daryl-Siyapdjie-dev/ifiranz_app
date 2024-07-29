@@ -200,11 +200,32 @@ class UrlBuilder {
   String builMerchantGetDeals(PaginatedRequest request, String marchand) =>
       '$baseUrl/payment-service/api/v1/deal/marchand?marchand=$marchand&page=${request.page}&size=${request.size}';
 
+  // String builMerchantDeliveries(PaginatedRequest request) =>
+  //     '$baseUrl/livraison-service/livraison/page?page=${request.page}&size=${request.size}';
+
   String builMerchantDeliveries(PaginatedRequest request) =>
       '$baseUrl/livraison-service/livraison/page?page=${request.page}&size=${request.size}';
 
+  String buildGetAllUserDeliveries(PaginatedRequest request) =>
+      '$baseUrl/livraison-service/commande/page?page=${request.page}&size=${request.size}';
+
+  // Merchant Commissions
+  String buildMerchantCommission(PaginatedRequest request) =>
+      "$baseUrl/payment-service/api/v1/commission?page=${request.page}&size=${request.size}";
+
+  // Merchant Commandes
+  String buildMerchantOrders(PaginatedRequest request) =>
+      "$baseUrl/livraison-service/commande/page/marchand?page=${request.page}&size=${request.size}";
+
+  // Merchant Deliveries
+  String buildMerchantDeliveries(PaginatedRequest request) =>
+      "$baseUrl/livraison-service/commande/page?page=${request.page}&size=${request.size}";
+
   String builMerchantDailyCommandState(PaginatedRequest request) =>
       '$baseUrl/livraison-service/commande/page/marchand?page=${request.page}&size=${request.size}';
+
+  String buildClientOrders(PaginatedRequest request) =>
+      "$baseUrl/livraison-service/commande/page?page=${request.page}&size=${request.size}";
 
   String builGetCommand(int id) => '$baseUrl/livraison-service/commande/$id';
 

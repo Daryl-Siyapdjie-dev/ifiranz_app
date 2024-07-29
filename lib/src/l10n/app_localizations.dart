@@ -954,13 +954,13 @@ abstract class AppLocalizations {
   /// No description provided for @merchandHomeScreenInventory.
   ///
   /// In en, this message translates to:
-  /// **'Inventories'**
+  /// **'Orders'**
   String get merchandHomeScreenInventory;
 
   /// No description provided for @merchandHomeScreenTransactions.
   ///
   /// In en, this message translates to:
-  /// **'Transactions'**
+  /// **'Commission'**
   String get merchandHomeScreenTransactions;
 
   /// No description provided for @products.
@@ -1190,6 +1190,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Due Amount'**
   String get createNewColisScreenDueAmount;
+
+  /// No description provided for @deliveryAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery address'**
+  String get deliveryAddress;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

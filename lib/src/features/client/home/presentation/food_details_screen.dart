@@ -3,10 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curved_carousel/curved_carousel.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ifiranz_client/src/features/auth/core/domain/client_request.dart';
-import 'package:ifiranz_client/src/features/auth/core/shared/provider.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/create_command_request.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
+import '../../../auth/core/domain/client_request.dart';
+import '../../../auth/core/shared/provider.dart';
+import '../domain/create_command_request.dart';
+import '../domain/product_model.dart';
 import 'package:ifiranz_client/src/features/client/home/presentation/utils/utils.dart';
 import 'package:ifiranz_client/src/features/client/home/shared/providers.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
@@ -92,270 +92,273 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen>
           });
     });
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ProgressHUD(
-            barrierEnabled: true,
-            borderWidth: 0,
-            child: Builder(builder: (_) {
-              return Scaffold(
-                appBar: const CustomAppBar(
-                  isHome: false,
-                ),
-                body: ListView(children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(left: 24),
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: AppColors.greyBackground),
-                              child: InkWell(
-                                  onTap: context.popRoute,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/back.svg'))),
-                        ],
-                      ),
-                      CurvedCarousel(
-                        onChangeEnd: (index, isAutomatic) {
-                          setState(() {
-                            selected = index;
-                          });
-                        },
-                        itemBuilder: (context, i) {
-                          return Container(
-                            alignment: Alignment.center,
-                            color: Colors.transparent,
-                            margin: const EdgeInsets.only(top: 20),
-                            height: context.proportionnalHeight(100),
-                            width: double.infinity,
-                            child: AnimatedSize(
-                              duration: const Duration(milliseconds: 100),
-                              child: Hero(
-                                  tag: widget.item.id!,
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.item.url ??
-                                        "http://via.placeholder.com/150x150",
-                                    progressIndicatorBuilder:
-                                        (context, url, downloadProgress) =>
-                                            Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 1.5,
-                                        value: downloadProgress.progress,
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  )),
-                            ),
-                          );
-                        },
-                        itemCount: 1,
-                        reverseAutomaticMovement: true,
-                        curveScale: -70,
-                        viewPortSize: 1,
-                        middleItemScaleRatio: 1.5,
-                      ),
-                      gapH32,
-                      PageIndicators(
-                        index: 1,
-                        currentIndex: selected,
-                        count: 1,
-                        isMin: true,
-                      ),
-                      gapH6,
-                      Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.symmetric(horizontal: 48),
-                        child: Stack(
-                          fit: StackFit.passthrough,
-                          children: [
-                            Positioned(
-                              top: 16,
-                              child: SvgPicture.string(
-                                rawSvg,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            Positioned(
-                              child: SizedBox(
-                                height: 33 + 20 + 60 + 10,
-                                child: Stack(
-                                  alignment: AlignmentDirectional.topCenter,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 33,
-                                      width: 33,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.primaryColor),
-                                      child: Text(
-                                        number.toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(
-                                                color: AppColors.whiteColor,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 12),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 31,
-                                      child: SizedBox(
-                                        height: 13,
-                                        child: SvgPicture.string(
-                                          linkCiccle,
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Row(
-                                        children: [
-                                          const Spacer(),
-                                          SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: FittedBox(
-                                                  child: (FloatingActionButton(
-                                                backgroundColor: number == 1
-                                                    ? AppColors.greyBackground
-                                                    : AppColors.greyLight,
-                                                elevation: 0,
-                                                onPressed: number == 1
-                                                    ? null
-                                                    : () {
-                                                        setState(() {
-                                                          number--;
-                                                        });
-                                                      },
-                                                child: const Icon(Icons.remove),
-                                              )))),
-                                          gapW10,
-                                          Container(
-                                            alignment: Alignment.center,
-                                            height: 80,
-                                            width: 120,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppColors.primaryColor),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  (number *
-                                                          (widget.item
-                                                                  .salePrice ??
-                                                              widget
-                                                                  .item.prix ??
-                                                              0.0))
-                                                      .formatMoney(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .whiteColor,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 16),
-                                                ),
-                                                Text(
-                                                  "XAF",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .whiteColor,
-                                                        fontSize: 8,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          gapW10,
-                                          SizedBox(
-                                              width: 30,
-                                              height: 30,
-                                              child: FittedBox(
-                                                  child: FloatingActionButton(
-                                                heroTag: "#2",
-                                                backgroundColor: number == 10
-                                                    ? AppColors.greyBackground
-                                                    : AppColors.greyLight,
-                                                elevation: 0,
-                                                onPressed: number >= 10
-                                                    ? null
-                                                    : () {
-                                                        setState(() {
-                                                          number++;
-                                                        });
-                                                      },
-                                                child: const Icon(
-                                                  Icons.add,
-                                                ),
-                                              ))),
-                                          const Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                        tabBarTheme: TabBarTheme(
-                            indicatorSize: TabBarIndicatorSize.label,
-                            labelPadding: const EdgeInsets.all(
-                              0,
-                            ),
-                            indicator: const UnderlineTabIndicator(
-                              insets: EdgeInsets.only(bottom: 15),
-                              borderSide: BorderSide(
-                                  width: 1,
-                                  color: AppColors
-                                      .primaryColor // Change this color as per your requirement
-                                  ),
-                            ),
-                            labelStyle: Theme.of(context).textTheme.bodyLarge,
-                            unselectedLabelStyle:
-                                Theme.of(context).textTheme.bodyLarge,
-                            unselectedLabelColor:
-                                Theme.of(context).textTheme.bodyMedium!.color,
-                            labelColor: AppColors.primaryColor)),
-                    child: TabBar(
-                      controller: _tabController,
-                      tabs: [
-                        const Tab(text: 'Details'),
-                        Tab(text: context.locale.comments),
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+          builder: (_) {
+            return Scaffold(
+              appBar: const CustomAppBar(
+                isHome: false,
+              ),
+              body: ListView(children: [
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(left: 24),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: AppColors.greyBackground),
+                            child: InkWell(
+                                onTap: context.popRoute,
+                                child:
+                                    SvgPicture.asset('assets/icons/back.svg'))),
                       ],
                     ),
+                    CurvedCarousel(
+                      onChangeEnd: (index, isAutomatic) {
+                        setState(() {
+                          selected = index;
+                        });
+                      },
+                      itemBuilder: (context, i) {
+                        return Container(
+                          alignment: Alignment.center,
+                          color: Colors.transparent,
+                          margin: const EdgeInsets.only(top: 20),
+                          height: context.proportionnalHeight(100),
+                          width: double.infinity,
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 100),
+                            child: Hero(
+                                tag: widget.item.id!,
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.item.url ??
+                                      "http://via.placeholder.com/150x150",
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                      value: downloadProgress.progress,
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                )),
+                          ),
+                        );
+                      },
+                      itemCount: 1,
+                      reverseAutomaticMovement: true,
+                      curveScale: -70,
+                      viewPortSize: 1,
+                      middleItemScaleRatio: 1.5,
+                    ),
+                    gapH32,
+                    PageIndicators(
+                      index: 1,
+                      currentIndex: selected,
+                      count: 1,
+                      isMin: true,
+                    ),
+                    gapH6,
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(horizontal: 48),
+                      child: Stack(
+                        fit: StackFit.passthrough,
+                        children: [
+                          Positioned(
+                            top: 16,
+                            child: SvgPicture.string(
+                              rawSvg,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          Positioned(
+                            child: SizedBox(
+                              height: 33 + 20 + 60 + 10,
+                              child: Stack(
+                                alignment: AlignmentDirectional.topCenter,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 33,
+                                    width: 33,
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.primaryColor),
+                                    child: Text(
+                                      number.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                              color: AppColors.whiteColor,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 31,
+                                    child: SizedBox(
+                                      height: 13,
+                                      child: SvgPicture.string(
+                                        linkCiccle,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Row(
+                                      children: [
+                                        const Spacer(),
+                                        SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: FittedBox(
+                                                child: (FloatingActionButton(
+                                              backgroundColor: number == 1
+                                                  ? AppColors.greyBackground
+                                                  : AppColors.greyLight,
+                                              elevation: 0,
+                                              onPressed: number == 1
+                                                  ? null
+                                                  : () {
+                                                      setState(() {
+                                                        number--;
+                                                      });
+                                                    },
+                                              child: const Icon(Icons.remove),
+                                            )))),
+                                        gapW10,
+                                        Container(
+                                          alignment: Alignment.center,
+                                          height: 80,
+                                          width: 120,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.primaryColor),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                (number *
+                                                        (widget.item
+                                                                .salePrice ??
+                                                            widget.item.prix ??
+                                                            0.0))
+                                                    .formatMoney(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .whiteColor,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 16),
+                                              ),
+                                              Text(
+                                                "XAF",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                      color:
+                                                          AppColors.whiteColor,
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        gapW10,
+                                        SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: FittedBox(
+                                                child: FloatingActionButton(
+                                              heroTag: "#2",
+                                              backgroundColor: number == 10
+                                                  ? AppColors.greyBackground
+                                                  : AppColors.greyLight,
+                                              elevation: 0,
+                                              onPressed: number >= 10
+                                                  ? null
+                                                  : () {
+                                                      setState(() {
+                                                        number++;
+                                                      });
+                                                    },
+                                              child: const Icon(
+                                                Icons.add,
+                                              ),
+                                            ))),
+                                        const Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                      tabBarTheme: TabBarTheme(
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelPadding: const EdgeInsets.all(
+                            0,
+                          ),
+                          indicator: const UnderlineTabIndicator(
+                            insets: EdgeInsets.only(bottom: 15),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: AppColors
+                                    .primaryColor // Change this color as per your requirement
+                                ),
+                          ),
+                          labelStyle: Theme.of(context).textTheme.bodyLarge,
+                          unselectedLabelStyle:
+                              Theme.of(context).textTheme.bodyLarge,
+                          unselectedLabelColor:
+                              Theme.of(context).textTheme.bodyMedium!.color,
+                          labelColor: AppColors.primaryColor)),
+                  child: TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      const Tab(text: 'Details'),
+                      Tab(text: context.locale.comments),
+                    ],
                   ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
-                      child: [
-                        detailWidget(_),
-                        getComment(),
-                      ].elementAt(_tabController.index)),
-                ]),
-              );
-            })));
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                    child: [
+                      detailWidget(_),
+                      getComment(),
+                    ].elementAt(_tabController.index)),
+              ]),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   Widget reviewWidget() {
@@ -569,93 +572,93 @@ class _FoodDetailsScreenState extends ConsumerState<FoodDetailsScreen>
             valueListenable: gpsLocationController,
             builder: (context, val, child) {
               return ElevatedButton(
-                  onPressed:
-                      // ((cart.quartier is! Quartier ||
-                      //                 cart.articles.isEmpty) &&
-                      //             val.text.isEmpty) ||
-                      ref.watch(cartProvider).articles.indexWhere((element) =>
-                                  element.article?.id == widget.item.id) !=
-                              -1
-                          ? null
-                          : () async {
-                              FocusScope.of(context).unfocus();
+                onPressed:
 
-                              if (cart.longitude is! double) {
-                                return await showErrorFlushbar(context,
-                                    'GPS location is required click to add');
-                              }
+                    // ((cart.quartier is! Quartier ||
+                    //                 cart.articles.isEmpty) &&
+                    //             val.text.isEmpty) ||
+                    ref.watch(cartProvider).articles.indexWhere((element) =>
+                                element.article?.id == widget.item.id) !=
+                            -1
+                        ? null
+                        : () async {
+                            FocusScope.of(context).unfocus();
 
-                              if (ref.watch(cartProvider).articles.indexWhere(
-                                      (element) =>
-                                          element.article?.id ==
-                                          widget.item.id) !=
-                                  -1) {
-                                return await showErrorFlushbar(
-                                    context,
-                                    context.locale
-                                        .foodDetailsScreenCartAlreadyContainsProduct);
-                              }
+                            if (cart.longitude is! double) {
+                              return await showErrorFlushbar(context,
+                                  'GPS location is required click to add');
+                            }
 
-                              // if (ref.watch(cartProvider).articles.indexWhere(
-                              //         (element) =>
-                              //             element.article?.marchand?.id ==
-                              //             element.article?.marchand?.id) !=
-                              //     -1) {
-                              //   return await showErrorFlushbar(
-                              //       context,
-                              //       context.locale
-                              //           .youCanSelectFromDifferentSeller);
-                              // }
+                            if (ref.watch(cartProvider).articles.indexWhere(
+                                    (element) =>
+                                        element.article?.id ==
+                                        widget.item.id) !=
+                                -1) {
+                              return await showErrorFlushbar(
+                                  context,
+                                  context.locale
+                                      .foodDetailsScreenCartAlreadyContainsProduct);
+                            }
 
-                              if (cart.articles.isEmpty) {
-                                final progress = ProgressHUD.of(context);
-                                progress?.show();
+                            // if (ref.watch(cartProvider).articles.indexWhere(
+                            //         (element) =>
+                            //             element.article?.marchand?.id ==
+                            //             element.article?.marchand?.id) !=
+                            //     -1) {
+                            //   return await showErrorFlushbar(
+                            //       context,
+                            //       context.locale
+                            //           .youCanSelectFromDifferentSeller);
+                            // }
 
-                                ref
-                                    .read(createCommandPoductsNotifierProvider
-                                        .notifier)
-                                    .createCommand(CreateCommandRequest(
-                                      localisationGps:
-                                          cart.localisationGps ?? "",
-                                      designation: widget.item.designation,
-                                      latitude: cart.latitude,
-                                      longitude: cart.longitude,
-                                      // quartier: quartier,
-                                      articles: [
-                                        OrderArticle(
-                                            article: widget.item,
-                                            quantite: number)
-                                      ],
-                                      modePayement: "Automatique",
-                                      // client: client,
-                                    ))
-                                    .whenComplete(() {
-                                  progress?.dismiss();
-                                });
-                              } else {
-                                final progress = ProgressHUD.of(context);
-                                progress?.show();
+                            if (cart.articles.isEmpty) {
+                              final progress = ProgressHUD.of(context);
+                              progress?.show();
 
-                                ref
-                                    .read(createCommandPoductsNotifierProvider
-                                        .notifier)
-                                    .updateCommand(cart.copyWith(
-                                      designation: cart.articles
-                                              .map(
-                                                  (e) => e.article?.designation)
-                                              .join(',') +
-                                          (widget.item.designation ?? ""),
-                                      articles: [
-                                        ...cart.articles,
-                                        OrderArticle(
-                                            article: widget.item,
-                                            quantite: number)
-                                      ],
-                                    ))
-                                    .whenComplete(() => progress?.dismiss());
-                              }
-                            },
-                  child: Text(context.locale.foodDetailsScreenAddToCart));
+                              ref
+                                  .read(createCommandPoductsNotifierProvider
+                                      .notifier)
+                                  .createCommand(CreateCommandRequest(
+                                    localisationGps: cart.localisationGps ?? "",
+                                    designation: widget.item.designation,
+                                    latitude: cart.latitude,
+                                    longitude: cart.longitude,
+                                    // quartier: quartier,
+                                    articles: [
+                                      OrderArticle(
+                                          article: widget.item,
+                                          quantite: number)
+                                    ],
+                                    modePayement: "Automatique",
+                                    // client: client,
+                                  ))
+                                  .whenComplete(() {
+                                progress?.dismiss();
+                              });
+                            } else {
+                              final progress = ProgressHUD.of(context);
+                              progress?.show();
+
+                              ref
+                                  .read(createCommandPoductsNotifierProvider
+                                      .notifier)
+                                  .updateCommand(cart.copyWith(
+                                    designation: cart.articles
+                                            .map((e) => e.article?.designation)
+                                            .join(',') +
+                                        (widget.item.designation ?? ""),
+                                    articles: [
+                                      ...cart.articles,
+                                      OrderArticle(
+                                          article: widget.item,
+                                          quantite: number)
+                                    ],
+                                  ))
+                                  .whenComplete(() => progress?.dismiss());
+                            }
+                          },
+                child: Text(context.locale.foodDetailsScreenAddToCart),
+              );
             }),
         gapH30,
       ],

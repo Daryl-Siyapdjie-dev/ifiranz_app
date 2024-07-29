@@ -474,10 +474,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get merchandHomeScreenDeliveries => 'Deliveries';
 
   @override
-  String get merchandHomeScreenInventory => 'Inventories';
+  String get merchandHomeScreenInventory => 'Orders';
 
   @override
-  String get merchandHomeScreenTransactions => 'Transactions';
+  String get merchandHomeScreenTransactions => 'Commission';
 
   @override
   String get products => 'Products';
@@ -596,4 +596,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createNewColisScreenDueAmount => 'Due Amount';
+
+  @override
+  String get deliveryAddress => 'Delivery address';
 }

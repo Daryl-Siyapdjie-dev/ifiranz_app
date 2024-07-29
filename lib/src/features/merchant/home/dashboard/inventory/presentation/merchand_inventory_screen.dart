@@ -1,20 +1,23 @@
 import 'dart:async';
-import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/refeshing_indicator.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/presentation/widget/delivery_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/date_picker.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/clients/shared/providers.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/inventory/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
 
+import 'package:auto_route/auto_route.dart';
+
+import '../../../../../../router/app_router.dart';
+import '../../../../../core/domain/paginated_request.dart';
+import '../../../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../../../core/infrastructure/extensions/string_extension.dart';
 import '../../../../../core/infrastructure/utils/common_import.dart';
+import '../../../../../core/presentation/themes/app_colors.dart';
+import '../../../../../core/presentation/widgets/app_bars.dart';
+import '../../../../../core/presentation/widgets/no_data.dart';
+import '../../../../../core/presentation/widgets/refeshing_indicator.dart';
+import '../../../../../delivery/orders/domain/delivery_models.dart';
+import '../../../../../delivery/orders/presentation/widget/delivery_drawer_widget.dart';
+import '../../../../core/presentation/widget/date_picker.dart';
+import '../../clients/shared/providers.dart';
+import '../../delivery/shared/providers.dart';
 import '../domain/inventory.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class MerchandInventoryScreen extends StatefulHookConsumerWidget {
@@ -36,8 +39,8 @@ class _MerchandInventoryScreenState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.microtask(() {
         ref
-            .read(merchandInventoryNotifierProvider.notifier)
-            .fetchDeliveryOrders(params);
+            .read(merchandDashBoardDeliveryNotifierProvider.notifier)
+            .getMerchandOrders(params);
       });
     });
 
@@ -46,24 +49,27 @@ class _MerchandInventoryScreenState
 
   @override
   Widget build(BuildContext context) {
-    final orders = ref.watch(merchandInventoryNotifierProvider);
+    final orders = ref.watch(merchandDashBoardDeliveryNotifierProvider);
     final controller = useScrollController();
 
     controller.addListener(() async {
       if (controller.position.maxScrollExtent == controller.position.pixels) {
-        if (ref.watch(merchandInventoryNotifierProvider).hasValue &&
-            (ref.watch(merchandInventoryNotifierProvider).value!.hasMore) &&
+        if (ref.watch(merchandDashBoardDeliveryNotifierProvider).hasValue &&
+            (ref
+                .watch(merchandDashBoardDeliveryNotifierProvider)
+                .value!
+                .hasMore) &&
             !(ref
-                .watch(merchandInventoryNotifierProvider)
+                .watch(merchandDashBoardDeliveryNotifierProvider)
                 .value!
                 .isLoadingMore)) {
           await ref
-              .read(merchandInventoryNotifierProvider.notifier)
-              .fetchDeliveryOrders(params.copyWith(page: params.page + 1),
+              .read(merchandDashBoardDeliveryNotifierProvider.notifier)
+              .getMerchandOrders(params.copyWith(page: params.page + 1),
                   isMore: true)
               .whenComplete(() {
             if (!(ref
-                .watch(merchandInventoryNotifierProvider)
+                .watch(merchandDashBoardDeliveryNotifierProvider)
                 .value!
                 .hasErrorOnLoadMore)) {
               setState(() {
@@ -77,21 +83,21 @@ class _MerchandInventoryScreenState
 
     return RefreshIndicator(
       onRefresh: () => ref
-          .read(merchandInventoryNotifierProvider.notifier)
-          .fetchDeliveryOrders(PaginatedRequest(page: 0, size: params.size)),
+          .read(merchandDashBoardDeliveryNotifierProvider.notifier)
+          .getMerchandOrders(PaginatedRequest(page: 0, size: params.size)),
       child: Scaffold(
           key: _scaffoldKey,
           appBar: CustomMarchandAppBar(
               title: 'Inventory',
               action: IconButton(
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => CustomDateRangePickerDialog(
-                            filterCallback: ref
-                                .read(
-                                    merchandInventoryNotifierProvider.notifier)
-                                .filterDeliveryOrders));
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (context) => CustomDateRangePickerDialog(
+                    //         filterCallback: ref
+                    //             .read(
+                    //                 merchandDashBoardDeliveryNotifierProvider.notifier)
+                    //             .filterDeliveryOrders));
                   },
                   icon: const Icon(
                     Icons.tune,
@@ -112,12 +118,14 @@ class _MerchandInventoryScreenState
                           ...response.data.map((e) => orderItem(e)).toList(),
                           gapH10,
                           if (((ref
-                                      .watch(merchandInventoryNotifierProvider)
+                                      .watch(
+                                          merchandDashBoardDeliveryNotifierProvider)
                                       .value
                                       ?.hasMore ??
                                   false) ||
                               (ref
-                                      .watch(merchandInventoryNotifierProvider)
+                                      .watch(
+                                          merchandDashBoardDeliveryNotifierProvider)
                                       .value
                                       ?.isLoadingMore ??
                                   false)))
@@ -125,7 +133,8 @@ class _MerchandInventoryScreenState
                               child: CircularProgressIndicator(),
                             ),
                           if ((ref
-                                  .watch(merchandInventoryNotifierProvider)
+                                  .watch(
+                                      merchandDashBoardDeliveryNotifierProvider)
                                   .value
                                   ?.hasErrorOnLoadMore ??
                               false))
@@ -134,16 +143,17 @@ class _MerchandInventoryScreenState
                                 icon: const Icon(Icons.refresh),
                                 onPressed: () async {
                                   await ref
-                                      .read(merchandInventoryNotifierProvider
-                                          .notifier)
-                                      .fetchDeliveryOrders(
+                                      .read(
+                                          merchandDashBoardDeliveryNotifierProvider
+                                              .notifier)
+                                      .getMerchandOrders(
                                           params.copyWith(
                                               page: params.page + 1),
                                           isMore: true)
                                       .whenComplete(() {
                                     if (!(ref
                                         .watch(
-                                            merchandInventoryNotifierProvider)
+                                            merchandDashBoardDeliveryNotifierProvider)
                                         .value!
                                         .hasErrorOnLoadMore)) {
                                       setState(() {
@@ -180,7 +190,7 @@ class _MerchandInventoryScreenState
     );
   }
 
-  Widget orderItem(Inventory record) {
+  Widget orderItem(Records record) {
     return InkWell(
       onTap: () {
         context.pushRoute(MerchandInventoryDetailsRoute(data: record));
@@ -224,9 +234,7 @@ class _MerchandInventoryScreenState
                 ),
                 gapW10,
                 Expanded(
-                  child: Text(
-                      '${record.commande?.client?.nom} ${record.commande?.client?.prenom}'
-                          .capitalize(),
+                  child: Text((record.clientName ?? " ").capitalize(),
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
@@ -246,8 +254,10 @@ class _MerchandInventoryScreenState
                 ),
                 gapW10,
                 Expanded(
-                  child: Text(record.commande?.designation?.capitalize() ?? "",
-                      style: Theme.of(context).textTheme.bodySmall),
+                  child: Text(
+                    record.designation?.capitalize() ?? "",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               ],
             ),
@@ -263,7 +273,7 @@ class _MerchandInventoryScreenState
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.commande?.montant ?? 0} XAF',
+                  child: Text('${record.dueAmount ?? 0} XAF',
                       style: Theme.of(context).textTheme.bodySmall),
                 ),
               ],

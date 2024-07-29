@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/create_command_request.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/current_cart_response.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/common_import.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/domain/enum.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
 import '../../../core/presentation/widgets/toats.dart';
+import '../../../merchant/core/presentation/widget/order_drawer_widget.dart';
+import '../../home/domain/create_command_request.dart';
+import '../../home/domain/current_cart_response.dart';
 import '../../home/shared/providers.dart';
 
 @RoutePage()
@@ -46,116 +47,167 @@ class _ClientOrderDetailScreenState
               title: context.locale.orderDetails,
             ) as PreferredSizeWidget,
       body: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-          ),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 17.0),
-              child: Text(
-                '${context.locale.order} #${cart.code}',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 17.0),
+            child: Text(
+              '${context.locale.order} #${cart.code}',
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              decoration: BoxDecoration(
-                  color: AppColors.bgGreyD,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(flex: 6, child: Text(context.locale.item)),
-                      Text(context.locale.qty),
-                      gapW30,
-                      Text(context.locale.total),
-                    ],
-                  ),
-                  gapH4,
-                  ...cart.articles.map((e) => Column(
-                        children: [
-                          cartItem(e),
-                          gapH8,
-                          if (widget.data.statut ==
-                              OrderStatus.livre.value) ...[
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Spacer(
-                                  flex: 3,
-                                ),
-                                Expanded(
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    )),
-                                    onPressed: () => {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return ProgressHUD(
-                                                barrierEnabled: true,
-                                                borderWidth: 0,
-                                                child: Builder(builder: (ctx) {
-                                                  return Dialog(
-                                                      child: SingleChildScrollView(
-                                                          child: NotationWidget(
-                                                              id: e
-                                                                  .article!.id!,
-                                                              ctx: ctx)));
-                                                }));
-                                          })
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(Icons.star,
-                                            size: 13,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            decoration: BoxDecoration(
+                color: AppColors.bgGreyD,
+                borderRadius: BorderRadius.circular(8)),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(flex: 6, child: Text(context.locale.item)),
+                    Text(context.locale.qty),
+                    gapW30,
+                    Text(context.locale.total),
+                  ],
+                ),
+                gapH4,
+                ...cart.articles.map((e) => Column(
+                      children: [
+                        cartItem(e),
+                        gapH8,
+                        if (widget.data.statut == OrderStatus.livre.value) ...[
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Spacer(
+                                flex: 3,
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  )),
+                                  onPressed: () => {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return ProgressHUD(
+                                              barrierEnabled: true,
+                                              borderWidth: 0,
+                                              child: Builder(builder: (ctx) {
+                                                return Dialog(
+                                                    child: SingleChildScrollView(
+                                                        child: NotationWidget(
+                                                            id: e.article!.id!,
+                                                            ctx: ctx)));
+                                              }));
+                                        })
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.star,
+                                          size: 13,
+                                          color: AppColors.whiteColor),
+                                      gapW4,
+                                      Text(
+                                        context.locale.rate,
+                                        style: const TextStyle(
+                                            fontSize: 12,
                                             color: AppColors.whiteColor),
-                                        gapW4,
-                                        Text(
-                                          context.locale.rate,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: AppColors.whiteColor),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            )
-                          ]
-                        ],
-                      )),
-                  gapH16,
-                  const Divider(
-                    thickness: 2,
-                    color: AppColors.whiteColor,
-                  ),
-                  gapH4,
-                  cartListTile(
-                      amount: cart.montantLivraison ?? 0,
-                      title: context.locale.clientCartScreenShippingFee),
-                  gapH6,
-                  // cartListTile(
-                  //     amount: 20, title: "Coupon discount", isCoupon: true),
-                  gapH20,
-                  const Divider(
-                    thickness: 2,
-                    color: AppColors.whiteColor,
-                  ),
-                  gapH12,
-                  cartListTile(
-                      amount: cart.montantTotal ?? 0,
-                      title: context.locale.total,
-                      isTotal: true),
-                  gapH25,
-                ],
-              ),
+                              ),
+                            ],
+                          )
+                        ]
+                      ],
+                    )),
+                gapH16,
+
+                const Divider(
+                  thickness: 2,
+                  color: AppColors.whiteColor,
+                ),
+                gapH4,
+                cartListTile(
+                    amount: cart.montantLivraison ?? 0,
+                    title: context.locale.clientCartScreenShippingFee),
+                gapH6,
+                // cartListTile(
+                //     amount: 20, title: "Coupon discount", isCoupon: true),
+                gapH20,
+                const Divider(
+                  thickness: 2,
+                  color: AppColors.whiteColor,
+                ),
+                gapH12,
+                cartListTile(
+                    amount: cart.montantTotal ?? 0,
+                    title: context.locale.total,
+                    isTotal: true),
+                gapH25,
+              ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                gapH8,
+                Row(
+                  children: [
+                    Text(
+                      context.locale.foodDetailsScreenLocation,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.greyTextColor),
+                    ),
+                    const Spacer(),
+                    Text(cart.localisationGps ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontWeight: FontWeight.bold))
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                gapH8,
+                Row(
+                  children: [
+                    Text(
+                      context.locale.foodDetailsScreenAdress,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.greyTextColor),
+                    ),
+                    const Spacer(),
+                    Text(cart.client?.adresse ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(fontWeight: FontWeight.bold))
+                  ],
+                ),
+                gapH8,
+              ],
+            ),
+          ),
+          if (cart.dateCreate != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -164,39 +216,17 @@ class _ClientOrderDetailScreenState
                   Row(
                     children: [
                       Text(
-                        context.locale.foodDetailsScreenLocation,
+                        "Date",
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(color: AppColors.greyTextColor),
                       ),
                       const Spacer(),
-                      Text(cart.localisationGps ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  gapH8,
-                  Row(
-                    children: [
                       Text(
-                        context.locale.foodDetailsScreenAdress,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: AppColors.greyTextColor),
-                      ),
-                      const Spacer(),
-                      Text(cart.client?.adresse ?? '',
+                          DateFormat('yyyy-MM-dd | hh:mm').format(
+                            DateTime.parse(cart.dateCreate!),
+                          ),
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
@@ -207,8 +237,9 @@ class _ClientOrderDetailScreenState
                 ],
               ),
             ),
-            gapH32,
-          ]),
+          gapH32,
+        ],
+      ),
     );
   }
 

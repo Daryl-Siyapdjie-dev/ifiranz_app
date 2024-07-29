@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/filter_optional.dart';
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_exception.dart';
-import 'package:ifiranz_client/src/features/delivery/orders/domain/delivery_models.dart';
 
+import '../../../../core/domain/api_failure.dart';
+import '../../../../core/domain/paginated_request.dart';
+import '../../../../core/domain/paginated_response.dart';
+import '../../../../core/infrastructure/utils/api_exception.dart';
+import '../../../../delivery/orders/domain/delivery_models.dart';
+import '../../../home/domain/filter_optional.dart';
 import 'delivery_orders_remote_service.dart';
 
 class DeliveryOrdersRepository {
@@ -13,14 +13,18 @@ class DeliveryOrdersRepository {
 
   DeliveryOrdersRepository(this._deliveryRemoteService);
 
-  Future<Either<ApiFailure, PaginatedResponse<Records>>> getListDeliveryOrders(PaginatedRequest params) async {
+  Future<Either<ApiFailure, PaginatedResponse<Records>>> getListDeliveryOrders(
+      PaginatedRequest params) async {
     try {
-      final response = await _deliveryRemoteService.getCurrentDeliveries(params);
+      final response =
+          await _deliveryRemoteService.getCurrentDeliveries(params);
 
       return right(
         await response.when(
           success: (res) => PaginatedResponse<Records>(
-              data: (res!['records'] as List).map((e) => Records.fromJson(e)).toList(),
+              data: (res!['records'] as List)
+                  .map((e) => Records.fromJson(e))
+                  .toList(),
               totalElements: res['totalPages'],
               totalPages: res['totalElements']),
         ),
@@ -30,16 +34,21 @@ class DeliveryOrdersRepository {
     }
   }
 
-  Future<Either<ApiFailure, PaginatedResponse<Records>>> getAllUserDeliveries(PaginatedRequest params, List<FilterOptional> filterOptions) async {
+  Future<Either<ApiFailure, PaginatedResponse<Records>>> getAllUserDeliveries(
+      PaginatedRequest params, List<FilterOptional> filterOptions) async {
     try {
-      final response = await _deliveryRemoteService.getListDeliveryOrders(params, filterOptions);
+      final response = await _deliveryRemoteService.getAllUserDeliveries(
+          params, filterOptions);
 
       return right(
         await response.when(
           success: (res) => PaginatedResponse<Records>(
-              data: (res!['records'] as List).map((e) => Records.fromJson(e)).toList(),
-              totalElements: res['totalPages'],
-              totalPages: res['totalElements']),
+            data: (res!['records'] as List)
+                .map((e) => Records.fromJson(e))
+                .toList(),
+            totalElements: res['totalPages'],
+            totalPages: res['totalElements'],
+          ),
         ),
       );
     } on ApiException catch (apiException) {

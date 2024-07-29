@@ -57,15 +57,31 @@ _$RecordsImpl _$$RecordsImplFromJson(Map<String, dynamic> json) =>
           ? null
           : Livreur.fromJson(json['livreur'] as Map<String, dynamic>),
       dateLivraison: json['dateLivraison'] as String?,
+      articles: (json['articles'] as List<dynamic>?)
+          ?.map((e) => Article.fromJson(e as Map<String, dynamic>))
+          .toList(),
       latitude: (json['latitude'] as num?)?.toDouble(),
+      montant: (json['montant'] as num?)?.toDouble(),
+      montantLivraison: (json['montantLivraison'] as num?)?.toDouble(),
+      montantTotal: (json['montantTotal'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       commande: json['commande'] == null
           ? null
           : Commande.fromJson(json['commande'] as Map<String, dynamic>),
+      client: json['client'] == null
+          ? null
+          : Client.fromJson(json['client'] as Map<String, dynamic>),
+      quartier: json['quartier'] == null
+          ? null
+          : Quartier.fromJson(json['quartier'] as Map<String, dynamic>),
       localisationGps: json['localisationGps'] as String?,
       statut: json['statut'] as String?,
       url: json['url'] as String?,
       otp: json['otp'] as String?,
+      dueAmount: (json['dueAmount'] as num?)?.toDouble(),
+      clientName: json['clientName'] as String?,
+      modePayement: json['modePayement'] as String?,
+      dateCreate: json['dateCreate'] as String?,
     );
 
 Map<String, dynamic> _$$RecordsImplToJson(_$RecordsImpl instance) =>
@@ -76,13 +92,23 @@ Map<String, dynamic> _$$RecordsImplToJson(_$RecordsImpl instance) =>
       'designation': instance.designation,
       'livreur': instance.livreur,
       'dateLivraison': instance.dateLivraison,
+      'articles': instance.articles,
       'latitude': instance.latitude,
+      'montant': instance.montant,
+      'montantLivraison': instance.montantLivraison,
+      'montantTotal': instance.montantTotal,
       'longitude': instance.longitude,
       'commande': instance.commande,
+      'client': instance.client,
+      'quartier': instance.quartier,
       'localisationGps': instance.localisationGps,
       'statut': instance.statut,
       'url': instance.url,
       'otp': instance.otp,
+      'dueAmount': instance.dueAmount,
+      'clientName': instance.clientName,
+      'modePayement': instance.modePayement,
+      'dateCreate': instance.dateCreate,
     };
 
 _$LivreurImpl _$$LivreurImplFromJson(Map<String, dynamic> json) =>

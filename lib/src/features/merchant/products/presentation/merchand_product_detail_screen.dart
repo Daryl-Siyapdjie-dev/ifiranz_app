@@ -4,28 +4,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curved_carousel/curved_carousel.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ifiranz_client/src/features/auth/core/domain/client.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/create_command_request.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
-import 'package:ifiranz_client/src/features/client/home/presentation/utils/utils.dart';
-import 'package:ifiranz_client/src/features/client/home/shared/providers.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/media_query_extension.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/toats.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/home/dashboard/clients/shared/providers.dart';
 import 'package:libphonenumber/libphonenumber.dart';
 
+import '../../../auth/core/domain/client.dart';
+import '../../../client/home/domain/create_command_request.dart';
+import '../../../client/home/domain/product_model.dart';
 import '../../../client/home/domain/quartier.dart';
+import '../../../client/home/presentation/utils/utils.dart';
+import '../../../client/home/shared/providers.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/media_query_extension.dart';
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
 import '../../../core/presentation/widgets/common_textfield.dart';
 import '../../../core/presentation/widgets/phone_number.dart';
+import '../../../core/presentation/widgets/toats.dart';
 import '../../../core/shared/providers.dart';
 import '../../../onboarding/presentation/widgets/page_indicators.dart';
+import '../../core/presentation/widget/order_drawer_widget.dart';
+import '../../home/dashboard/clients/shared/providers.dart';
 
 @RoutePage()
 class MerchandProductDetailScreen extends StatefulHookConsumerWidget {
@@ -34,10 +34,13 @@ class MerchandProductDetailScreen extends StatefulHookConsumerWidget {
   const MerchandProductDetailScreen({super.key, required this.item});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MerchandProductDetailScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MerchandProductDetailScreenState();
 }
 
-class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDetailScreen> with SingleTickerProviderStateMixin {
+class _MerchandProductDetailScreenState
+    extends ConsumerState<MerchandProductDetailScreen>
+    with SingleTickerProviderStateMixin {
   Quartier? quartier;
   Client? client;
   final gpsLocationController = TextEditingController();
@@ -53,7 +56,9 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(findQuartierPoductsProvider.notifier).findProductQuartier();
-      ref.refresh(merchandClientsNotifierProvider.notifier).fetchMerchantClients(params);
+      ref
+          .refresh(merchandClientsNotifierProvider.notifier)
+          .fetchMerchantClients(params);
       // ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail()));
     });
   }
@@ -108,8 +113,13 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                             Container(
                                 margin: const EdgeInsets.only(left: 24),
                                 padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBackground),
-                                child: InkWell(onTap: context.popRoute, child: SvgPicture.asset('assets/icons/back.svg'))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: AppColors.greyBackground),
+                                child: InkWell(
+                                    onTap: context.popRoute,
+                                    child: SvgPicture.asset(
+                                        'assets/icons/back.svg'))),
                           ],
                         ),
                         CurvedCarousel(
@@ -130,11 +140,16 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                                 child: Hero(
                                   tag: widget.item.id!,
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.item.url ?? "http://via.placeholder.com/350x150",
-                                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                                      child: CircularProgressIndicator(value: downloadProgress.progress),
+                                    imageUrl: widget.item.url ??
+                                        "http://via.placeholder.com/350x150",
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Center(
+                                      child: CircularProgressIndicator(
+                                          value: downloadProgress.progress),
                                     ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   ),
                                 ),
                               ),
@@ -177,13 +192,18 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                                         alignment: Alignment.center,
                                         height: 33,
                                         width: 33,
-                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryColor),
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppColors.primaryColor),
                                         child: Text(
                                           number.toString(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyLarge!
-                                              .copyWith(color: AppColors.whiteColor, fontWeight: FontWeight.w700, fontSize: 12),
+                                              .copyWith(
+                                                  color: AppColors.whiteColor,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12),
                                         ),
                                       ),
                                       Positioned(
@@ -204,8 +224,11 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                                                 width: 30,
                                                 height: 30,
                                                 child: FittedBox(
-                                                    child: (FloatingActionButton(
-                                                  backgroundColor: number == 1 ? AppColors.greyBackground : AppColors.greyLight,
+                                                    child:
+                                                        (FloatingActionButton(
+                                                  backgroundColor: number == 1
+                                                      ? AppColors.greyBackground
+                                                      : AppColors.greyLight,
                                                   elevation: 0,
                                                   onPressed: number == 1
                                                       ? null
@@ -214,31 +237,47 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                                                             number--;
                                                           });
                                                         },
-                                                  child: const Icon(Icons.remove),
+                                                  child:
+                                                      const Icon(Icons.remove),
                                                 )))),
                                             gapW10,
                                             Container(
                                               alignment: Alignment.center,
                                               height: 70,
                                               width: 70,
-                                              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryColor),
+                                              decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      AppColors.primaryColor),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text(
                                                     "${number * widget.item.prix!}",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyLarge!
-                                                        .copyWith(color: AppColors.whiteColor, fontWeight: FontWeight.w700, fontSize: 16),
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .whiteColor,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16),
                                                   ),
                                                   Text(
                                                     "XAF",
-                                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                          color: AppColors.whiteColor,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          color: AppColors
+                                                              .whiteColor,
                                                           fontSize: 8,
-                                                          fontWeight: FontWeight.w700,
+                                                          fontWeight:
+                                                              FontWeight.w700,
                                                         ),
                                                   ),
                                                 ],
@@ -251,7 +290,9 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                                                 child: FittedBox(
                                                     child: FloatingActionButton(
                                                   heroTag: "#2",
-                                                  backgroundColor: number == 10 ? AppColors.greyBackground : AppColors.greyLight,
+                                                  backgroundColor: number == 10
+                                                      ? AppColors.greyBackground
+                                                      : AppColors.greyLight,
                                                   elevation: 0,
                                                   onPressed: number >= 10
                                                       ? null
@@ -281,65 +322,97 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
                         margin: const EdgeInsets.symmetric(
                           horizontal: 36.0,
                         ),
-                        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.primaryColor, width: 1))),
-                        child: const Text('Details', style: TextStyle(color: AppColors.primaryColor))),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: AppColors.primaryColor, width: 1))),
+                        child: const Text('Details',
+                            style: TextStyle(color: AppColors.primaryColor))),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 12),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          gapH4,
-                          Column(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 36.0, vertical: 12),
+                        child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CommonTextFormField(
-                                controller: clientName,
-                                focusNode: clientNameFocus,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                hintText: 'Client name',
-                                textInputAction: TextInputAction.done,
-                                textInputType: TextInputType.text,
-                                isLabelRequired: true,
-                                hasLabel: true,
-                                validator: ref.read(formValidationServiceProvider).validateSimple,
-                                label: 'Client name',
-                                obscureText: false,
-                              ),
-                              gapH20,
-                              PhoneNumberWidget(controller: clientPhone, isoCode: isoCode),
-                              gapH20,
                               gapH4,
-                              detailWidget(_),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate() && quartier != null && quartier is Quartier) {
-                                      PhoneNumberUtil.normalizePhoneNumber(
-                                        isoCode: isoCode.text.trim(),
-                                        phoneNumber: clientPhone.text.trim(),
-                                      ).then((phone) {
-                                        final progress = ProgressHUD.of(_);
-                                        progress?.show();
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CommonTextFormField(
+                                    controller: clientName,
+                                    focusNode: clientNameFocus,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    hintText: 'Client name',
+                                    textInputAction: TextInputAction.done,
+                                    textInputType: TextInputType.text,
+                                    isLabelRequired: true,
+                                    hasLabel: true,
+                                    validator: ref
+                                        .read(formValidationServiceProvider)
+                                        .validateSimple,
+                                    label: 'Client name',
+                                    obscureText: false,
+                                  ),
+                                  gapH20,
+                                  PhoneNumberWidget(
+                                      controller: clientPhone,
+                                      isoCode: isoCode),
+                                  gapH20,
+                                  gapH4,
+                                  detailWidget(_),
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10)),
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate() &&
+                                            quartier != null &&
+                                            quartier is Quartier) {
+                                          PhoneNumberUtil.normalizePhoneNumber(
+                                            isoCode: isoCode.text.trim(),
+                                            phoneNumber:
+                                                clientPhone.text.trim(),
+                                          ).then((phone) {
+                                            final progress = ProgressHUD.of(_);
+                                            progress?.show();
 
-                                        ref
-                                            .read(createCommandPoductsNotifierProvider.notifier)
-                                            .createCommand(CreateCommandRequest(
-                                                localisationGps: gpsLocationController.text.trim(),
-                                                designation: widget.item.designation,
-                                                quartier: quartier!,
-                                                articles: [OrderArticle(article: widget.item, quantite: number)],
-                                                modePayement: "livraison",
-                                                clientName: clientName.text.trim(),
-                                                clientPhone: phone))
-                                            .whenComplete(() {
-                                          progress?.dismiss();
-                                        });
-                                      });
-                                    }
-                                  },
-                                  child: const Text('Add to cart')),
-                              gapH30,
-                            ],
-                          ),
-                        ]))
+                                            ref
+                                                .read(
+                                                    createCommandPoductsNotifierProvider
+                                                        .notifier)
+                                                .createCommand(
+                                                    CreateCommandRequest(
+                                                        localisationGps:
+                                                            gpsLocationController
+                                                                .text
+                                                                .trim(),
+                                                        designation: widget
+                                                            .item.designation,
+                                                        quartier: quartier!,
+                                                        articles: [
+                                                          OrderArticle(
+                                                              article:
+                                                                  widget.item,
+                                                              quantite: number)
+                                                        ],
+                                                        modePayement:
+                                                            "livraison",
+                                                        clientName: clientName
+                                                            .text
+                                                            .trim(),
+                                                        clientPhone: phone))
+                                                .whenComplete(() {
+                                              progress?.dismiss();
+                                            });
+                                          });
+                                        }
+                                      },
+                                      child: const Text('Add to cart')),
+                                  gapH30,
+                                ],
+                              ),
+                            ]))
                   ]),
                 ),
               );
@@ -369,22 +442,35 @@ class _MerchandProductDetailScreenState extends ConsumerState<MerchandProductDet
           children: [
             Expanded(
               child: CustomDropdown<Quartier>.searchRequest(
-                futureRequest: ref.watch(productsRepositoryProvider).findFilterAllQuartierByPatter,
-                decoration: CustomDropdownDecoration(closedShadow: [
-                  const BoxShadow(color: Colors.white, spreadRadius: 3),
-                ], closedBorder: Border.all(color: AppColors.primaryColor), closedFillColor: AppColors.bgBlue),
+                futureRequest: ref
+                    .watch(productsRepositoryProvider)
+                    .findFilterAllQuartierByPatter,
+                decoration: CustomDropdownDecoration(
+                    closedShadow: [
+                      const BoxShadow(color: Colors.white, spreadRadius: 3),
+                    ],
+                    closedBorder: Border.all(color: AppColors.primaryColor),
+                    closedFillColor: AppColors.bgBlue),
                 hintText: context.locale.foodDetailsScreenSelectQuartier,
                 headerBuilder: (context, val) => Text("${val.designation}"),
-                items: allQuartier.value?.data.map((e) => e as Quartier).toList(),
-                listItemBuilder: (context, q, val, func) => Text('${q.designation}'),
+                items:
+                    allQuartier.value?.data.map((e) => e as Quartier).toList(),
+                listItemBuilder: (context, q, val, func) =>
+                    Text('${q.designation}'),
                 onChanged: (value) {
                   quartier = value;
                   setState(() {});
                 },
               ),
             ),
-            if (allQuartier.isLoading || allQuartier.isRefreshing || allQuartier.isReloading)
-              const Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)))
+            if (allQuartier.isLoading ||
+                allQuartier.isRefreshing ||
+                allQuartier.isReloading)
+              const Center(
+                  child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2)))
           ],
         ),
         gapH4,

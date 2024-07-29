@@ -139,8 +139,8 @@
   "merchandHomeScreenDashboard": "Tableau de bord",
   "merchandHomeScreenClients": "Clients",
   "merchandHomeScreenDeliveries": "Livraisons",
-  "merchandHomeScreenInventory": "Inventaires",
-  "merchandHomeScreenTransactions": "Transactions",
+  "merchandHomeScreenInventory": "Commandes",
+  "merchandHomeScreenTransactions": "Commission",
   "checkPrivate": "J'ai lu et j'accepte les conditions d'utilisation, les règles de combat et la politique de confidentialité",
   "products": "Produits",
   "pay": "Payer",
@@ -174,5 +174,6 @@
   "invalidPhoneNumber": "Numéro de télephone invalide",
   "colis": "Colis",
   "email": "Email",
-  "createNewColisScreenDueAmount": "Montant de la commande"
+  "createNewColisScreenDueAmount": "Montant de la commande",
+  "deliveryAddress": "Adresse de livraison"
 }

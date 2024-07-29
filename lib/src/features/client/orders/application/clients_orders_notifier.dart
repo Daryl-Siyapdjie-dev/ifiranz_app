@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/filter_optional.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_response.dart';
 
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/domain/paginated_response.dart';
 import '../../../merchant/orders/infrastructure/merchand_orders_repository.dart';
 import '../../home/domain/current_cart_response.dart';
+import '../../home/domain/filter_optional.dart';
 
 class ClientOrdersNotifier
     extends StateNotifier<AsyncValue<PaginatedResponse<CurrentCartResponse>>> {
@@ -17,6 +18,8 @@ class ClientOrdersNotifier
       {bool isMore = false,
       required PaginatedRequest params,
       required List<FilterOptional> filterOption}) async {
+    debugPrint("FILTER OPTIONS: $filterOption");
+
     if (state.value?.isLoadingMore == true) return;
     if (!state.hasValue ||
         (state.hasValue && (state.value?.data.isEmpty ?? false))) {
@@ -34,7 +37,8 @@ class ClientOrdersNotifier
           isRefetching: false) as PaginatedResponse<CurrentCartResponse>);
     }
 
-    final failureOrSuccess = await _deliveryOrdersRepository.getAllOrders(params, filterOption);
+    final failureOrSuccess =
+        await _deliveryOrdersRepository.getAllOrders(params, filterOption);
 
     state = failureOrSuccess.fold(
       (l) => isMore
@@ -48,24 +52,29 @@ class ClientOrdersNotifier
         if (isMore) {
           PaginatedResponse<CurrentCartResponse> oldStatement = state.value!;
 
-          List<CurrentCartResponse> oldData = oldStatement.data as List<CurrentCartResponse>;
+          List<CurrentCartResponse> oldData =
+              oldStatement.data as List<CurrentCartResponse>;
 
-          List<CurrentCartResponse> newData = [...oldData, ...(r.data as List<CurrentCartResponse>)];
+          List<CurrentCartResponse> newData = [
+            ...oldData,
+            ...(r.data as List<CurrentCartResponse>)
+          ];
 
           return isMore
               ? AsyncData(
                   r.copyWith(
-                      data: newData,
-                      totalElements: r.data.isNotEmpty
-                          ? r.totalElements
-                          : oldStatement.totalElements,
-                      totalPages: r.data.isNotEmpty
-                          ? r.totalPages
-                          : oldStatement.totalPages,
-                      hasMore: ((r.data.length % params.size == 0) &&
-                          r.data.isNotEmpty),
-                      isLoadingMore: false,
-                      isRefetching: false) as PaginatedResponse<CurrentCartResponse>,
+                          data: newData,
+                          totalElements: r.data.isNotEmpty
+                              ? r.totalElements
+                              : oldStatement.totalElements,
+                          totalPages: r.data.isNotEmpty
+                              ? r.totalPages
+                              : oldStatement.totalPages,
+                          hasMore: ((r.data.length % params.size == 0) &&
+                              r.data.isNotEmpty),
+                          isLoadingMore: false,
+                          isRefetching: false)
+                      as PaginatedResponse<CurrentCartResponse>,
                 )
               : AsyncData(r);
         }

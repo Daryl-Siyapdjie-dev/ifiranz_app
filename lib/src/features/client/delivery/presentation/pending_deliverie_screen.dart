@@ -21,16 +21,44 @@ import '../../home/domain/filter_optional.dart';
 class PendingDeliveriesScreen extends StatefulHookConsumerWidget {
   const PendingDeliveriesScreen({super.key});
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PendingDeliveriesScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PendingDeliveriesScreenState();
 }
 
-class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScreen> {
+class _PendingDeliveriesScreenState
+    extends ConsumerState<PendingDeliveriesScreen> {
   PaginatedRequest params = PaginatedRequest(page: 0, size: 20);
   PaginatedRequest paramsAll = PaginatedRequest(page: 0, size: 20);
   List<FilterOptional> filter = [
-    FilterOptional.fromJson({"key": "code", "aliasKey": "client.user", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true}),
+    FilterOptional.fromJson(
+      {
+        "key": "code",
+        "aliasKey": "client.id",
+        "value": SharedPref.getId(),
+        "type": "EQUAL",
+        "applyAnd": true,
+      },
+    ),
   ];
 
+  List<FilterOptional> filterAllDeliveries = [
+    FilterOptional.fromJson(
+      {
+        "key": "code",
+        "aliasKey": "client.id",
+        "value": SharedPref.getId(),
+        "type": "EQUAL",
+        "applyAnd": true,
+      },
+    ),
+    FilterOptional.fromJson(
+      {
+        "key": "codeLivraison",
+        "value": "",
+        "type": "NOT_NULL",
+      },
+    ),
+  ];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -41,8 +69,13 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
 
   Future _onTabsRouterChange() async {
     final localPage = PaginatedRequest(page: 0, size: 20);
-    await ref.read(clientDeliveryOrdersNotifierProvider.notifier).fetchDeliveryOrders(params: localPage, filterOptions: filter);
-    await ref.read(clientAllDeliveryOrdersNotifierProvider.notifier).fetchDeliveryOrders(params: localPage, filterOptions: filter, isAll: true);
+    await ref
+        .read(clientDeliveryOrdersNotifierProvider.notifier)
+        .fetchDeliveryOrders(params: localPage, filterOptions: filter);
+    await ref
+        .read(clientAllDeliveryOrdersNotifierProvider.notifier)
+        .fetchDeliveryOrders(
+            params: localPage, filterOptions: filterAllDeliveries, isAll: true);
     setState(() {
       params = localPage;
       paramsAll = localPage;
@@ -52,21 +85,30 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
   @override
   Widget build(BuildContext context) {
     final deliveryOrders = ref.watch(clientDeliveryOrdersNotifierProvider);
-    final allDeliveryOrders = ref.watch(clientAllDeliveryOrdersNotifierProvider);
+    final allDeliveryOrders =
+        ref.watch(clientAllDeliveryOrdersNotifierProvider);
     final pendingController = useScrollController();
     final allController = useScrollController();
     final tabBarcontroller = useTabController(initialLength: 2);
 
     pendingController.addListener(() async {
-      if (pendingController.position.maxScrollExtent == pendingController.position.pixels) {
+      if (pendingController.position.maxScrollExtent ==
+          pendingController.position.pixels) {
         if (ref.watch(clientDeliveryOrdersNotifierProvider).hasValue &&
             (ref.watch(clientDeliveryOrdersNotifierProvider).value!.hasMore) &&
-            !(ref.watch(clientDeliveryOrdersNotifierProvider).value!.isLoadingMore)) {
+            !(ref
+                .watch(clientDeliveryOrdersNotifierProvider)
+                .value!
+                .isLoadingMore)) {
           await ref
               .read(clientDeliveryOrdersNotifierProvider.notifier)
-              .fetchDeliveryOrders(params: params.copyWith(page: params.page + 1), isMore: true)
+              .fetchDeliveryOrders(
+                  params: params.copyWith(page: params.page + 1), isMore: true)
               .whenComplete(() {
-            if (!(ref.watch(clientDeliveryOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(clientDeliveryOrdersNotifierProvider)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -77,15 +119,28 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
     });
 
     allController.addListener(() async {
-      if (allController.position.maxScrollExtent == allController.position.pixels) {
+      if (allController.position.maxScrollExtent ==
+          allController.position.pixels) {
         if (ref.watch(clientAllDeliveryOrdersNotifierProvider).hasValue &&
-            (ref.watch(clientAllDeliveryOrdersNotifierProvider).value!.hasMore) &&
-            !(ref.watch(clientAllDeliveryOrdersNotifierProvider).value!.isLoadingMore)) {
+            (ref
+                .watch(clientAllDeliveryOrdersNotifierProvider)
+                .value!
+                .hasMore) &&
+            !(ref
+                .watch(clientAllDeliveryOrdersNotifierProvider)
+                .value!
+                .isLoadingMore)) {
           await ref
               .read(clientAllDeliveryOrdersNotifierProvider.notifier)
-              .fetchDeliveryOrders(params: paramsAll.copyWith(page: paramsAll.page + 1), isMore: true, isAll: true)
+              .fetchDeliveryOrders(
+                  params: paramsAll.copyWith(page: paramsAll.page + 1),
+                  isMore: true,
+                  isAll: true)
               .whenComplete(() {
-            if (!(ref.watch(clientAllDeliveryOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(clientAllDeliveryOrdersNotifierProvider)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 paramsAll = paramsAll.copyWith(page: paramsAll.page + 1);
               });
@@ -110,23 +165,43 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
                     children: [
                       ...response.data.map((e) => orderItem(e)).toList(),
                       gapH10,
-                      if (((ref.watch(clientDeliveryOrdersNotifierProvider).value?.hasMore ?? false) ||
-                          (ref.watch(clientDeliveryOrdersNotifierProvider).value?.isLoadingMore ?? false)))
+                      if (((ref
+                                  .watch(clientDeliveryOrdersNotifierProvider)
+                                  .value
+                                  ?.hasMore ??
+                              false) ||
+                          (ref
+                                  .watch(clientDeliveryOrdersNotifierProvider)
+                                  .value
+                                  ?.isLoadingMore ??
+                              false)))
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
-                      if ((ref.watch(clientDeliveryOrdersNotifierProvider).value?.hasErrorOnLoadMore ?? false))
+                      if ((ref
+                              .watch(clientDeliveryOrdersNotifierProvider)
+                              .value
+                              ?.hasErrorOnLoadMore ??
+                          false))
                         Center(
                           child: IconButton(
                             icon: const Icon(Icons.refresh),
                             onPressed: () async {
                               await ref
-                                  .read(clientDeliveryOrdersNotifierProvider.notifier)
-                                  .fetchDeliveryOrders(params: params.copyWith(page: params.page + 1), isMore: true)
+                                  .read(clientDeliveryOrdersNotifierProvider
+                                      .notifier)
+                                  .fetchDeliveryOrders(
+                                      params: params.copyWith(
+                                          page: params.page + 1),
+                                      isMore: true)
                                   .whenComplete(() {
-                                if (!(ref.watch(clientDeliveryOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                if (!(ref
+                                    .watch(clientDeliveryOrdersNotifierProvider)
+                                    .value!
+                                    .hasErrorOnLoadMore)) {
                                   setState(() {
-                                    params = params.copyWith(page: params.page + 1);
+                                    params =
+                                        params.copyWith(page: params.page + 1);
                                   });
                                 }
                               });
@@ -140,7 +215,10 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
         error: (error, _) => Center(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: IconButton(onPressed: () => _onTabsRouterChange(), icon: const Icon(Icons.refresh)),
+          child: IconButton(
+            onPressed: () => _onTabsRouterChange(),
+            icon: const Icon(Icons.refresh),
+          ),
         )),
         loading: () => const Center(
           child: CircularProgressIndicator(),
@@ -163,23 +241,46 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
                     children: [
                       ...response.data.map((e) => orderItem(e)).toList(),
                       gapH10,
-                      if (((ref.watch(clientAllDeliveryOrdersNotifierProvider).value?.hasMore ?? false) ||
-                          (ref.watch(clientAllDeliveryOrdersNotifierProvider).value?.isLoadingMore ?? false)))
+                      if (((ref
+                                  .watch(
+                                      clientAllDeliveryOrdersNotifierProvider)
+                                  .value
+                                  ?.hasMore ??
+                              false) ||
+                          (ref
+                                  .watch(
+                                      clientAllDeliveryOrdersNotifierProvider)
+                                  .value
+                                  ?.isLoadingMore ??
+                              false)))
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
-                      if ((ref.watch(clientAllDeliveryOrdersNotifierProvider).value?.hasErrorOnLoadMore ?? false))
+                      if ((ref
+                              .watch(clientAllDeliveryOrdersNotifierProvider)
+                              .value
+                              ?.hasErrorOnLoadMore ??
+                          false))
                         Center(
                           child: IconButton(
                             icon: const Icon(Icons.refresh),
                             onPressed: () async {
                               await ref
-                                  .read(clientAllDeliveryOrdersNotifierProvider.notifier)
-                                  .fetchDeliveryOrders(params: paramsAll.copyWith(page: paramsAll.page + 1), isMore: true)
+                                  .read(clientAllDeliveryOrdersNotifierProvider
+                                      .notifier)
+                                  .fetchDeliveryOrders(
+                                      params: paramsAll.copyWith(
+                                          page: paramsAll.page + 1),
+                                      isMore: true)
                                   .whenComplete(() {
-                                if (!(ref.watch(clientAllDeliveryOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                if (!(ref
+                                    .watch(
+                                        clientAllDeliveryOrdersNotifierProvider)
+                                    .value!
+                                    .hasErrorOnLoadMore)) {
                                   setState(() {
-                                    paramsAll = paramsAll.copyWith(page: paramsAll.page + 1);
+                                    paramsAll = paramsAll.copyWith(
+                                        page: paramsAll.page + 1);
                                   });
                                 }
                               });
@@ -191,10 +292,13 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
                 );
         },
         error: (error, _) => Center(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: IconButton(onPressed: () => _onTabsRouterChange(), icon: const Icon(Icons.refresh)),
-        )),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: IconButton(
+                onPressed: () => _onTabsRouterChange(),
+                icon: const Icon(Icons.refresh)),
+          ),
+        ),
         loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
@@ -202,30 +306,40 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
     }
 
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ProgressHUD(
-            barrierEnabled: true,
-            borderWidth: 0,
-            child: Builder(builder: (_) {
-              return Scaffold(
-                  appBar: CustomAppBar(
-                    canPop: false,
-                    appBar: TabBar(
-                      controller: tabBarcontroller,
-                      tabs: [
-                        Tab(text: context.locale.pending),
-                        Tab(text: context.locale.all),
-                      ],
-                    ),
-                  ),
-                  body: TabBarView(controller: tabBarcontroller, children: [pendingView(), allView()]));
-            })));
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(builder: (_) {
+          return Scaffold(
+            appBar: CustomAppBar(
+              canPop: false,
+              appBar: TabBar(
+                controller: tabBarcontroller,
+                tabs: [
+                  Tab(text: context.locale.pending),
+                  Tab(text: context.locale.all),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              controller: tabBarcontroller,
+              children: [
+                pendingView(),
+                allView(),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
   }
 
   Widget orderItem(Records record) {
     return InkWell(
       onTap: () {
-        context.pushRoute(ClientDeliveryOrderDetailRoute(data: record, isPendingDeliveries: true));
+        context.pushRoute(ClientDeliveryOrderDetailRoute(
+            data: record, isPendingDeliveries: true));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
@@ -254,7 +368,10 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
                 ),
                 gapW10,
                 buildStatusContainer(
-                  OrderStatus.values.firstWhere((e) => e.value.toLowerCase() == record.statut?.toLowerCase(), orElse: () => OrderStatus.accepte),
+                  OrderStatus.values.firstWhere(
+                      (e) =>
+                          e.value.toLowerCase() == record.statut?.toLowerCase(),
+                      orElse: () => OrderStatus.accepte),
                 ),
               ],
             ),
@@ -262,13 +379,23 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
             Row(
               children: [
                 Text(
-                  "${context.locale.ditance}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  "${context.locale.deliveryAddress}:",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.commande?.localisationGps} to ${record.commande?.client?.adresse}'.capitalize(),
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.blackColor)),
+                  child: Text(
+                      (record.commande?.localisationGps ??
+                              record.quartier?.designation ??
+                              "")
+                          .capitalize(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.blackColor)),
                 ),
               ],
             ),
@@ -277,11 +404,19 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
               children: [
                 Text(
                   "${context.locale.designation}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text(record.commande?.designation?.capitalize() ?? "", style: Theme.of(context).textTheme.bodySmall),
+                  child: Text(
+                    record.commande?.designation?.capitalize() ??
+                        record.designation ??
+                        "-/-",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ),
               ],
             ),
@@ -290,11 +425,16 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
               children: [
                 Text(
                   "${context.locale.amount}:",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.commande?.montant ?? 0} XAF', style: Theme.of(context).textTheme.bodySmall),
+                  child: Text(
+                      '${record.commande?.montant?.toInt() ?? record.montantLivraison?.toInt()} XAF',
+                      style: Theme.of(context).textTheme.bodySmall),
                 ),
               ],
             ),
@@ -320,7 +460,13 @@ class _PendingDeliveriesScreenState extends ConsumerState<PendingDeliveriesScree
           ),
         ],
       ),
-      child: Text(status.name.capitalize().toString(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor)),
+      child: Text(
+        status.name.capitalize().toString(),
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall!
+            .copyWith(color: AppColors.whiteColor),
+      ),
     );
   }
 }

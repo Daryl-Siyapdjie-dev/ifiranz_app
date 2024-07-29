@@ -26,14 +26,24 @@ class OrderClientDeliveriesScreen extends StatefulHookConsumerWidget {
   const OrderClientDeliveriesScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _OrderClientDeliveriesScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _OrderClientDeliveriesScreenState();
 }
 
-class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliveriesScreen> {
+class _OrderClientDeliveriesScreenState
+    extends ConsumerState<OrderClientDeliveriesScreen> {
   PaginatedRequest params = PaginatedRequest(page: 0, size: 20);
 
   List<FilterOptional> filter = [
-    FilterOptional.fromJson({"key": "code", "aliasKey": "client.user", "value": SharedPref.getEmail(), "type": "EQUAL", "applyAnd": true}),
+    FilterOptional.fromJson(
+      {
+        "key": "code",
+        "aliasKey": "client.id",
+        "value": SharedPref.getId(),
+        "type": "EQUAL",
+        "applyAnd": true,
+      },
+    ),
   ];
 
   @override
@@ -70,9 +80,15 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
             !(ref.watch(clientOrdersNotifierProvider).value!.isLoadingMore)) {
           await ref
               .read(clientOrdersNotifierProvider.notifier)
-              .fetchDeliveryOrders(params: params.copyWith(page: params.page + 1), filterOption: filter, isMore: true)
+              .fetchDeliveryOrders(
+                  params: params.copyWith(page: params.page + 1),
+                  filterOption: filter,
+                  isMore: true)
               .whenComplete(() {
-            if (!(ref.watch(clientOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+            if (!(ref
+                .watch(clientOrdersNotifierProvider)
+                .value!
+                .hasErrorOnLoadMore)) {
               setState(() {
                 params = params.copyWith(page: params.page + 1);
               });
@@ -99,15 +115,20 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
                             children: [
                               if (isFilter.value) ...[
                                 TextButton.icon(
-                                    style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
+                                    style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 0)),
                                     onPressed: () {
                                       isFilter.value = false;
                                       _onTabsRouterChange();
                                     },
-                                    icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                                    icon: const Icon(Icons.close,
+                                        color: AppColors.primaryColor),
                                     label: Text(
                                       context.locale.clearFilter,
-                                      style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: AppColors.primaryColor),
                                     )),
                               ],
                               Expanded(
@@ -123,40 +144,73 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
                               isRefetching: response.isRefetching,
                               child: ListView(
                                 controller: controller,
-                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
                                 children: [
                                   if (isFilter.value) ...[
                                     TextButton.icon(
-                                        style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
-                                        onPressed: () {
-                                          isFilter.value = false;
-                                          _onTabsRouterChange();
-                                        },
-                                        icon: const Icon(Icons.close, color: AppColors.primaryColor),
-                                        label: Text(
-                                          context.locale.clearFilter,
-                                          style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
-                                        )),
+                                      style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0)),
+                                      onPressed: () {
+                                        isFilter.value = false;
+                                        _onTabsRouterChange();
+                                      },
+                                      icon: const Icon(Icons.close,
+                                          color: AppColors.primaryColor),
+                                      label: Text(
+                                        context.locale.clearFilter,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.primaryColor),
+                                      ),
+                                    ),
                                   ],
-                                  ...response.data.map((e) => orderItem(e)).toList(),
+                                  ...response.data
+                                      .map((e) => orderItem(e))
+                                      .toList(),
                                   gapH10,
-                                  if (((ref.watch(clientOrdersNotifierProvider).value?.hasMore ?? false) ||
-                                      (ref.watch(clientOrdersNotifierProvider).value?.isLoadingMore ?? false)))
+                                  if (((ref
+                                              .watch(
+                                                  clientOrdersNotifierProvider)
+                                              .value
+                                              ?.hasMore ??
+                                          false) ||
+                                      (ref
+                                              .watch(
+                                                  clientOrdersNotifierProvider)
+                                              .value
+                                              ?.isLoadingMore ??
+                                          false)))
                                     const Center(
                                       child: CircularProgressIndicator(),
                                     ),
-                                  if ((ref.watch(clientOrdersNotifierProvider).value?.hasErrorOnLoadMore ?? false))
+                                  if ((ref
+                                          .watch(clientOrdersNotifierProvider)
+                                          .value
+                                          ?.hasErrorOnLoadMore ??
+                                      false))
                                     Center(
                                       child: IconButton(
                                         icon: const Icon(Icons.refresh),
                                         onPressed: () async {
                                           await ref
-                                              .read(clientOrdersNotifierProvider.notifier)
-                                              .fetchDeliveryOrders(params: params.copyWith(page: params.page + 1), filterOption: filter, isMore: true)
+                                              .read(clientOrdersNotifierProvider
+                                                  .notifier)
+                                              .fetchDeliveryOrders(
+                                                  params: params.copyWith(
+                                                      page: params.page + 1),
+                                                  filterOption: filter,
+                                                  isMore: true)
                                               .whenComplete(() {
-                                            if (!(ref.watch(clientOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                            if (!(ref
+                                                .watch(
+                                                    clientOrdersNotifierProvider)
+                                                .value!
+                                                .hasErrorOnLoadMore)) {
                                               setState(() {
-                                                params = params.copyWith(page: params.page + 1);
+                                                params = params.copyWith(
+                                                    page: params.page + 1);
                                               });
                                             }
                                           });
@@ -234,7 +288,10 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
                   flex: 1,
                   child: Text(
                     context.locale.designation,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
@@ -253,13 +310,18 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
                   flex: 1,
                   child: Text(
                     context.locale.amount,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text('${record.montant} XAF',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: AppColors.variantGreenColor)),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.variantGreenColor)),
                 )
               ],
             ),
@@ -270,12 +332,19 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
                   flex: 1,
                   child: Text(
                     'Date',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text(record.dateCreate is String ? formatToHumanFriendly(DateTime.parse(record.dateCreate!)) : '',
+                  child: Text(
+                      record.dateCreate is String
+                          ? formatToHumanFriendly(
+                              DateTime.parse(record.dateCreate!))
+                          : '',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontWeight: FontWeight.bold,
                           )),
@@ -304,16 +373,27 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
           ),
         ],
       ),
-      child: Text(status.name.capitalize().toString(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor)),
+      child: Text(status.name.capitalize().toString(),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.whiteColor)),
     );
   }
 
-  Row cartListTile({required String title, required num amount, bool isTotal = false, bool isCoupon = false}) {
+  Row cartListTile(
+      {required String title,
+      required num amount,
+      bool isTotal = false,
+      bool isCoupon = false}) {
     return Row(
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextColor),
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: AppColors.greyTextColor),
         ),
         const Spacer(),
         RichText(
@@ -321,12 +401,24 @@ class _OrderClientDeliveriesScreenState extends ConsumerState<OrderClientDeliver
           TextSpan(
               text: isCoupon ? "(-) $amount" : "$amount ",
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor, fontWeight: FontWeight.bold, fontSize: isTotal ? 20 : 12)),
+                  color: !isTotal
+                      ? AppColors.greyTextColor
+                      : AppColors.secondaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTotal ? 20 : 12)),
           isCoupon
-              ? TextSpan(text: "%", style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12, color: AppColors.greyTextColor))
+              ? TextSpan(
+                  text: "%",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 12, color: AppColors.greyTextColor))
               : TextSpan(
                   text: "XAF",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor)),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: !isTotal
+                          ? AppColors.greyTextColor
+                          : AppColors.secondaryColor)),
         ]))
       ],
     );
@@ -357,10 +449,13 @@ class _SearchFilterWidgetState extends ConsumerState<SearchFilterWidget> {
               return Dialog(
                 backgroundColor: AppColors.whiteColor,
                 child: Container(
-                  decoration: BoxDecoration(color: AppColors.whiteColor, borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(12)),
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -370,11 +465,15 @@ class _SearchFilterWidgetState extends ConsumerState<SearchFilterWidget> {
                               hintText: context.locale.deliveryStatus,
                               decoration: CustomDropdownDecoration(
                                   closedShadow: [
-                                    const BoxShadow(color: Colors.white, spreadRadius: 5),
+                                    const BoxShadow(
+                                        color: Colors.white, spreadRadius: 5),
                                   ],
-                                  closedBorder: Border.all(color: AppColors.bgGreyD),
+                                  closedBorder:
+                                      Border.all(color: AppColors.bgGreyD),
                                   closedBorderRadius: BorderRadius.circular(8),
-                                  hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
+                                  hintStyle: Theme.of(context)
+                                      .inputDecorationTheme
+                                      .hintStyle,
                                   headerStyle: GoogleFonts.urbanist(
                                       color: Theme.of(context)
                                           .textTheme
@@ -383,9 +482,12 @@ class _SearchFilterWidgetState extends ConsumerState<SearchFilterWidget> {
                                             color: AppColors.blackColor,
                                           )
                                           .color),
-                                  closedFillColor: Theme.of(context).inputDecorationTheme.fillColor),
+                                  closedFillColor: Theme.of(context)
+                                      .inputDecorationTheme
+                                      .fillColor),
                               items: OrderStatus.values,
-                              listItemBuilder: (context, q, val, func) => Text(q.name),
+                              listItemBuilder: (context, q, val, func) =>
+                                  Text(q.name),
                               headerBuilder: (context, val) => Text(val.name),
                               onChanged: (elt) {
                                 setState(() {
@@ -398,11 +500,23 @@ class _SearchFilterWidgetState extends ConsumerState<SearchFilterWidget> {
                               onPressed: () {
                                 final progress = ProgressHUD.of(_);
                                 progress?.show();
-                                ref.read(clientOrdersNotifierProvider.notifier).fetchDeliveryOrders(params: params, filterOption: [
-                                  FilterOptional.fromJson(
-                                      {"key": "code", "value": SharedPref.getEmail() ?? "", "type": "EQUAL", "aliasKey": "commande.client.user"}),
-                                  FilterOptional(type: "EQUAL", key: "statut", value: status!.value, applyAnd: true),
-                                ]).whenComplete(() {
+                                ref
+                                    .read(clientOrdersNotifierProvider.notifier)
+                                    .fetchDeliveryOrders(
+                                        params: params,
+                                        filterOption: [
+                                      FilterOptional.fromJson({
+                                        "key": "code",
+                                        "value": SharedPref.getEmail() ?? "",
+                                        "type": "EQUAL",
+                                        "aliasKey": "commande.client.user"
+                                      }),
+                                      FilterOptional(
+                                          type: "EQUAL",
+                                          key: "statut",
+                                          value: status!.value,
+                                          applyAnd: true),
+                                    ]).whenComplete(() {
                                   progress!.dismiss();
                                   Navigator.of(context).pop(true);
                                 });

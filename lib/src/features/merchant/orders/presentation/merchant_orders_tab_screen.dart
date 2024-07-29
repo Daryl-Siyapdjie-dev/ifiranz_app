@@ -1,30 +1,33 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ifiranz_client/src/features/client/home/domain/current_cart_response.dart';
-import 'package:ifiranz_client/src/features/core/domain/paginated_request.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/string_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/common_import.dart';
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/no_data.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/refeshing_indicator.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/date_picker.dart';
-import 'package:ifiranz_client/src/features/merchant/core/presentation/widget/order_drawer_widget.dart';
-import 'package:ifiranz_client/src/features/merchant/orders/shared/providers.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../router/app_router.dart';
+import '../../../client/home/domain/current_cart_response.dart';
 import '../../../core/domain/enum.dart';
+import '../../../core/domain/paginated_request.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/extensions/string_extension.dart';
+import '../../../core/infrastructure/utils/common_import.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
+import '../../../core/presentation/widgets/no_data.dart';
+import '../../../core/presentation/widgets/refeshing_indicator.dart';
+import '../../core/presentation/widget/date_picker.dart';
+import '../../core/presentation/widget/order_drawer_widget.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
 class MerchantOrdersTabScreen extends StatefulHookConsumerWidget {
   const MerchantOrdersTabScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MerchantOrdersTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MerchantOrdersTabScreenState();
 }
 
-class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScreen> {
+class _MerchantOrdersTabScreenState
+    extends ConsumerState<MerchantOrdersTabScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   PaginatedRequest params = PaginatedRequest(page: 0, size: 20);
@@ -39,7 +42,9 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
 
   Future _onTabsRouterChange() async {
     final localPage = PaginatedRequest(page: 0, size: 20);
-    await ref.read(merchandOrdersNotifierProvider.notifier).fetchDeliveryOrders(params);
+    await ref
+        .read(merchandOrdersNotifierProvider.notifier)
+        .fetchDeliveryOrders(params);
 
     setState(() {
       params = localPage;
@@ -56,10 +61,14 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
       final hasValue = ref.watch(merchandOrdersNotifierProvider).hasValue;
       final ordersValue = ref.watch(merchandOrdersNotifierProvider).value;
 
-      if (controller.position.maxScrollExtent == controller.position.pixels && hasValue && ordersValue!.hasMore && !ordersValue.isLoadingMore) {
+      if (controller.position.maxScrollExtent == controller.position.pixels &&
+          hasValue &&
+          ordersValue!.hasMore &&
+          !ordersValue.isLoadingMore) {
         await ref
             .read(merchandOrdersNotifierProvider.notifier)
-            .fetchDeliveryOrders(params.copyWith(page: params.page + 1), isMore: true)
+            .fetchDeliveryOrders(params.copyWith(page: params.page + 1),
+                isMore: true)
             .whenComplete(() {
           if (!ordersValue.hasErrorOnLoadMore) {
             setState(() {
@@ -72,7 +81,9 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
 
     return RefreshIndicator(
       onRefresh: () {
-        return ref.refresh(merchandOrdersNotifierProvider.notifier).fetchDeliveryOrders(params.copyWith(page: params.page));
+        return ref
+            .refresh(merchandOrdersNotifierProvider.notifier)
+            .fetchDeliveryOrders(params.copyWith(page: params.page));
       },
       child: Scaffold(
           key: _scaffoldKey,
@@ -83,8 +94,10 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
               onPressed: () async {
                 final bool? updates = await showDialog(
                     context: context,
-                    builder: (context) =>
-                        CustomDateRangePickerDialog(filterCallback: ref.read(merchandOrdersNotifierProvider.notifier).filterDeliveryOrders));
+                    builder: (context) => CustomDateRangePickerDialog(
+                        filterCallback: ref
+                            .read(merchandOrdersNotifierProvider.notifier)
+                            .filterDeliveryOrders));
                 if (updates is bool) {
                   isFilter.value = true;
                 }
@@ -104,15 +117,20 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                       children: [
                         if (isFilter.value) ...[
                           TextButton.icon(
-                              style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
+                              style: TextButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 0)),
                               onPressed: () {
                                 isFilter.value = false;
                                 _onTabsRouterChange();
                               },
-                              icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                              icon: const Icon(Icons.close,
+                                  color: AppColors.primaryColor),
                               label: Text(
                                 context.locale.clearFilter,
-                                style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.primaryColor),
                               )),
                         ],
                         gapH64,
@@ -129,20 +147,28 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                         children: [
                           if (isFilter.value) ...[
                             TextButton.icon(
-                                style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 0)),
+                                style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 0)),
                                 onPressed: () {
                                   isFilter.value = false;
                                   _onTabsRouterChange();
                                 },
-                                icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                                icon: const Icon(Icons.close,
+                                    color: AppColors.primaryColor),
                                 label: Text(
                                   context.locale.clearFilter,
-                                  style: const TextStyle(fontSize: 12, color: AppColors.primaryColor),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.primaryColor),
                                 )),
                           ],
-                          ...response.data.map((e) => orderItem(context, e)).toList(),
+                          ...response.data
+                              .map((e) => orderItem(context, e))
+                              .toList(),
                           gapH10,
-                          if (((orders.value?.hasMore ?? false) || (orders.value?.isLoadingMore ?? false)))
+                          if (((orders.value?.hasMore ?? false) ||
+                              (orders.value?.isLoadingMore ?? false)))
                             const Center(
                               child: CircularProgressIndicator(),
                             ),
@@ -152,12 +178,20 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                                 icon: const Icon(Icons.refresh),
                                 onPressed: () async {
                                   await ref
-                                      .read(merchandOrdersNotifierProvider.notifier)
-                                      .fetchDeliveryOrders(params.copyWith(page: params.page + 1), isMore: true)
+                                      .read(merchandOrdersNotifierProvider
+                                          .notifier)
+                                      .fetchDeliveryOrders(
+                                          params.copyWith(
+                                              page: params.page + 1),
+                                          isMore: true)
                                       .whenComplete(() {
-                                    if (!(ref.watch(merchandOrdersNotifierProvider).value!.hasErrorOnLoadMore)) {
+                                    if (!(ref
+                                        .watch(merchandOrdersNotifierProvider)
+                                        .value!
+                                        .hasErrorOnLoadMore)) {
                                       setState(() {
-                                        params = params.copyWith(page: params.page + 1);
+                                        params = params.copyWith(
+                                            page: params.page + 1);
                                       });
                                     }
                                   });
@@ -185,7 +219,8 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
   Widget orderItem(BuildContext _, CurrentCartResponse record) {
     return InkWell(
       onTap: () {
-        context.pushRoute(ClientOrderDetailRoute(data: record, isMarchant: true));
+        context
+            .pushRoute(ClientOrderDetailRoute(data: record, isMarchant: true));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 16),
@@ -239,7 +274,10 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                   flex: 1,
                   child: Text(
                     context.locale.designation,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
@@ -258,13 +296,18 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                   flex: 1,
                   child: Text(
                     context.locale.amount,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text('${record.montant} XAF',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: AppColors.variantGreenColor)),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.variantGreenColor)),
                 )
               ],
             ),
@@ -275,7 +318,10 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                   flex: 1,
                   child: Text(
                     context.locale.client,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: AppColors.greyTextColor),
                   ),
                 ),
                 Expanded(
@@ -284,6 +330,33 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
                 )
               ],
             ),
+            if (record.dateCreate != null) gapH2,
+            if (record.dateCreate != null)
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      "Date",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.greyTextColor),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      DateFormat('yyyy-MM-dd | hh:mm').format(
+                        DateTime.parse(record.dateCreate!),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  )
+                ],
+              ),
           ],
         ),
       ),
@@ -306,16 +379,27 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
           ),
         ],
       ),
-      child: Text(status.name.capitalize().toString(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor)),
+      child: Text(status.name.capitalize().toString(),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.whiteColor)),
     );
   }
 
-  Row cartListTile({required String title, required num amount, bool isTotal = false, bool isCoupon = false}) {
+  Row cartListTile(
+      {required String title,
+      required num amount,
+      bool isTotal = false,
+      bool isCoupon = false}) {
     return Row(
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextColor),
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: AppColors.greyTextColor),
         ),
         const Spacer(),
         RichText(
@@ -323,12 +407,24 @@ class _MerchantOrdersTabScreenState extends ConsumerState<MerchantOrdersTabScree
           TextSpan(
               text: isCoupon ? "(-) $amount" : "$amount ",
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor, fontWeight: FontWeight.bold, fontSize: isTotal ? 20 : 12)),
+                  color: !isTotal
+                      ? AppColors.greyTextColor
+                      : AppColors.secondaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTotal ? 20 : 12)),
           isCoupon
-              ? TextSpan(text: "%", style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12, color: AppColors.greyTextColor))
+              ? TextSpan(
+                  text: "%",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 12, color: AppColors.greyTextColor))
               : TextSpan(
                   text: "XAF",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: !isTotal ? AppColors.greyTextColor : AppColors.secondaryColor)),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: !isTotal
+                          ? AppColors.greyTextColor
+                          : AppColors.secondaryColor)),
         ]))
       ],
     );

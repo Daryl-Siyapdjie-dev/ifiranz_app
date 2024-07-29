@@ -15,7 +15,8 @@ class Arrondissement with _$Arrondissement {
     double? montant,
   }) = _Arrondissement;
 
-  factory Arrondissement.fromJson(Map<String, dynamic> json) => _$ArrondissementFromJson(json);
+  factory Arrondissement.fromJson(Map<String, dynamic> json) =>
+      _$ArrondissementFromJson(json);
 }
 
 @freezed
@@ -29,7 +30,8 @@ class ApiResponse with _$ApiResponse {
     int? totalElements,
   }) = _ApiResponse;
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
+  factory ApiResponse.fromJson(Map<String, dynamic> json) =>
+      _$ApiResponseFromJson(json);
 }
 
 @freezed
@@ -41,16 +43,27 @@ class Records with _$Records {
     String? designation,
     Livreur? livreur,
     String? dateLivraison,
+    List<Article>? articles,
     double? latitude,
+    double? montant,
+    double? montantLivraison,
+    double? montantTotal,
     double? longitude,
     Commande? commande,
+    Client? client,
+    Quartier? quartier,
     String? localisationGps,
     String? statut,
     String? url,
     String? otp,
+    double? dueAmount,
+    String? clientName,
+    String? modePayement,
+    String? dateCreate,
   }) = _Records;
 
-  factory Records.fromJson(Map<String, dynamic> json) => _$RecordsFromJson(json);
+  factory Records.fromJson(Map<String, dynamic> json) =>
+      _$RecordsFromJson(json);
 }
 
 @freezed
@@ -72,7 +85,8 @@ class Livreur with _$Livreur {
     String? user,
   }) = _Livreur;
 
-  factory Livreur.fromJson(Map<String, dynamic> json) => _$LivreurFromJson(json);
+  factory Livreur.fromJson(Map<String, dynamic> json) =>
+      _$LivreurFromJson(json);
 }
 
 @freezed
@@ -99,7 +113,8 @@ class Commande with _$Commande {
     String? pourMarchand,
   }) = _Commande;
 
-  factory Commande.fromJson(Map<String, dynamic> json) => _$CommandeFromJson(json);
+  factory Commande.fromJson(Map<String, dynamic> json) =>
+      _$CommandeFromJson(json);
 }
 
 @freezed
@@ -114,7 +129,8 @@ class Article with _$Article {
     double? montant,
   }) = _Article;
 
-  factory Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);
+  factory Article.fromJson(Map<String, dynamic> json) =>
+      _$ArticleFromJson(json);
 }
 
 @freezed
@@ -135,7 +151,8 @@ class ArticleDetail with _$ArticleDetail {
     String? url,
   }) = _ArticleDetail;
 
-  factory ArticleDetail.fromJson(Map<String, dynamic> json) => _$ArticleDetailFromJson(json);
+  factory ArticleDetail.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDetailFromJson(json);
 }
 
 @freezed
@@ -147,7 +164,8 @@ class ArticleType with _$ArticleType {
     String? designation,
   }) = _ArticleType;
 
-  factory ArticleType.fromJson(Map<String, dynamic> json) => _$ArticleTypeFromJson(json);
+  factory ArticleType.fromJson(Map<String, dynamic> json) =>
+      _$ArticleTypeFromJson(json);
 }
 
 @freezed
@@ -170,7 +188,8 @@ class Marchand with _$Marchand {
     String? type,
   }) = _Marchand;
 
-  factory Marchand.fromJson(Map<String, dynamic> json) => _$MarchandFromJson(json);
+  factory Marchand.fromJson(Map<String, dynamic> json) =>
+      _$MarchandFromJson(json);
 }
 
 @freezed
@@ -183,5 +202,16 @@ class Quartier with _$Quartier {
     Arrondissement? arrondissement,
   }) = _Quartier;
 
-  factory Quartier.fromJson(Map<String, dynamic> json) => _$QuartierFromJson(json);
+  factory Quartier.fromJson(Map<String, dynamic> json) =>
+      _$QuartierFromJson(json);
 }
+
+// @freezed
+// class Client with _$Client {
+//   const Client._();
+//   const factory Client({
+//     int? id,
+//     String? nom,
+//     String? prenom,
+//   }) = _Client;
+// }
