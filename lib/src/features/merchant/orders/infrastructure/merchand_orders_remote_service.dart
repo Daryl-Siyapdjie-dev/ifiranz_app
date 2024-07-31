@@ -17,7 +17,11 @@ class MerchandOrdersRemoteService {
       PaginatedRequest params, List<FilterOptional> request) async {
     print(request);
     return handleApiCall<ApiResponse<Json>>(
-      () async => _dio.post(_urlBuilder.buildClientOrders(params),
+      // () async => _dio.post(_urlBuilder.buildClientOrders(params),
+      //     data: request.map((e) => e.toJson()).toList()),
+
+// ? I have change the url path for this request
+      () async => _dio.post(_urlBuilder.builV2MerchantCommands(params),
           data: request.map((e) => e.toJson()).toList()),
       (data) {
         return ApiResponse.success(data as Json);
