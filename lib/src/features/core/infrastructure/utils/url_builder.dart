@@ -33,11 +33,15 @@ class UrlBuilder {
   String buildFindByOtp(String otp) =>
       '$baseUrl/auth-service/api/v1/users/$otp/user-otp';
 
+// Build verify Token
+  String buildVerifyOTP() => '$baseUrl/auth-service/api/v1/auth/verify-token';
+
   String buildResetPasswordWithPhone(String phoneNumber) =>
       '$baseUrl/auth-service/api/v1/users/$phoneNumber/user-phone';
 
-  String buildResetPasswordWithEmail(String email) =>
-      '$baseUrl/auth-service/api/v1/users/$email/user-email';
+// Reset Password
+  String buildResetPasswordWithEmail() =>
+      '$baseUrl/auth-service/api/v1/auth/reset-password';
 
   String buildLoginUser() => '$baseUrl/auth-service/api/v1/auth/login';
 

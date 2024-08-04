@@ -60,11 +60,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           otpSendSuccess: (res) {
             AutoRouter.of(context).push(
               ForgotOTPRoute(
-                  isPhoneNumber: !isResetByEmail,
-                  verifier: isResetByEmail
-                      ? emailController.text.trim()
-                      : phoneController.text.trim(),
-                  token: res.token),
+                isPhoneNumber: !isResetByEmail,
+                verifier: isResetByEmail
+                    ? emailController.text.trim()
+                    : phoneController.text.trim(),
+              ),
             );
           },
         );

@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/domain/reset_password_request.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/domain/send_otp_response.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/infrastructure/reset_password_remote_service.dart';
-import 'package:ifiranz_client/src/features/core/domain/api_failure.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_exception.dart';
+import '../domain/reset_password_request.dart';
+import '../domain/send_otp_response.dart';
+import 'reset_password_remote_service.dart';
+import '../../../core/domain/api_failure.dart';
+import '../../../core/infrastructure/utils/api_exception.dart';
 
 class ResetPasswordRepository {
   final ResetPasswordRemoteService _resetRemoteService;
 
   ResetPasswordRepository(this._resetRemoteService);
 
-  Future<Either<ApiFailure, SendOtpResponse>> resetPasswordByEmail(
+  Future<Either<ApiFailure, ForgotPasswordResponse>> resetPasswordByEmail(
     String email,
   ) async {
     try {
@@ -20,7 +20,7 @@ class ResetPasswordRepository {
 
       return right(
         await response.when(
-          success: (res) => SendOtpResponse.fromJson(res!['datas']),
+          success: (res) => ForgotPasswordResponse.fromJson(res!),
         ),
       );
     } on ApiException catch (apiException) {
@@ -28,7 +28,7 @@ class ResetPasswordRepository {
     }
   }
 
-  Future<Either<ApiFailure, SendOtpResponse>> resetPasswordByPhoneNumber(
+  Future<Either<ApiFailure, ForgotPasswordResponse>> resetPasswordByPhoneNumber(
     String phone,
   ) async {
     try {
@@ -38,7 +38,7 @@ class ResetPasswordRepository {
 
       return right(
         await response.when(
-          success: (res) => SendOtpResponse.fromJson(res!['datas']),
+          success: (res) => ForgotPasswordResponse.fromJson(res!),
         ),
       );
     } on ApiException catch (apiException) {
@@ -46,14 +46,14 @@ class ResetPasswordRepository {
     }
   }
 
-  Future<Either<ApiFailure, Unit>> findByOtp(
-      ResetPasswordRequest request) async {
+  Future<Either<ApiFailure, ForgotPasswordResponse>> findByOtp(
+      String emailOrPhone, String otp) async {
     try {
-      final response = await _resetRemoteService.findByOtp(request);
+      final response = await _resetRemoteService.verifyOTP(emailOrPhone, otp);
 
       return right(
         await response.when(
-          success: (_) => unit,
+          success: (res) => ForgotPasswordResponse.fromJson(res!),
         ),
       );
     } on ApiException catch (apiException) {
@@ -61,7 +61,7 @@ class ResetPasswordRepository {
     }
   }
 
-  Future<Either<ApiFailure, Unit>> resetPasswordWithEmail(
+  Future<Either<ApiFailure, ForgotPasswordResponse>> resetPasswordWithEmail(
       ResetPasswordRequest request) async {
     try {
       final response =
@@ -69,7 +69,7 @@ class ResetPasswordRepository {
 
       return right(
         await response.when(
-          success: (_) => unit,
+          success: (res) => ForgotPasswordResponse.fromJson(res!),
         ),
       );
     } on ApiException catch (apiException) {
@@ -77,15 +77,15 @@ class ResetPasswordRepository {
     }
   }
 
-  Future<Either<ApiFailure, Unit>> resetPasswordWithPhoneNumber(
-      ResetPasswordRequest request) async {
+  Future<Either<ApiFailure, ForgotPasswordResponse>>
+      resetPasswordWithPhoneNumber(ResetPasswordRequest request) async {
     try {
       final response =
           await _resetRemoteService.resetPasswordWithPhoneNumber(request);
 
       return right(
         await response.when(
-          success: (_) => unit,
+          success: (res) => ForgotPasswordResponse.fromJson(res!),
         ),
       );
     } on ApiException catch (apiException) {

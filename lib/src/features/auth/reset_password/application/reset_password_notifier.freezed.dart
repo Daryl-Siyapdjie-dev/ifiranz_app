@@ -20,9 +20,9 @@ mixin _$ResetPasswordState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,9 +30,9 @@ mixin _$ResetPasswordState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,9 +40,9 @@ mixin _$ResetPasswordState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) =>
@@ -138,9 +138,9 @@ class _$InitialImpl extends _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
     return initial();
@@ -151,9 +151,9 @@ class _$InitialImpl extends _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
     return initial?.call();
@@ -164,9 +164,9 @@ class _$InitialImpl extends _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
@@ -265,9 +265,9 @@ class _$LoadingImpl extends _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
     return loading();
@@ -278,9 +278,9 @@ class _$LoadingImpl extends _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
     return loading?.call();
@@ -291,9 +291,9 @@ class _$LoadingImpl extends _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
@@ -358,9 +358,9 @@ abstract class _$$OTPSendSuccessImplCopyWith<$Res> {
           $Res Function(_$OTPSendSuccessImpl) then) =
       __$$OTPSendSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({SendOtpResponse res});
+  $Res call({ForgotPasswordResponse res});
 
-  $SendOtpResponseCopyWith<$Res> get res;
+  $ForgotPasswordResponseCopyWith<$Res> get res;
 }
 
 /// @nodoc
@@ -380,14 +380,14 @@ class __$$OTPSendSuccessImplCopyWithImpl<$Res>
       null == res
           ? _value.res
           : res // ignore: cast_nullable_to_non_nullable
-              as SendOtpResponse,
+              as ForgotPasswordResponse,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SendOtpResponseCopyWith<$Res> get res {
-    return $SendOtpResponseCopyWith<$Res>(_value.res, (value) {
+  $ForgotPasswordResponseCopyWith<$Res> get res {
+    return $ForgotPasswordResponseCopyWith<$Res>(_value.res, (value) {
       return _then(_value.copyWith(res: value));
     });
   }
@@ -399,7 +399,7 @@ class _$OTPSendSuccessImpl extends _OTPSendSuccess {
   const _$OTPSendSuccessImpl(this.res) : super._();
 
   @override
-  final SendOtpResponse res;
+  final ForgotPasswordResponse res;
 
   @override
   String toString() {
@@ -429,9 +429,9 @@ class _$OTPSendSuccessImpl extends _OTPSendSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
     return otpSendSuccess(res);
@@ -442,9 +442,9 @@ class _$OTPSendSuccessImpl extends _OTPSendSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
     return otpSendSuccess?.call(res);
@@ -455,9 +455,9 @@ class _$OTPSendSuccessImpl extends _OTPSendSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
@@ -512,11 +512,11 @@ class _$OTPSendSuccessImpl extends _OTPSendSuccess {
 }
 
 abstract class _OTPSendSuccess extends ResetPasswordState {
-  const factory _OTPSendSuccess(final SendOtpResponse res) =
+  const factory _OTPSendSuccess(final ForgotPasswordResponse res) =
       _$OTPSendSuccessImpl;
   const _OTPSendSuccess._() : super._();
 
-  SendOtpResponse get res;
+  ForgotPasswordResponse get res;
   @JsonKey(ignore: true)
   _$$OTPSendSuccessImplCopyWith<_$OTPSendSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -589,9 +589,9 @@ class _$OTPVerifiedSuccessImpl extends _OTPVerifiedSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
     return otpVerifiedSuccess(token);
@@ -602,9 +602,9 @@ class _$OTPVerifiedSuccessImpl extends _OTPVerifiedSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
     return otpVerifiedSuccess?.call(token);
@@ -615,9 +615,9 @@ class _$OTPVerifiedSuccessImpl extends _OTPVerifiedSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
@@ -687,6 +687,10 @@ abstract class _$$SuccessullyImplCopyWith<$Res> {
   factory _$$SuccessullyImplCopyWith(
           _$SuccessullyImpl value, $Res Function(_$SuccessullyImpl) then) =
       __$$SuccessullyImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ForgotPasswordResponse? res});
+
+  $ForgotPasswordResponseCopyWith<$Res>? get res;
 }
 
 /// @nodoc
@@ -696,38 +700,74 @@ class __$$SuccessullyImplCopyWithImpl<$Res>
   __$$SuccessullyImplCopyWithImpl(
       _$SuccessullyImpl _value, $Res Function(_$SuccessullyImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? res = freezed,
+  }) {
+    return _then(_$SuccessullyImpl(
+      freezed == res
+          ? _value.res
+          : res // ignore: cast_nullable_to_non_nullable
+              as ForgotPasswordResponse?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ForgotPasswordResponseCopyWith<$Res>? get res {
+    if (_value.res == null) {
+      return null;
+    }
+
+    return $ForgotPasswordResponseCopyWith<$Res>(_value.res!, (value) {
+      return _then(_value.copyWith(res: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$SuccessullyImpl extends _Successully {
-  const _$SuccessullyImpl() : super._();
+  const _$SuccessullyImpl([this.res]) : super._();
+
+  @override
+  final ForgotPasswordResponse? res;
 
   @override
   String toString() {
-    return 'ResetPasswordState.successully()';
+    return 'ResetPasswordState.successully(res: $res)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessullyImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessullyImpl &&
+            (identical(other.res, res) || other.res == res));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, res);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessullyImplCopyWith<_$SuccessullyImpl> get copyWith =>
+      __$$SuccessullyImplCopyWithImpl<_$SuccessullyImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
-    return successully();
+    return successully(res);
   }
 
   @override
@@ -735,12 +775,12 @@ class _$SuccessullyImpl extends _Successully {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
-    return successully?.call();
+    return successully?.call(res);
   }
 
   @override
@@ -748,14 +788,14 @@ class _$SuccessullyImpl extends _Successully {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
     if (successully != null) {
-      return successully();
+      return successully(res);
     }
     return orElse();
   }
@@ -805,8 +845,14 @@ class _$SuccessullyImpl extends _Successully {
 }
 
 abstract class _Successully extends ResetPasswordState {
-  const factory _Successully() = _$SuccessullyImpl;
+  const factory _Successully([final ForgotPasswordResponse? res]) =
+      _$SuccessullyImpl;
   const _Successully._() : super._();
+
+  ForgotPasswordResponse? get res;
+  @JsonKey(ignore: true)
+  _$$SuccessullyImplCopyWith<_$SuccessullyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -875,9 +921,9 @@ class _$FailedImpl extends _Failed {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(SendOtpResponse res) otpSendSuccess,
+    required TResult Function(ForgotPasswordResponse res) otpSendSuccess,
     required TResult Function(String token) otpVerifiedSuccess,
-    required TResult Function() successully,
+    required TResult Function(ForgotPasswordResponse? res) successully,
     required TResult Function(String? message) failed,
   }) {
     return failed(message);
@@ -888,9 +934,9 @@ class _$FailedImpl extends _Failed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(SendOtpResponse res)? otpSendSuccess,
+    TResult? Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult? Function(String token)? otpVerifiedSuccess,
-    TResult? Function()? successully,
+    TResult? Function(ForgotPasswordResponse? res)? successully,
     TResult? Function(String? message)? failed,
   }) {
     return failed?.call(message);
@@ -901,9 +947,9 @@ class _$FailedImpl extends _Failed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(SendOtpResponse res)? otpSendSuccess,
+    TResult Function(ForgotPasswordResponse res)? otpSendSuccess,
     TResult Function(String token)? otpVerifiedSuccess,
-    TResult Function()? successully,
+    TResult Function(ForgotPasswordResponse? res)? successully,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {

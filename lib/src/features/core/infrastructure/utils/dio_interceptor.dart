@@ -2,13 +2,15 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/user_local_credentials_repository.dart';
+
+import '../services/local/user_local_credentials_repository.dart';
 
 class DioInterceptor extends Interceptor {
   final UserLocalCredentialsRepository _userCredentialsStorage;
 
   DioInterceptor(this._userCredentialsStorage);
-  final String _expireTokenString = 'The request returned an invalid status code of 403.';
+  final String _expireTokenString =
+      'The request returned an invalid status code of 403.';
 
   @override
   Future<void> onRequest(
@@ -17,7 +19,7 @@ class DioInterceptor extends Interceptor {
   ) async {
     final token = await _userCredentialsStorage.getUserLocalCredentials;
 
-    print(token);
+    // print(token);
     final modifiedOptions = options
       ..headers.addAll(
         token == null
@@ -43,8 +45,12 @@ class DioInterceptor extends Interceptor {
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     final errorResponse = err.response;
 
-    if (errorResponse != null && (errorResponse.statusCode == 412 || errorResponse.statusCode == 401) ||
-        (errorResponse?.statusCode == 403) && err.message == _expireTokenString) {
+    if (errorResponse != null &&
+            (errorResponse.statusCode == 412 ||
+                errorResponse.statusCode == 401) ||
+        (errorResponse?.statusCode == 403) &&
+            err.message == _expireTokenString) {
+      log("ERRORRRRRRRRRRRRRRRR");
       _userCredentialsStorage.deleteUserLocalCredentials();
       EasyLoading.showToast('Votre token a expiré.');
     }

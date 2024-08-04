@@ -1147,7 +1147,7 @@ class FoodRestaurantRouteArgs {
 class ForgotOTPRoute extends PageRouteInfo<ForgotOTPRouteArgs> {
   ForgotOTPRoute({
     bool isPhoneNumber = true,
-    required String token,
+    String? token,
     required String verifier,
     Key? key,
     List<PageRouteInfo>? children,
@@ -1171,14 +1171,14 @@ class ForgotOTPRoute extends PageRouteInfo<ForgotOTPRouteArgs> {
 class ForgotOTPRouteArgs {
   const ForgotOTPRouteArgs({
     this.isPhoneNumber = true,
-    required this.token,
+    this.token,
     required this.verifier,
     this.key,
   });
 
   final bool isPhoneNumber;
 
-  final String token;
+  final String? token;
 
   final String verifier;
 

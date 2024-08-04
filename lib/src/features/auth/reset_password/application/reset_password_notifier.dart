@@ -12,13 +12,14 @@ class ResetPasswordState with _$ResetPasswordState {
   const ResetPasswordState._();
   const factory ResetPasswordState.initial() = _Initial;
   const factory ResetPasswordState.loading() = _Loading;
-  const factory ResetPasswordState.otpSendSuccess(SendOtpResponse res) =
+  const factory ResetPasswordState.otpSendSuccess(ForgotPasswordResponse res) =
       _OTPSendSuccess;
 
   const factory ResetPasswordState.otpVerifiedSuccess(String token) =
       _OTPVerifiedSuccess;
 
-  const factory ResetPasswordState.successully() = _Successully;
+  const factory ResetPasswordState.successully([ForgotPasswordResponse? res]) =
+      _Successully;
 
   const factory ResetPasswordState.failed(String? message) = _Failed;
 }
@@ -62,7 +63,7 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
 
     state = authOrFailed.fold(
       (l) => ResetPasswordState.failed(l.message),
-      (r) => const ResetPasswordState.successully(),
+      (r) => ResetPasswordState.successully(r),
     );
   }
 
@@ -74,19 +75,20 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
 
     state = authOrFailed.fold(
       (l) => ResetPasswordState.failed(l.message),
-      (r) => const ResetPasswordState.successully(),
+      (r) => ResetPasswordState.successully(r),
     );
   }
 
   Future<void> findByOtp(
-    ResetPasswordRequest request,
+    String emailOrPhone,
+    String otp,
   ) async {
     state = const ResetPasswordState.loading();
-    final authOrFailed = await _resetRepository.findByOtp(request);
+    final authOrFailed = await _resetRepository.findByOtp(emailOrPhone, otp);
 
     state = authOrFailed.fold(
       (l) => ResetPasswordState.failed(l.message),
-      (r) => ResetPasswordState.otpVerifiedSuccess(request.token),
+      (r) => ResetPasswordState.otpVerifiedSuccess(r.message!),
     );
   }
 }

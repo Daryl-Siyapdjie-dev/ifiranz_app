@@ -70,9 +70,10 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _onTabsRouterChange();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _onTabsRouterChange();
+    // });
+    Future.microtask(() => _onTabsRouterChange());
     super.initState();
   }
 
@@ -82,6 +83,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
     //     .read(promotionnalProductsNotifierProvider.notifier)
     //     .findPromotions(filterRequest);
     // if (isAll) {
+    setState(() {});
     await ref
         .read(restaurantsNotifierProvider.notifier)
         .fetchRestaurants(localPage, restoRequests);
@@ -660,7 +662,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: SizedBox(
-                                      height: 66.0,
+                                      height: 50,
                                       width: 85.0,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
@@ -678,7 +680,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
                                     width: 90.0,
                                     child: Text(
                                       response.data[index].designation,
-                                      style: const TextStyle(fontSize: 14.0),
+                                      style: const TextStyle(fontSize: 12.0),
                                       textAlign: TextAlign.center,
                                     ),
                                   )

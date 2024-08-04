@@ -17,7 +17,10 @@ class InfrastructursNotifier
   Future fetchRestaurants(
       PaginatedRequest params, List<FilterOptional> requests,
       {bool isMore = false}) async {
-    if (state.value?.isLoadingMore == true) return;
+    //? J'ai commente ce code pour resoudre le pb d'affichage des restaurants
+    //? Je dois decommenter ce code si necessaire
+    // ! TODO: decommenter ce code si necessaire
+    // if (state.value?.isLoadingMore == true) return;
     if (!state.hasValue ||
         (state.hasValue && (state.value?.data.isEmpty ?? false))) {
       state = const AsyncLoading();

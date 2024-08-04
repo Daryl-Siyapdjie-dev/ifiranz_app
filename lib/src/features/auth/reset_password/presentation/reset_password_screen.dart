@@ -1,16 +1,16 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/application/reset_password_notifier.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/domain/reset_password_request.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/shared/providers.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_constants.dart';
-import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
+import '../application/reset_password_notifier.dart';
+import '../domain/reset_password_request.dart';
+import '../shared/providers.dart';
+import '../../../core/infrastructure/extensions/localization_extension.dart';
+import '../../../core/infrastructure/utils/api_constants.dart';
+import '../../../core/presentation/widgets/app_bars.dart';
+import '../../../core/infrastructure/constants/app_sizes.dart';
 
-import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
-import 'package:ifiranz_client/src/router/app_router.dart';
+import '../../../core/presentation/themes/app_colors.dart';
+import '../../../../router/app_router.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/widgets/common_textfield.dart';
@@ -20,8 +20,11 @@ import '../../../core/shared/providers.dart';
 class ResetPasswordScreen extends StatefulHookConsumerWidget {
   final ResetPasswordRequest request;
   final bool isPhoneNumber;
-  const ResetPasswordScreen(
-      {required this.request, required this.isPhoneNumber, super.key});
+  const ResetPasswordScreen({
+    required this.request,
+    required this.isPhoneNumber,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -57,8 +60,21 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               margin: const EdgeInsets.all(16),
             ).show(context);
           },
-          successully: () {
-            AutoRouter.of(context).push(const MainAppRoute());
+          successully: (data) {
+            Flushbar(
+              message: data?.message ?? "",
+              icon: const Icon(
+                Icons.info,
+                color: AppColors.alertSuccess,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              backgroundColor: AppColors.bgGreen,
+              messageColor: AppColors.alertSuccess,
+              duration: const Duration(seconds: ApiConstants.flushbarDuration),
+              margin: const EdgeInsets.all(16),
+            ).show(context).then((value) => AutoRouter.of(context)
+                .pushAndPopUntil(const SignInRoute(), predicate: (_) => false));
+            // AutoRouter.of(context).push(const MainAppRoute());
           },
         );
       },
@@ -149,10 +165,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                             } else {
                               ref
                                   .read(resetPasswordNotifierProvider.notifier)
-                                  .resetPasswordWithEmail(widget.request
-                                      .copyWith(
-                                          password:
-                                              passwordController.text.trim()))
+                                  .resetPasswordWithEmail(
+                                    widget.request.copyWith(
+                                      password: passwordController.text.trim(),
+                                    ),
+                                  )
                                   .then((value) => progress!.dismiss())
                                   .whenComplete(() => progress!.dismiss());
                             }
