@@ -13,6 +13,7 @@ _$ForgotPasswordResponseImpl _$$ForgotPasswordResponseImplFromJson(
       statusCode: json['statusCode'] as int?,
       httpStatus: json['httpStatus'] as String?,
       message: json['message'] as String?,
+      datas: Datas.fromJson(json['datas'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ForgotPasswordResponseImplToJson(
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$ForgotPasswordResponseImplToJson(
       'statusCode': instance.statusCode,
       'httpStatus': instance.httpStatus,
       'message': instance.message,
+      'datas': instance.datas,
     };
 
 _$DatasImpl _$$DatasImplFromJson(Map<String, dynamic> json) => _$DatasImpl(

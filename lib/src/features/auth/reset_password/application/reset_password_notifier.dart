@@ -15,8 +15,8 @@ class ResetPasswordState with _$ResetPasswordState {
   const factory ResetPasswordState.otpSendSuccess(ForgotPasswordResponse res) =
       _OTPSendSuccess;
 
-  const factory ResetPasswordState.otpVerifiedSuccess(String token) =
-      _OTPVerifiedSuccess;
+  const factory ResetPasswordState.otpVerifiedSuccess(
+      [ForgotPasswordResponse? res]) = _OTPVerifiedSuccess;
 
   const factory ResetPasswordState.successully([ForgotPasswordResponse? res]) =
       _Successully;
@@ -88,7 +88,7 @@ class ResetPasswordNotifier extends StateNotifier<ResetPasswordState> {
 
     state = authOrFailed.fold(
       (l) => ResetPasswordState.failed(l.message),
-      (r) => ResetPasswordState.otpVerifiedSuccess(r.message!),
+      (r) => ResetPasswordState.otpVerifiedSuccess(r),
     );
   }
 }

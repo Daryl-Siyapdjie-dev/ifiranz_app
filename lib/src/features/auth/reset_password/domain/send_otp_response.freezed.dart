@@ -160,6 +160,7 @@ mixin _$ForgotPasswordResponse {
   int? get statusCode => throw _privateConstructorUsedError;
   String? get httpStatus => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
+  Datas get datas => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -177,7 +178,10 @@ abstract class $ForgotPasswordResponseCopyWith<$Res> {
       {String? timeStamp,
       int? statusCode,
       String? httpStatus,
-      String? message});
+      String? message,
+      Datas datas});
+
+  $DatasCopyWith<$Res> get datas;
 }
 
 /// @nodoc
@@ -198,6 +202,7 @@ class _$ForgotPasswordResponseCopyWithImpl<$Res,
     Object? statusCode = freezed,
     Object? httpStatus = freezed,
     Object? message = freezed,
+    Object? datas = null,
   }) {
     return _then(_value.copyWith(
       timeStamp: freezed == timeStamp
@@ -216,7 +221,19 @@ class _$ForgotPasswordResponseCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      datas: null == datas
+          ? _value.datas
+          : datas // ignore: cast_nullable_to_non_nullable
+              as Datas,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DatasCopyWith<$Res> get datas {
+    return $DatasCopyWith<$Res>(_value.datas, (value) {
+      return _then(_value.copyWith(datas: value) as $Val);
+    });
   }
 }
 
@@ -233,7 +250,11 @@ abstract class _$$ForgotPasswordResponseImplCopyWith<$Res>
       {String? timeStamp,
       int? statusCode,
       String? httpStatus,
-      String? message});
+      String? message,
+      Datas datas});
+
+  @override
+  $DatasCopyWith<$Res> get datas;
 }
 
 /// @nodoc
@@ -253,6 +274,7 @@ class __$$ForgotPasswordResponseImplCopyWithImpl<$Res>
     Object? statusCode = freezed,
     Object? httpStatus = freezed,
     Object? message = freezed,
+    Object? datas = null,
   }) {
     return _then(_$ForgotPasswordResponseImpl(
       timeStamp: freezed == timeStamp
@@ -271,6 +293,10 @@ class __$$ForgotPasswordResponseImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
+      datas: null == datas
+          ? _value.datas
+          : datas // ignore: cast_nullable_to_non_nullable
+              as Datas,
     ));
   }
 }
@@ -279,7 +305,11 @@ class __$$ForgotPasswordResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ForgotPasswordResponseImpl extends _ForgotPasswordResponse {
   const _$ForgotPasswordResponseImpl(
-      {this.timeStamp, this.statusCode, this.httpStatus, this.message})
+      {this.timeStamp,
+      this.statusCode,
+      this.httpStatus,
+      this.message,
+      required this.datas})
       : super._();
 
   factory _$ForgotPasswordResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -293,10 +323,12 @@ class _$ForgotPasswordResponseImpl extends _ForgotPasswordResponse {
   final String? httpStatus;
   @override
   final String? message;
+  @override
+  final Datas datas;
 
   @override
   String toString() {
-    return 'ForgotPasswordResponse(timeStamp: $timeStamp, statusCode: $statusCode, httpStatus: $httpStatus, message: $message)';
+    return 'ForgotPasswordResponse(timeStamp: $timeStamp, statusCode: $statusCode, httpStatus: $httpStatus, message: $message, datas: $datas)';
   }
 
   @override
@@ -310,13 +342,14 @@ class _$ForgotPasswordResponseImpl extends _ForgotPasswordResponse {
                 other.statusCode == statusCode) &&
             (identical(other.httpStatus, httpStatus) ||
                 other.httpStatus == httpStatus) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.datas, datas) || other.datas == datas));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, timeStamp, statusCode, httpStatus, message);
+  int get hashCode => Object.hash(
+      runtimeType, timeStamp, statusCode, httpStatus, message, datas);
 
   @JsonKey(ignore: true)
   @override
@@ -338,7 +371,8 @@ abstract class _ForgotPasswordResponse extends ForgotPasswordResponse {
       {final String? timeStamp,
       final int? statusCode,
       final String? httpStatus,
-      final String? message}) = _$ForgotPasswordResponseImpl;
+      final String? message,
+      required final Datas datas}) = _$ForgotPasswordResponseImpl;
   const _ForgotPasswordResponse._() : super._();
 
   factory _ForgotPasswordResponse.fromJson(Map<String, dynamic> json) =
@@ -352,6 +386,8 @@ abstract class _ForgotPasswordResponse extends ForgotPasswordResponse {
   String? get httpStatus;
   @override
   String? get message;
+  @override
+  Datas get datas;
   @override
   @JsonKey(ignore: true)
   _$$ForgotPasswordResponseImplCopyWith<_$ForgotPasswordResponseImpl>

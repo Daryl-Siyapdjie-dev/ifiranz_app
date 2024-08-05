@@ -58,14 +58,30 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             ).show(context);
           },
           otpSendSuccess: (res) {
-            AutoRouter.of(context).push(
-              ForgotOTPRoute(
-                isPhoneNumber: !isResetByEmail,
-                verifier: isResetByEmail
-                    ? emailController.text.trim()
-                    : phoneController.text.trim(),
-              ),
-            );
+            if (res.datas.valid ?? false) {
+              AutoRouter.of(context).push(
+                ForgotOTPRoute(
+                  isPhoneNumber: !isResetByEmail,
+                  verifier: isResetByEmail
+                      ? emailController.text.trim()
+                      : phoneController.text.trim(),
+                ),
+              );
+            } else {
+              Flushbar(
+                message: res.message ?? " ",
+                icon: const Icon(
+                  Icons.info,
+                  color: AppColors.alertError,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                backgroundColor: AppColors.bgRed,
+                messageColor: AppColors.alertError,
+                duration:
+                    const Duration(seconds: ApiConstants.flushbarDuration),
+                margin: const EdgeInsets.all(16),
+              ).show(context);
+            }
           },
         );
       },

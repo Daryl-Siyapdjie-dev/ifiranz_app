@@ -114,20 +114,37 @@ class _ForgotOTPScreenState extends ConsumerState<ForgotOTPScreen> {
       };
     }, []);
 
-    ref.listen<ResetPasswordState>(resetPasswordNotifierProvider,
-        (previous, next) {
-      next.maybeWhen(
+    ref.listen<ResetPasswordState>(
+      resetPasswordNotifierProvider,
+      (previous, next) {
+        next.maybeWhen(
           orElse: () {},
-          otpVerifiedSuccess: (token) {
-            debugPrint("TOKEN: $_otp");
-            AutoRouter.of(context).popAndPush(
-              ResetPasswordRoute(
+          otpVerifiedSuccess: (data) {
+            if (data?.datas.valid ?? false) {
+              AutoRouter.of(context).popAndPush(
+                ResetPasswordRoute(
                   isPhoneNumber: widget.isPhoneNumber,
                   request: ResetPasswordRequest(
                     phoneOrEmail: widget.verifier,
                     token: _otp,
-                  )),
-            );
+                  ),
+                ),
+              );
+            } else {
+              Flushbar(
+                message: data?.message ?? "OTP Not valid",
+                icon: const Icon(
+                  Icons.info,
+                  color: AppColors.alertError,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                backgroundColor: AppColors.bgRed,
+                messageColor: AppColors.alertError,
+                duration:
+                    const Duration(seconds: ApiConstants.flushbarDuration),
+                margin: const EdgeInsets.all(16),
+              ).show(context);
+            }
           },
           failed: (errorMessage) {
             Flushbar(
@@ -142,8 +159,10 @@ class _ForgotOTPScreenState extends ConsumerState<ForgotOTPScreen> {
               duration: const Duration(seconds: ApiConstants.flushbarDuration),
               margin: const EdgeInsets.all(16),
             ).show(context);
-          });
-    });
+          },
+        );
+      },
+    );
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: ProgressHUD(

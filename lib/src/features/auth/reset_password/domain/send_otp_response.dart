@@ -33,6 +33,7 @@ class ForgotPasswordResponse with _$ForgotPasswordResponse {
     int? statusCode,
     String? httpStatus,
     String? message,
+    required Datas datas,
   }) = _ForgotPasswordResponse;
 
   factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>

@@ -1,8 +1,8 @@
-import 'package:ifiranz_client/src/features/auth/reset_password/application/reset_password_notifier.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/infrastructure/reset_password_remote_service.dart';
-import 'package:ifiranz_client/src/features/auth/reset_password/infrastructure/reset_password_repository.dart';
-import 'package:ifiranz_client/src/features/auth/sign_in/shared/providers.dart';
-import 'package:ifiranz_client/src/features/core/shared/providers.dart';
+import '../application/reset_password_notifier.dart';
+import '../infrastructure/reset_password_remote_service.dart';
+import '../infrastructure/reset_password_repository.dart';
+import '../../sign_in/shared/providers.dart';
+import '../../../core/shared/providers.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
 
