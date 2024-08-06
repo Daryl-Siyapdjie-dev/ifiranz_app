@@ -37,8 +37,8 @@ class ClientOrdersNotifier
           isRefetching: false) as PaginatedResponse<CurrentCartResponse>);
     }
 
-    final failureOrSuccess =
-        await _deliveryOrdersRepository.getAllOrders(params, filterOption);
+    final failureOrSuccess = await _deliveryOrdersRepository
+        .getAllOrdersForClient(params, filterOption);
 
     state = failureOrSuccess.fold(
       (l) => isMore

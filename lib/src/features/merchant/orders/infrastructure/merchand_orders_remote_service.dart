@@ -29,6 +29,19 @@ class MerchandOrdersRemoteService {
     );
   }
 
+  Future<ApiResponse<Json>> getAllOrdersForClient(
+      PaginatedRequest params, List<FilterOptional> request) async {
+    return handleApiCall<ApiResponse<Json>>(
+      () async => _dio.post(
+        _urlBuilder.buildClientOrders(params),
+        data: request.map((e) => e.toJson()).toList(),
+      ),
+      (data) {
+        return ApiResponse.success(data as Json);
+      },
+    );
+  }
+
   Future<ApiResponse<Json>> getOrder(id) async {
     return handleApiCall<ApiResponse<Json>>(
       () async => _dio.get(

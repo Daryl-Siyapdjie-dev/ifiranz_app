@@ -46,11 +46,11 @@ class MerchandOrdersRepository {
   }
 
   Future<Either<ApiFailure, PaginatedResponse<CurrentCartResponse>>>
-      getAllOrders(PaginatedRequest params,
+      getAllOrdersForClient(PaginatedRequest params,
           [List<FilterOptional> request = const []]) async {
     try {
       final response =
-          await _productRemoteService.getAllOrders(params, request);
+          await _productRemoteService.getAllOrdersForClient(params, request);
 
       return right(
         await response.when(
