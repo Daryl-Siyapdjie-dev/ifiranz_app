@@ -5,7 +5,9 @@ import 'package:ifiranz_client/src/features/core/infrastructure/extensions/dio_e
 import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_constants.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_exception.dart';
 
-Future<T> handleApiCall<T>(Future<Response<dynamic>> Function() apiCall, T Function(Map val) successMapper, {String? displayErrorMessage}) async {
+Future<T> handleApiCall<T>(Future<Response<dynamic>> Function() apiCall,
+    T Function(Map val) successMapper,
+    {String? displayErrorMessage}) async {
   try {
     final response = await apiCall();
 
@@ -13,12 +15,15 @@ Future<T> handleApiCall<T>(Future<Response<dynamic>> Function() apiCall, T Funct
     if (response.data is int) return successMapper({"data": response.data});
 
     if (response.data is Map &&
-        (response.data?["valid"] == true || ((response.data?["statusCode"] ?? 0) >= 200 && (response.data?["statusCode"] ?? 0) <= 300))) {
+        (response.data?["valid"] == true ||
+            ((response.data?["statusCode"] ?? 0) >= 200 &&
+                (response.data?["statusCode"] ?? 0) <= 300))) {
       return successMapper(response.data);
     } else {
       if (response.data is Map) {
         if ((response.data?["valid"] ?? false) == false) {
-          throw ApiException(msg: response.data?["message"].toString() ?? "An error occurred");
+          throw ApiException(
+              msg: response.data?["message"].toString() ?? "An error occurred");
         }
         throw ApiException.fromJson(response.data);
       } else {

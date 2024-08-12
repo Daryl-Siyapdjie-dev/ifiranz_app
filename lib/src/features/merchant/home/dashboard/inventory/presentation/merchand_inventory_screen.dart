@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../router/app_router.dart';
 import '../../../../../core/domain/paginated_request.dart';
@@ -273,7 +274,28 @@ class _MerchandInventoryScreenState
                 ),
                 gapW10,
                 Expanded(
-                  child: Text('${record.dueAmount ?? 0} XAF',
+                  child: Text(
+                      '${record.dueAmount! + record.montantLivraison!} XAF',
+                      style: Theme.of(context).textTheme.bodySmall),
+                ),
+              ],
+            ),
+            gapH2,
+            Row(
+              children: [
+                Text(
+                  "Date:",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.greyTextColor),
+                ),
+                gapW10,
+                Expanded(
+                  child: Text(
+                      DateFormat('yyyy-MM-dd | hh:mm').format(
+                        DateTime.parse(record.dateCreate!),
+                      ),
                       style: Theme.of(context).textTheme.bodySmall),
                 ),
               ],

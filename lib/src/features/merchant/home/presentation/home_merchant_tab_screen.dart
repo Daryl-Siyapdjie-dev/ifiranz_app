@@ -149,7 +149,7 @@ class _HomeMerchantTabScreenState extends ConsumerState<HomeMerchantTabScreen> {
                   context.pushRoute(const MerchandInventoryRoute());
                 },
                 color: AppColors.variantPinkColor,
-                title: context.locale.merchandHomeScreenInventory,
+                title: "Colis",
                 imageBg: 'assets/icons/liquid-cheese-5.svg',
                 imageFg: 'assets/icons/Vector.svg',
               ),

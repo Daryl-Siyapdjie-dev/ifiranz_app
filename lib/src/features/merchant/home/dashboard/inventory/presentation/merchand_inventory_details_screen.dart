@@ -98,7 +98,8 @@ class MerchandInventoryDetailsScreenState
                       ),
                       gapH12,
                       cartListTile(
-                          amount: widget.data.dueAmount ?? 0,
+                          amount: widget.data.dueAmount! +
+                              widget.data.montantLivraison!,
                           title: "Total",
                           isTotal: true),
                       gapH25,

@@ -61,8 +61,8 @@ _$RecordsImpl _$$RecordsImplFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Article.fromJson(e as Map<String, dynamic>))
           .toList(),
       latitude: (json['latitude'] as num?)?.toDouble(),
-      montant: (json['montant'] as num?)?.toDouble(),
-      montantLivraison: (json['montantLivraison'] as num?)?.toDouble(),
+      montant: (json['montant'] as num?)?.toDouble() ?? 0.0,
+      montantLivraison: (json['montantLivraison'] as num?)?.toDouble() ?? 0.0,
       montantTotal: (json['montantTotal'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       commande: json['commande'] == null

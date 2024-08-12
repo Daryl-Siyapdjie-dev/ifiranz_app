@@ -940,8 +940,8 @@ class _$RecordsImpl implements _Records {
       this.dateLivraison,
       final List<Article>? articles,
       this.latitude,
-      this.montant,
-      this.montantLivraison,
+      this.montant = 0.0,
+      this.montantLivraison = 0.0,
       this.montantTotal,
       this.longitude,
       this.commande,
@@ -985,8 +985,10 @@ class _$RecordsImpl implements _Records {
   @override
   final double? latitude;
   @override
+  @JsonKey()
   final double? montant;
   @override
+  @JsonKey()
   final double? montantLivraison;
   @override
   final double? montantTotal;

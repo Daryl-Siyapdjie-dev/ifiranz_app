@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ifiranz_client/src/features/core/application/language_notifier.dart';
-import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
 
+import 'features/core/application/language_notifier.dart';
+import 'features/core/infrastructure/services/local/shared_pref.dart';
 import 'features/core/presentation/themes/app_themes.dart';
 import 'features/core/shared/providers.dart';
 import 'l10n/app_localizations.dart';
@@ -78,7 +78,8 @@ class _AppWidgetState extends ConsumerState<AppWidget> {
       ),
       title: 'Ifiranz',
       restorationScopeId: 'app',
-      locale: ref.watch(languageNotifierProvider(SharedPref.getLocale())) is String
+      locale: ref.watch(languageNotifierProvider(SharedPref.getLocale()))
+              is String
           ? Locale(ref.watch(languageNotifierProvider(SharedPref.getLocale()))!)
           : null,
       localizationsDelegates: const [
@@ -92,7 +93,8 @@ class _AppWidgetState extends ConsumerState<AppWidget> {
         Locale('en', 'EN'),
         Locale('fr', 'FR'),
       ],
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context).appTitle,
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context).appTitle,
       theme: AppThemes.lightTheme(),
       builder: EasyLoading.init(),
     );
