@@ -13,7 +13,7 @@ _$InfrastructurModelImpl _$$InfrastructurModelImplFromJson(
       version: json['version'] as int,
       code: json['code'] as String,
       designation: json['designation'] as String,
-      merchantId: json['merchantId'] as int,
+      merchantId: json['merchantId'] as int?,
       adresse: json['adresse'] as String?,
       telephone1: json['telephone1'] as String,
       telephone2: json['telephone2'] as String?,
@@ -24,7 +24,7 @@ _$InfrastructurModelImpl _$$InfrastructurModelImplFromJson(
       type: json['type'] as String,
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
-      indice: json['indice'],
+      indice: (json['indice'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$InfrastructurModelImplToJson(

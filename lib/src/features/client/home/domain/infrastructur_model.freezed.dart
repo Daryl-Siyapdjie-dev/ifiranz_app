@@ -24,7 +24,7 @@ mixin _$InfrastructurModel {
   int get version => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   String get designation => throw _privateConstructorUsedError;
-  int get merchantId => throw _privateConstructorUsedError;
+  int? get merchantId => throw _privateConstructorUsedError;
   String? get adresse => throw _privateConstructorUsedError;
   String get telephone1 => throw _privateConstructorUsedError;
   String? get telephone2 => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ mixin _$InfrastructurModel {
   String get type => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
-  dynamic get indice => throw _privateConstructorUsedError;
+  double? get indice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +54,7 @@ abstract class $InfrastructurModelCopyWith<$Res> {
       int version,
       String code,
       String designation,
-      int merchantId,
+      int? merchantId,
       String? adresse,
       String telephone1,
       String? telephone2,
@@ -65,7 +65,7 @@ abstract class $InfrastructurModelCopyWith<$Res> {
       String type,
       double latitude,
       double longitude,
-      dynamic indice});
+      double? indice});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class _$InfrastructurModelCopyWithImpl<$Res, $Val extends InfrastructurModel>
     Object? version = null,
     Object? code = null,
     Object? designation = null,
-    Object? merchantId = null,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = null,
     Object? telephone2 = freezed,
@@ -115,10 +115,10 @@ class _$InfrastructurModelCopyWithImpl<$Res, $Val extends InfrastructurModel>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String,
-      merchantId: null == merchantId
+      merchantId: freezed == merchantId
           ? _value.merchantId
           : merchantId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -162,7 +162,7 @@ class _$InfrastructurModelCopyWithImpl<$Res, $Val extends InfrastructurModel>
       indice: freezed == indice
           ? _value.indice
           : indice // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as double?,
     ) as $Val);
   }
 }
@@ -180,7 +180,7 @@ abstract class _$$InfrastructurModelImplCopyWith<$Res>
       int version,
       String code,
       String designation,
-      int merchantId,
+      int? merchantId,
       String? adresse,
       String telephone1,
       String? telephone2,
@@ -191,7 +191,7 @@ abstract class _$$InfrastructurModelImplCopyWith<$Res>
       String type,
       double latitude,
       double longitude,
-      dynamic indice});
+      double? indice});
 }
 
 /// @nodoc
@@ -209,7 +209,7 @@ class __$$InfrastructurModelImplCopyWithImpl<$Res>
     Object? version = null,
     Object? code = null,
     Object? designation = null,
-    Object? merchantId = null,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = null,
     Object? telephone2 = freezed,
@@ -239,10 +239,10 @@ class __$$InfrastructurModelImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String,
-      merchantId: null == merchantId
+      merchantId: freezed == merchantId
           ? _value.merchantId
           : merchantId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -283,7 +283,10 @@ class __$$InfrastructurModelImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      indice: freezed == indice ? _value.indice! : indice,
+      indice: freezed == indice
+          ? _value.indice
+          : indice // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -323,7 +326,7 @@ class _$InfrastructurModelImpl implements _InfrastructurModel {
   @override
   final String designation;
   @override
-  final int merchantId;
+  final int? merchantId;
   @override
   final String? adresse;
   @override
@@ -361,7 +364,7 @@ class _$InfrastructurModelImpl implements _InfrastructurModel {
   @override
   final double longitude;
   @override
-  final dynamic indice;
+  final double? indice;
 
   @override
   String toString() {
@@ -395,7 +398,7 @@ class _$InfrastructurModelImpl implements _InfrastructurModel {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            const DeepCollectionEquality().equals(other.indice, indice));
+            (identical(other.indice, indice) || other.indice == indice));
   }
 
   @JsonKey(ignore: true)
@@ -417,7 +420,7 @@ class _$InfrastructurModelImpl implements _InfrastructurModel {
       type,
       latitude,
       longitude,
-      const DeepCollectionEquality().hash(indice));
+      indice);
 
   @JsonKey(ignore: true)
   @override
@@ -440,7 +443,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
       required final int version,
       required final String code,
       required final String designation,
-      required final int merchantId,
+      required final int? merchantId,
       final String? adresse,
       required final String telephone1,
       final String? telephone2,
@@ -451,7 +454,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
       required final String type,
       required final double latitude,
       required final double longitude,
-      final dynamic indice}) = _$InfrastructurModelImpl;
+      final double? indice}) = _$InfrastructurModelImpl;
 
   factory _InfrastructurModel.fromJson(Map<String, dynamic> json) =
       _$InfrastructurModelImpl.fromJson;
@@ -465,7 +468,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
   @override
   String get designation;
   @override
-  int get merchantId;
+  int? get merchantId;
   @override
   String? get adresse;
   @override
@@ -487,7 +490,7 @@ abstract class _InfrastructurModel implements InfrastructurModel {
   @override
   double get longitude;
   @override
-  dynamic get indice;
+  double? get indice;
   @override
   @JsonKey(ignore: true)
   _$$InfrastructurModelImplCopyWith<_$InfrastructurModelImpl> get copyWith =>

@@ -2,6 +2,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:intl/intl.dart';
 import '../../../core/domain/enum.dart';
 import '../../../core/domain/paginated_request.dart';
 import '../../../core/infrastructure/constants/app_sizes.dart';
@@ -407,6 +408,27 @@ class _OrderDeliveryTabScreenState
                       ),
                     ],
                   ),
+                  if (record.dateCreate != null) gapH2,
+                  if (record.dateCreate != null)
+                    Row(
+                      children: [
+                        Text(
+                          "Date:",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.greyTextColor),
+                        ),
+                        gapW10,
+                        Expanded(
+                          child: Text(
+                              DateFormat('yyyy-MM-dd | hh:mm').format(
+                                DateTime.parse(record.dateCreate!),
+                              ),
+                              style: Theme.of(context).textTheme.bodySmall),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
@@ -434,23 +456,24 @@ class _OrderDeliveryTabScreenState
                           style: const TextStyle(fontSize: 10),
                         )),
                     TextButton(
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 9)),
-                        onPressed: () async {
-                          final progress = ProgressHUD.of(_);
-                          progress?.show();
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 9)),
+                      onPressed: () async {
+                        final progress = ProgressHUD.of(_);
+                        progress?.show();
 
-                          ref
-                              .read(deliveryOrdersNotifierProvider.notifier)
-                              .denyDeliveryOrder(record.id!)
-                              .whenComplete(() => progress?.dismiss());
-                        },
-                        child: Text(
-                          context.locale.deny,
-                          style: const TextStyle(
-                              fontSize: 10, color: AppColors.alertError),
-                        )),
+                        ref
+                            .read(deliveryOrdersNotifierProvider.notifier)
+                            .denyDeliveryOrder(record.id!)
+                            .whenComplete(() => progress?.dismiss());
+                      },
+                      child: Text(
+                        context.locale.deny,
+                        style: const TextStyle(
+                            fontSize: 10, color: AppColors.alertError),
+                      ),
+                    ),
                   ],
                 ),
               )

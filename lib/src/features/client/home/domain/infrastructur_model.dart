@@ -10,7 +10,7 @@ class InfrastructurModel with _$InfrastructurModel {
     required int version,
     required String code,
     required String designation,
-    required int merchantId,
+    required int? merchantId,
     String? adresse,
     required String telephone1,
     String? telephone2,
@@ -21,7 +21,7 @@ class InfrastructurModel with _$InfrastructurModel {
     required String type,
     required double latitude,
     required double longitude,
-    indice,
+    double? indice,
   }) = _InfrastructurModel;
 
   factory InfrastructurModel.fromJson(Map<String, dynamic> json) =>
