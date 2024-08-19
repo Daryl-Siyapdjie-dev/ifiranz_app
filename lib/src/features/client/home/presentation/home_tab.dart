@@ -78,7 +78,7 @@ class _HomeTabScreenState extends ConsumerState<HomeTabScreen> {
   }
 
   Future _onTabsRouterChange() async {
-    final localPage = PaginatedRequest(page: 0, size: 10);
+    final localPage = PaginatedRequest(page: 0, size: 100);
     // await ref
     //     .read(promotionnalProductsNotifierProvider.notifier)
     //     .findPromotions(filterRequest);
