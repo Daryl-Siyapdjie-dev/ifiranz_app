@@ -12,9 +12,11 @@ import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_consta
 
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
 import 'package:ifiranz_client/src/router/app_router.dart';
+import 'package:libphonenumber/libphonenumber.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
 import '../../../core/presentation/widgets/common_textfield.dart';
+import '../../../core/presentation/widgets/phone_number.dart';
 import '../../../core/presentation/widgets/phone_number_textfield.dart';
 import '../../../core/shared/providers.dart';
 
@@ -37,6 +39,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final phoneNumberFocusNode = useFocusNode();
     final emailController = useTextEditingController();
     final phoneController = useTextEditingController();
+    final isoCode = useTextEditingController();
 
     ref.listen<ResetPasswordState>(
       resetPasswordNotifierProvider,
@@ -88,130 +91,125 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     );
 
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ProgressHUD(
-            barrierEnabled: true,
-            borderWidth: 0,
-            child: Builder(builder: (_) {
-              return Scaffold(
-                appBar: simpleBackAppBar(),
-                body: Form(
-                  key: _formKey,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    children: [
-                      gapH32,
-                      Center(
-                        child: Text(
-                          context.locale.fotgotPasswordScreen,
-                          style: GoogleFonts.quicksand(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.blackColor,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+          builder: (_) {
+            return Scaffold(
+              appBar: simpleBackAppBar(),
+              body: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  children: [
+                    gapH32,
+                    Center(
+                      child: Text(
+                        context.locale.fotgotPasswordScreen,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.blackColor,
+                        ),
+                      ),
+                    ),
+                    gapH8,
+                    Center(
+                      child: Text(
+                        context.locale.fotgotPasswordScreenTitle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    gapH32,
+                    isResetByEmail
+                        ? CommonTextFormField(
+                            controller: emailController,
+                            focusNode: emailFocusNode,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.done,
+                            textInputType: TextInputType.emailAddress,
+                            isLabelRequired: true,
+                            hasLabel: true,
+                            hintText: "Email",
+                            label: 'Email',
+                            validator: ref
+                                .read(formValidationServiceProvider)
+                                .validateEmail,
+                          )
+                        : PhoneNumberWidget(
+                            controller: phoneController,
+                            isoCode: isoCode,
                           ),
-                        ),
-                      ),
-                      gapH8,
-                      Center(
-                        child: Text(
-                          context.locale.fotgotPasswordScreenTitle,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      gapH32,
-                      isResetByEmail
-                          ? CommonTextFormField(
-                              controller: emailController,
-                              focusNode: emailFocusNode,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              textInputAction: TextInputAction.done,
-                              textInputType: TextInputType.emailAddress,
-                              isLabelRequired: true,
-                              hasLabel: true,
-                              hintText: "Email",
-                              label: 'Email',
-                              validator: ref
-                                  .read(formValidationServiceProvider)
-                                  .validateEmail,
-                            )
-                          : PhoneNumberTextFormField(
-                              phoneNumberController: phoneController,
-                              phoneNumberFocusNode: phoneNumberFocusNode,
-                              hasLabel: true,
-                              isLabelRequired: true,
-                              label: context.locale.phone,
-                              onChanged: ({
-                                String? phoneCode,
-                                String? countryCode,
-                                String? countryName,
-                                String? phonNumber,
-                              }) {
-                                if (phoneCode != null) {
-                                  setState(() {});
-                                }
-                              },
-                            ),
-                      gapH32,
-                      ElevatedButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
+                    gapH32,
+                    ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
 
-                          if (_formKey.currentState!.validate()) {
-                            final progress = ProgressHUD.of(_);
-                            progress?.show();
+                        if (_formKey.currentState!.validate()) {
+                          final progress = ProgressHUD.of(_);
+                          progress?.show();
 
-                            if (isResetByEmail) {
-                              ref
-                                  .read(resetPasswordNotifierProvider.notifier)
-                                  .resetPasswordByEmail(
-                                      emailController.text.trim())
-                                  .whenComplete(() => progress!.dismiss());
-                            } else {
-                              ref
-                                  .read(resetPasswordNotifierProvider.notifier)
-                                  .resetPasswordByPhoneNumber(phoneController
-                                      .text
-                                      .trim()
-                                      .replaceAll(" ", ''))
-                                  .whenComplete(() => progress!.dismiss());
-                            }
+                          if (isResetByEmail) {
+                            ref
+                                .read(resetPasswordNotifierProvider.notifier)
+                                .resetPasswordByEmail(
+                                    emailController.text.trim())
+                                .whenComplete(() => progress!.dismiss());
+                          } else {
+                            PhoneNumberUtil.normalizePhoneNumber(
+                              isoCode: isoCode.text.trim(),
+                              phoneNumber: phoneController.text.trim(),
+                            ).then((phone) => ref
+                                .read(resetPasswordNotifierProvider.notifier)
+                                .resetPasswordByPhoneNumber(
+                                    phone!.trim().replaceAll(" ", ''))
+                                .whenComplete(() => progress!.dismiss()));
                           }
-                        },
-                        child: Text(
-                            context.locale.forgotOtpScreenOtpSendInstruction),
+                        }
+                      },
+                      child: Text(
+                          context.locale.forgotOtpScreenOtpSendInstruction),
+                    ),
+                    gapH32,
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: context.locale
+                                  .fotgotPasswordScreendontHaveAccount(
+                                      isResetByEmail.toString(),
+                                      phoneController.text
+                                          .trim()
+                                          .replaceAll(" ", '')),
+                              style: Theme.of(context).textTheme.bodyMedium),
+                          TextSpan(
+                              text: context.locale
+                                  .fotgotPasswordScreenResetOptionMessage(
+                                      isResetByEmail.toString()),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  setState(() {
+                                    isResetByEmail = !isResetByEmail;
+                                  });
+                                },
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: AppColors.primaryColor))
+                        ],
                       ),
-                      gapH32,
-                      RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: context.locale
-                                    .fotgotPasswordScreendontHaveAccount(
-                                        isResetByEmail.toString(),
-                                        phoneController.text
-                                            .trim()
-                                            .replaceAll(" ", '')),
-                                style: Theme.of(context).textTheme.bodyMedium),
-                            TextSpan(
-                                text: context.locale
-                                    .fotgotPasswordScreenResetOptionMessage(
-                                        isResetByEmail.toString()),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    setState(() {
-                                      isResetByEmail = !isResetByEmail;
-                                    });
-                                  },
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.primaryColor))
-                          ]))
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              );
-            })));
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,4 @@
-package com.example.ifiranz_client
+package com.kimia.ifiranz
 
 import io.flutter.embedding.android.FlutterActivity
 
