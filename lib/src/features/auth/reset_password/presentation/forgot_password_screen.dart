@@ -60,14 +60,18 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               margin: const EdgeInsets.all(16),
             ).show(context);
           },
-          otpSendSuccess: (res) {
+          otpSendSuccess: (res) async {
+            final phone = await PhoneNumberUtil.normalizePhoneNumber(
+              isoCode: isoCode.text.trim(),
+              phoneNumber: phoneController.text.trim(),
+            ).then((phone) => phone);
+
             if (res.datas.valid ?? false) {
               AutoRouter.of(context).push(
                 ForgotOTPRoute(
                   isPhoneNumber: !isResetByEmail,
-                  verifier: isResetByEmail
-                      ? emailController.text.trim()
-                      : phoneController.text.trim(),
+                  verifier:
+                      isResetByEmail ? emailController.text.trim() : phone!,
                 ),
               );
             } else {
