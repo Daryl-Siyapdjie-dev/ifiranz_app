@@ -76,6 +76,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+
+
   runApp(
     ProviderScope(
       observers: [

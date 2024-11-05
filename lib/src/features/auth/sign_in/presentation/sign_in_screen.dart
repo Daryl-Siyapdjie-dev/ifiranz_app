@@ -339,36 +339,36 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             child: const Text('Login'),
                           ),
                           gapH30,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Expanded(
-                                  child: Divider(color: AppColors.greyLight)),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
-                                  context.locale.orLoginWith,
-                                  style: context.theme.textTheme.bodyMedium
-                                      ?.copyWith(
-                                    fontSize: 12,
-                                    color: AppColors.greyLight,
-                                  ),
-                                ),
-                              ),
-                              const Expanded(
-                                  child: Divider(color: AppColors.greyLight)),
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     const Expanded(
+                          //         child: Divider(color: AppColors.greyLight)),
+                          //     Padding(
+                          //       padding:
+                          //           const EdgeInsets.symmetric(horizontal: 20),
+                          //       child: Text(
+                          //         context.locale.orLoginWith,
+                          //         style: context.theme.textTheme.bodyMedium
+                          //             ?.copyWith(
+                          //           fontSize: 12,
+                          //           color: AppColors.greyLight,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     const Expanded(
+                          //         child: Divider(color: AppColors.greyLight)),
+                          //   ],
+                          // ),
                           gapH30,
-                          OutlinedButton.icon(
-                              onPressed: () => _loginWithGoogle(_),
-                              icon: const Icon(
-                                FontAwesomeIcons.google,
-                                size: 18,
-                                color: AppColors.greyLight,
-                              ),
-                              label: Text(context.locale.signinWithGoogle)),
+                          // OutlinedButton.icon(
+                          //     onPressed: () => _loginWithGoogle(_),
+                          //     icon: const Icon(
+                          //       FontAwesomeIcons.google,
+                          //       size: 18,
+                          //       color: AppColors.greyLight,
+                          //     ),
+                          //     label: Text(context.locale.signinWithGoogle)),
                           gapH30,
                           Center(
                             child: Text(

@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ifiranz_client/src/features/auth/core/domain/client_request.dart';
 import 'package:ifiranz_client/src/features/auth/core/shared/provider.dart';
 import 'package:ifiranz_client/src/features/auth/sign_in/shared/providers.dart';
@@ -13,6 +15,8 @@ import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.d
 import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
+import '../application/delete_account_notifier.dart';
+import 'delete_account_dialog.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulHookConsumerWidget {
@@ -37,43 +41,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       body: ListView(
         padding: const EdgeInsets.only(left: 17, right: 7, top: 23),
         children: [
+          // Bloc d'informations du profil
           Container(
-              decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
-              child: getCurrentClient.when(
-                error: (error, s) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          onPressed: () => ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail())),
-                          icon: const Icon(Icons.refresh))
-                    ],
-                  ),
+            decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
+            child: getCurrentClient.when(
+              error: (error, s) => Center(
+                child: IconButton(
+                  onPressed: () => ref.read(getCurrentClientProvider.notifier).getCurrentClient(ClientRequest(value: SharedPref.getEmail())),
+                  icon: const Icon(Icons.refresh),
                 ),
-                loading: () => const LinearProgressIndicator(),
-                data: (res) => ListTile(
-                  leading: const Icon(
-                    CupertinoIcons.person_alt_circle,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  title: Text(
-                    "${res.nom ?? ""} ${(res.prenom ?? "")}",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.whiteColor),
-                  ),
-                  subtitle: Text(
-                    res.user ?? "",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor),
-                  ),
+              ),
+              loading: () => const LinearProgressIndicator(),
+              data: (res) => ListTile(
+                leading: const Icon(CupertinoIcons.person_alt_circle, size: 35, color: Colors.white),
+                title: Text(
+                  "${res.nom ?? ""} ${res.prenom ?? ""}",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.whiteColor),
                 ),
-              )),
-          gapH32,
-          const Divider(
-            thickness: 1,
-            color: AppColors.greyLight,
+                subtitle: Text(
+                  res.user ?? "",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.whiteColor),
+                ),
+              ),
+            ),
           ),
-
+          gapH32,
+          const Divider(thickness: 1, color: AppColors.greyLight),
           gapH12,
           Row(
             children: [
@@ -81,10 +74,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               Text(context.locale.settingsPreferences),
             ],
           ),
-          // gapH8,
-          // item(title: 'Notifications', icon: Icons.notifications_none),
-          gapH12,
-
           gapH12,
           item(
             title: context.locale.language,
@@ -119,29 +108,50 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               context.pushRoute(const ReportBugRoute());
             },
           ),
-
           gapH32,
           gapH6,
+
+          // Bouton de déconnexion
           Container(
             alignment: Alignment.centerLeft,
             child: TextButton(
-                onPressed: () {
-                  ref.read(userLocalCredentialsRepository).deleteUserLocalCredentials();
-                  ref.invalidate(cartProvider);
-                  ref.invalidate(getCurrentClientProvider);
-                  ref.invalidate(clientDeliveryOrdersNotifierProvider);
-                  AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (predicate) => false);
-                },
-                child: Row(
-                  children: [
-                    Transform.rotate(angle: -135.1, child: const Icon(Icons.logout, color: AppColors.primaryColor)),
-                    gapW5,
-                    Text(
-                      context.locale.logOut,
-                      style: const TextStyle(color: AppColors.primaryColor),
-                    ),
-                  ],
-                )),
+              onPressed: () {
+                ref.read(userLocalCredentialsRepository).deleteUserLocalCredentials();
+                ref.invalidate(cartProvider);
+                ref.invalidate(getCurrentClientProvider);
+                ref.invalidate(clientDeliveryOrdersNotifierProvider);
+                AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (predicate) => false);
+              },
+              child: Row(
+                children: [
+                  Transform.rotate(angle: -135.1, child: const Icon(Icons.logout, color: AppColors.primaryColor)),
+                  gapW5,
+                  Text(context.locale.logOut, style: const TextStyle(color: AppColors.primaryColor)),
+                ],
+              ),
+            ),
+          ),
+
+          // Nouveau bouton de suppression de compte
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => DeleteAccountDialog(
+                    onConfirm: () async {
+                      await ref.read(profileNotifierProvider.notifier).deleteAccount();
+                      AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (route) => false);
+                    },
+                  ),
+                );
+              },
+              child: Text(context.locale.deleteAccount),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              ),
+            ),
           ),
           gapH32,
           gapH6,
@@ -158,22 +168,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         title: Row(
           children: [
             gapW10,
-            Icon(
-              icon,
-              color: AppColors.greyTextTitleColor,
-            ),
+            Icon(icon, color: AppColors.greyTextTitleColor),
             gapW6,
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextTitleColor),
-            ),
+            Text(title, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.greyTextTitleColor)),
           ],
         ),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          color: AppColors.greyTextTitleColor,
-          size: 9,
-        ),
+        trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.greyTextTitleColor, size: 9),
       ),
     );
   }

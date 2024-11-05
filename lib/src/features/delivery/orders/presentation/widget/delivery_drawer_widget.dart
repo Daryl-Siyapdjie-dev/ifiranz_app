@@ -10,6 +10,8 @@ import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../../auth/core/shared/provider.dart';
 import '../../../../client/home/domain/filter_optional.dart';
+import '../../../../client/profile/application/delete_account_notifier.dart';
+import '../../../../client/profile/presentation/delete_account_dialog.dart';
 import '../../../../core/infrastructure/services/local/shared_pref.dart';
 
 class DeliveryDrawerWidget extends StatefulHookConsumerWidget {
@@ -175,6 +177,26 @@ class _DeliveryDrawerWidgetState extends ConsumerState<DeliveryDrawerWidget> {
                           ),
                         ],
                       )))),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => DeleteAccountDialog(
+                    onConfirm: () async {
+                      await ref.read(profileNotifierProvider.notifier).deleteAccount();
+                      AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (route) => false);
+                    },
+                  ),
+                );
+              },
+              child: Text(context.locale.deleteAccount),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              ),
+            ),
+          ),
           gapH32,
           gapH6,
         ],

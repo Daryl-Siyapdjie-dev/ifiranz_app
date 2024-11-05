@@ -352,6 +352,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reportBug => 'Signaler un bug';
 
   @override
+  String get deleteAccount => 'Suppression du compte';
+
+  @override
+  String get deleteAccountWarning => 'Cette action est irréversible.';
+
+  @override
+  String get confirmDeleteAccount => 'Êtes-vous sûr de vouloir supprimer votre compte ?';
+
+  @override
   String get logOut => 'Déconnexion';
 
   @override

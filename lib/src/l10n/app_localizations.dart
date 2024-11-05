@@ -711,6 +711,24 @@ abstract class AppLocalizations {
   /// **'Report a bug'**
   String get reportBug;
 
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Deletion'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get deleteAccountWarning;
+
+  /// No description provided for @confirmDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account?'**
+  String get confirmDeleteAccount;
+
   /// No description provided for @logOut.
   ///
   /// In en, this message translates to:

@@ -76,10 +76,11 @@ dependencies:
   cloud_firestore: ^4.15.4
   webview_flutter: ^4.4.2
   libphonenumber: ^2.0.2
+  mockito: ^5.4.4
+  build_runner: ^2.4.9
 
 dev_dependencies:
   auto_route_generator: null
-  build_runner: any
   custom_lint: ^0.5.2
   flutter_launcher_icons: ^0.13.1
 

@@ -6,6 +6,7 @@ import 'package:ifiranz_client/src/features/auth/register/infrastructure/registe
 import '../domain/add_client_request.dart';
 
 class AdditionalInfoNotifier extends StateNotifier<AsyncValue<Client>> {
+  
   final RegisterRepository _repositoryRepository;
 
   AdditionalInfoNotifier(this._repositoryRepository)

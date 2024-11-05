@@ -14,8 +14,12 @@ import 'l10n/app_localizations.dart';
 import 'router/app_router.dart';
 
 final initializeProvider = FutureProvider<Unit>((ref) async {
+  const env = String.fromEnvironment('ENV', defaultValue: 'prod'); // récupère l'env (dev ou prod)
+  const baseUrl = env == 'dev' ? 'http://185.193.17.106:8080' : 'https://ifiranz.com:8443';
+
   ref.watch(dioProvider)
     ..options = BaseOptions(
+      baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),

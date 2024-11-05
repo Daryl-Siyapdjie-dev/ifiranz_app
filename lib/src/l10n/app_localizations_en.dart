@@ -352,6 +352,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportBug => 'Report a bug';
 
   @override
+  String get deleteAccount => 'Account Deletion';
+
+  @override
+  String get deleteAccountWarning => 'This action cannot be undone.';
+
+  @override
+  String get confirmDeleteAccount => 'Are you sure you want to delete your account?';
+
+  @override
   String get logOut => 'Log out';
 
   @override
