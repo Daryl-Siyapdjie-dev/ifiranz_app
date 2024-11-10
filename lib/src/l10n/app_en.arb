@@ -163,6 +163,7 @@
   "deleteConfirmationAction": "Delete",
   "deleteConfirmationCancel": "Cancel",
   "deleteConfirmationContent": "Are you sure you want to delete this item?",
+  "deleteSuccessMessage": "Account successfully deleted!",
   "startDate": "Start Date",
   "endDate": "End Date",
   "deliveryTodayClanhhenge": "Today’s challenge",

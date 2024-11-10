@@ -24,6 +24,7 @@ mixin _$MarchandResponse {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  int? get merchantId => throw _privateConstructorUsedError;
   String? get adresse => throw _privateConstructorUsedError;
   String? get telephone1 => throw _privateConstructorUsedError;
   String? get telephone2 => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $MarchandResponseCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? merchantId,
       String? adresse,
       String? telephone1,
       String? telephone2,
@@ -79,6 +81,7 @@ class _$MarchandResponseCopyWithImpl<$Res, $Val extends MarchandResponse>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = freezed,
     Object? telephone2 = freezed,
@@ -106,6 +109,10 @@ class _$MarchandResponseCopyWithImpl<$Res, $Val extends MarchandResponse>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -159,6 +166,7 @@ abstract class _$$MarchandResponseImplCopyWith<$Res>
       int? version,
       String? code,
       String? designation,
+      int? merchantId,
       String? adresse,
       String? telephone1,
       String? telephone2,
@@ -185,6 +193,7 @@ class __$$MarchandResponseImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = freezed,
     Object? telephone2 = freezed,
@@ -212,6 +221,10 @@ class __$$MarchandResponseImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -260,6 +273,7 @@ class _$MarchandResponseImpl implements _MarchandResponse {
       this.version,
       this.code,
       this.designation,
+      this.merchantId,
       this.adresse,
       this.telephone1,
       this.telephone2,
@@ -283,6 +297,8 @@ class _$MarchandResponseImpl implements _MarchandResponse {
   final String? code;
   @override
   final String? designation;
+  @override
+  final int? merchantId;
   @override
   final String? adresse;
   @override
@@ -320,7 +336,7 @@ class _$MarchandResponseImpl implements _MarchandResponse {
 
   @override
   String toString() {
-    return 'MarchandResponse(id: $id, version: $version, code: $code, designation: $designation, adresse: $adresse, telephone1: $telephone1, telephone2: $telephone2, articles: $articles, clients: $clients, user: $user, photoEncoded: $photoEncoded, format: $format, type: $type)';
+    return 'MarchandResponse(id: $id, version: $version, code: $code, designation: $designation, merchantId: $merchantId, adresse: $adresse, telephone1: $telephone1, telephone2: $telephone2, articles: $articles, clients: $clients, user: $user, photoEncoded: $photoEncoded, format: $format, type: $type)';
   }
 
   @override
@@ -333,6 +349,8 @@ class _$MarchandResponseImpl implements _MarchandResponse {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.merchantId, merchantId) ||
+                other.merchantId == merchantId) &&
             (identical(other.adresse, adresse) || other.adresse == adresse) &&
             (identical(other.telephone1, telephone1) ||
                 other.telephone1 == telephone1) &&
@@ -355,6 +373,7 @@ class _$MarchandResponseImpl implements _MarchandResponse {
       version,
       code,
       designation,
+      merchantId,
       adresse,
       telephone1,
       telephone2,
@@ -386,6 +405,7 @@ abstract class _MarchandResponse implements MarchandResponse {
       final int? version,
       final String? code,
       final String? designation,
+      final int? merchantId,
       final String? adresse,
       final String? telephone1,
       final String? telephone2,
@@ -407,6 +427,8 @@ abstract class _MarchandResponse implements MarchandResponse {
   String? get code;
   @override
   String? get designation;
+  @override
+  int? get merchantId;
   @override
   String? get adresse;
   @override

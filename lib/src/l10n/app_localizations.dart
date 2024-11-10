@@ -1059,6 +1059,12 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this item?'**
   String get deleteConfirmationContent;
 
+  /// No description provided for @deleteSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Account successfully deleted!'**
+  String get deleteSuccessMessage;
+
   /// No description provided for @startDate.
   ///
   /// In en, this message translates to:

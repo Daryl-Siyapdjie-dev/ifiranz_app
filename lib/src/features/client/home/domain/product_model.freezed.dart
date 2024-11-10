@@ -1021,6 +1021,7 @@ mixin _$Merchant {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  int? get merchantId => throw _privateConstructorUsedError;
   String? get adresse => throw _privateConstructorUsedError;
   String? get telephone1 => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
@@ -1049,6 +1050,7 @@ abstract class $MerchantCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? merchantId,
       String? adresse,
       String? telephone1,
       double? longitude,
@@ -1079,6 +1081,7 @@ class _$MerchantCopyWithImpl<$Res, $Val extends Merchant>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = freezed,
     Object? longitude = freezed,
@@ -1108,6 +1111,10 @@ class _$MerchantCopyWithImpl<$Res, $Val extends Merchant>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -1169,6 +1176,7 @@ abstract class _$$MerchantImplCopyWith<$Res>
       int? version,
       String? code,
       String? designation,
+      int? merchantId,
       String? adresse,
       String? telephone1,
       double? longitude,
@@ -1197,6 +1205,7 @@ class __$$MerchantImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? merchantId = freezed,
     Object? adresse = freezed,
     Object? telephone1 = freezed,
     Object? longitude = freezed,
@@ -1226,6 +1235,10 @@ class __$$MerchantImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      merchantId: freezed == merchantId
+          ? _value.merchantId
+          : merchantId // ignore: cast_nullable_to_non_nullable
+              as int?,
       adresse: freezed == adresse
           ? _value.adresse
           : adresse // ignore: cast_nullable_to_non_nullable
@@ -1279,6 +1292,7 @@ class _$MerchantImpl implements _Merchant {
       this.version,
       this.code,
       this.designation,
+      this.merchantId,
       this.adresse,
       this.telephone1,
       this.longitude,
@@ -1302,6 +1316,8 @@ class _$MerchantImpl implements _Merchant {
   final String? code;
   @override
   final String? designation;
+  @override
+  final int? merchantId;
   @override
   final String? adresse;
   @override
@@ -1327,7 +1343,7 @@ class _$MerchantImpl implements _Merchant {
 
   @override
   String toString() {
-    return 'Merchant(id: $id, version: $version, code: $code, designation: $designation, adresse: $adresse, telephone1: $telephone1, longitude: $longitude, latitude: $latitude, telephone2: $telephone2, user: $user, url: $url, photoEncoded: $photoEncoded, format: $format, type: $type, indice: $indice)';
+    return 'Merchant(id: $id, version: $version, code: $code, designation: $designation, merchantId: $merchantId, adresse: $adresse, telephone1: $telephone1, longitude: $longitude, latitude: $latitude, telephone2: $telephone2, user: $user, url: $url, photoEncoded: $photoEncoded, format: $format, type: $type, indice: $indice)';
   }
 
   @override
@@ -1340,6 +1356,8 @@ class _$MerchantImpl implements _Merchant {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.merchantId, merchantId) ||
+                other.merchantId == merchantId) &&
             (identical(other.adresse, adresse) || other.adresse == adresse) &&
             (identical(other.telephone1, telephone1) ||
                 other.telephone1 == telephone1) &&
@@ -1365,6 +1383,7 @@ class _$MerchantImpl implements _Merchant {
       version,
       code,
       designation,
+      merchantId,
       adresse,
       telephone1,
       longitude,
@@ -1397,6 +1416,7 @@ abstract class _Merchant implements Merchant {
       final int? version,
       final String? code,
       final String? designation,
+      final int? merchantId,
       final String? adresse,
       final String? telephone1,
       final double? longitude,
@@ -1420,6 +1440,8 @@ abstract class _Merchant implements Merchant {
   String? get code;
   @override
   String? get designation;
+  @override
+  int? get merchantId;
   @override
   String? get adresse;
   @override

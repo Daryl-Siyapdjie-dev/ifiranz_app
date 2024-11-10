@@ -13,6 +13,7 @@ import 'package:ifiranz_client/src/features/core/services/notification_service.d
 import 'package:logger/logger.dart' as log;
 import 'package:logging/logging.dart';
 
+
 import 'firebase_options.dart';
 
 // Use to prind my providers to console
@@ -75,7 +76,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
 
 
   runApp(

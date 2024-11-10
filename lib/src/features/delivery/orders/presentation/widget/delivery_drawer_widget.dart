@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ifiranz_client/src/features/auth/sign_in/shared/providers.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/constants/app_sizes.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/utils/common_import.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
+import 'package:ifiranz_client/src/features/core/presentation/widgets/delete_account_button.dart';
 import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../../auth/core/shared/provider.dart';
 import '../../../../client/home/domain/filter_optional.dart';
-import '../../../../client/profile/application/delete_account_notifier.dart';
-import '../../../../client/profile/presentation/delete_account_dialog.dart';
+
 import '../../../../core/infrastructure/services/local/shared_pref.dart';
 
 class DeliveryDrawerWidget extends StatefulHookConsumerWidget {
@@ -34,7 +35,13 @@ class _DeliveryDrawerWidgetState extends ConsumerState<DeliveryDrawerWidget> {
   Widget build(BuildContext context) {
     final livreur = ref.watch(currentDeliverNotifierProvider);
 
-    return Drawer(
+  return  ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+        builder: (_)
+    {
+       return Drawer(
         child: SafeArea(
       child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 32),
@@ -178,29 +185,13 @@ class _DeliveryDrawerWidgetState extends ConsumerState<DeliveryDrawerWidget> {
                         ],
                       )))),
           Center(
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => DeleteAccountDialog(
-                    onConfirm: () async {
-                      await ref.read(profileNotifierProvider.notifier).deleteAccount();
-                      AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (route) => false);
-                    },
-                  ),
-                );
-              },
-              child: Text(context.locale.deleteAccount),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
-              ),
-            ),
+            child: DeleteAccountButton(_),
           ),
           gapH32,
           gapH6,
         ],
       ),
-    ));
+    ));}));
+
   }
 }

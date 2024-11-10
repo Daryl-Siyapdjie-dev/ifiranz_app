@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/extensions/localization_extension.dart';
 import 'package:ifiranz_client/src/features/core/presentation/themes/app_colors.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:ifiranz_client/src/features/auth/sign_in/presentation/sign_in_screen.dart';
+
+import '../../../../router/app_router.dart';
 
 class DeleteAccountDialog extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -23,7 +27,7 @@ class DeleteAccountDialog extends StatelessWidget {
       content: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
-          context.locale.deleteAccountWarning,
+          context.locale.deleteConfirmationContent,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: AppColors.greyTextTitleColor,
             height: 1.5,

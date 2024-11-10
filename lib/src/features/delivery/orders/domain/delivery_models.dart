@@ -73,6 +73,7 @@ class Livreur with _$Livreur {
     int? version,
     String? code,
     String? designation,
+    int? shipperId,
     String? nom,
     String? prenom,
     String? adresse,

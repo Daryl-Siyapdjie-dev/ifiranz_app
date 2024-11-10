@@ -10,6 +10,7 @@ class MarchandResponse with _$MarchandResponse {
     int? version,
     String? code,
     String? designation,
+    int? merchantId,
     String? adresse,
     String? telephone1,
     String? telephone2,

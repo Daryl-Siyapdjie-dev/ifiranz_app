@@ -1198,6 +1198,7 @@ mixin _$Livreur {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  int? get shipperId => throw _privateConstructorUsedError;
   String? get nom => throw _privateConstructorUsedError;
   String? get prenom => throw _privateConstructorUsedError;
   String? get adresse => throw _privateConstructorUsedError;
@@ -1224,6 +1225,7 @@ abstract class $LivreurCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? shipperId,
       String? nom,
       String? prenom,
       String? adresse,
@@ -1253,6 +1255,7 @@ class _$LivreurCopyWithImpl<$Res, $Val extends Livreur>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? shipperId = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
     Object? adresse = freezed,
@@ -1281,6 +1284,10 @@ class _$LivreurCopyWithImpl<$Res, $Val extends Livreur>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      shipperId: freezed == shipperId
+          ? _value.shipperId
+          : shipperId // ignore: cast_nullable_to_non_nullable
+              as int?,
       nom: freezed == nom
           ? _value.nom
           : nom // ignore: cast_nullable_to_non_nullable
@@ -1337,6 +1344,7 @@ abstract class _$$LivreurImplCopyWith<$Res> implements $LivreurCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? shipperId,
       String? nom,
       String? prenom,
       String? adresse,
@@ -1364,6 +1372,7 @@ class __$$LivreurImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? shipperId = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
     Object? adresse = freezed,
@@ -1392,6 +1401,10 @@ class __$$LivreurImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      shipperId: freezed == shipperId
+          ? _value.shipperId
+          : shipperId // ignore: cast_nullable_to_non_nullable
+              as int?,
       nom: freezed == nom
           ? _value.nom
           : nom // ignore: cast_nullable_to_non_nullable
@@ -1444,6 +1457,7 @@ class _$LivreurImpl implements _Livreur {
       this.version,
       this.code,
       this.designation,
+      this.shipperId,
       this.nom,
       this.prenom,
       this.adresse,
@@ -1467,6 +1481,8 @@ class _$LivreurImpl implements _Livreur {
   @override
   final String? designation;
   @override
+  final int? shipperId;
+  @override
   final String? nom;
   @override
   final String? prenom;
@@ -1489,7 +1505,7 @@ class _$LivreurImpl implements _Livreur {
 
   @override
   String toString() {
-    return 'Livreur(id: $id, version: $version, code: $code, designation: $designation, nom: $nom, prenom: $prenom, adresse: $adresse, telephone1: $telephone1, telephone2: $telephone2, photoEncoded: $photoEncoded, format: $format, image: $image, url: $url, user: $user)';
+    return 'Livreur(id: $id, version: $version, code: $code, designation: $designation, shipperId: $shipperId, nom: $nom, prenom: $prenom, adresse: $adresse, telephone1: $telephone1, telephone2: $telephone2, photoEncoded: $photoEncoded, format: $format, image: $image, url: $url, user: $user)';
   }
 
   @override
@@ -1502,6 +1518,8 @@ class _$LivreurImpl implements _Livreur {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.shipperId, shipperId) ||
+                other.shipperId == shipperId) &&
             (identical(other.nom, nom) || other.nom == nom) &&
             (identical(other.prenom, prenom) || other.prenom == prenom) &&
             (identical(other.adresse, adresse) || other.adresse == adresse) &&
@@ -1525,6 +1543,7 @@ class _$LivreurImpl implements _Livreur {
       version,
       code,
       designation,
+      shipperId,
       nom,
       prenom,
       adresse,
@@ -1556,6 +1575,7 @@ abstract class _Livreur implements Livreur {
       final int? version,
       final String? code,
       final String? designation,
+      final int? shipperId,
       final String? nom,
       final String? prenom,
       final String? adresse,
@@ -1577,6 +1597,8 @@ abstract class _Livreur implements Livreur {
   String? get code;
   @override
   String? get designation;
+  @override
+  int? get shipperId;
   @override
   String? get nom;
   @override

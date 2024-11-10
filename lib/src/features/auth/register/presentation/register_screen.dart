@@ -287,39 +287,39 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 },
                           child: Text(context.locale.loginScreenSignUp),
                         ),
+                        // gapH30,
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     const Expanded(
+                        //         child: Divider(color: AppColors.greyLight)),
+                        //     Padding(
+                        //       padding:
+                        //           const EdgeInsets.symmetric(horizontal: 20),
+                        //       child: Text(
+                        //         context.locale.orLoginWith,
+                        //         style: context.theme.textTheme.bodyMedium
+                        //             ?.copyWith(
+                        //           fontSize: 12,
+                        //           color: AppColors.greyLight,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     const Expanded(
+                        //         child: Divider(color: AppColors.greyLight)),
+                        //   ],
+                        // ),
                         gapH30,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Expanded(
-                                child: Divider(color: AppColors.greyLight)),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                context.locale.orLoginWith,
-                                style: context.theme.textTheme.bodyMedium
-                                    ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.greyLight,
-                                ),
-                              ),
-                            ),
-                            const Expanded(
-                                child: Divider(color: AppColors.greyLight)),
-                          ],
-                        ),
-                        gapH30,
-                        OutlinedButton.icon(
-                          onPressed: () =>
-                              _registerWithGoogle(_, profile.value),
-                          icon: const Icon(
-                            FontAwesomeIcons.google,
-                            size: 18,
-                            color: AppColors.greyLight,
-                          ),
-                          label: Text(context.locale.registerWithGoogle),
-                        ),
+                        // OutlinedButton.icon(
+                        //   onPressed: () =>
+                        //       _registerWithGoogle(_, profile.value),
+                        //   icon: const Icon(
+                        //     FontAwesomeIcons.google,
+                        //     size: 18,
+                        //     color: AppColors.greyLight,
+                        //   ),
+                        //   label: Text(context.locale.registerWithGoogle),
+                        // ),
                         gapH30,
                         Center(
                           child: Text(

@@ -90,6 +90,7 @@ dev_dependencies:
   freezed: ^2.3.2
   json_serializable: ^6.4.0
   riverpod_generator: null
+  flutter_dotenv: ^5.0.2
 
 flutter_icons:
   image_path: "assets/images/logo.png"

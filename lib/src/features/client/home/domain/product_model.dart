@@ -69,6 +69,7 @@ class Merchant with _$Merchant {
     int? version,
     String? code,
     String? designation,
+    int? merchantId,
     String? adresse,
     String? telephone1,
     double? longitude,

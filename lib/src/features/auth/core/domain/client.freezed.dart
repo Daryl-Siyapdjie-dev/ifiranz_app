@@ -24,6 +24,7 @@ mixin _$Client {
   int? get version => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  int? get idClient => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get nom => throw _privateConstructorUsedError;
   String? get prenom => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $ClientCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? idClient,
       String? name,
       String? nom,
       String? prenom,
@@ -77,6 +79,7 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? idClient = freezed,
     Object? name = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
@@ -104,6 +107,10 @@ class _$ClientCopyWithImpl<$Res, $Val extends Client>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      idClient: freezed == idClient
+          ? _value.idClient
+          : idClient // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -156,6 +163,7 @@ abstract class _$$ClientImplCopyWith<$Res> implements $ClientCopyWith<$Res> {
       int? version,
       String? code,
       String? designation,
+      int? idClient,
       String? name,
       String? nom,
       String? prenom,
@@ -182,6 +190,7 @@ class __$$ClientImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? code = freezed,
     Object? designation = freezed,
+    Object? idClient = freezed,
     Object? name = freezed,
     Object? nom = freezed,
     Object? prenom = freezed,
@@ -209,6 +218,10 @@ class __$$ClientImplCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
+      idClient: freezed == idClient
+          ? _value.idClient
+          : idClient // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -258,6 +271,7 @@ class _$ClientImpl implements _Client {
       this.version,
       this.code,
       this.designation,
+      this.idClient,
       this.name,
       this.nom,
       this.prenom,
@@ -280,6 +294,8 @@ class _$ClientImpl implements _Client {
   @override
   final String? designation;
   @override
+  final int? idClient;
+  @override
   final String? name;
   @override
   final String? nom;
@@ -300,7 +316,7 @@ class _$ClientImpl implements _Client {
 
   @override
   String toString() {
-    return 'Client(id: $id, version: $version, code: $code, designation: $designation, name: $name, nom: $nom, prenom: $prenom, adresse: $adresse, tel: $tel, localisationGps: $localisationGps, user: $user, email: $email, phone: $phone)';
+    return 'Client(id: $id, version: $version, code: $code, designation: $designation, idClient: $idClient, name: $name, nom: $nom, prenom: $prenom, adresse: $adresse, tel: $tel, localisationGps: $localisationGps, user: $user, email: $email, phone: $phone)';
   }
 
   @override
@@ -313,6 +329,8 @@ class _$ClientImpl implements _Client {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
+            (identical(other.idClient, idClient) ||
+                other.idClient == idClient) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.nom, nom) || other.nom == nom) &&
             (identical(other.prenom, prenom) || other.prenom == prenom) &&
@@ -327,8 +345,22 @@ class _$ClientImpl implements _Client {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, version, code, designation,
-      name, nom, prenom, adresse, tel, localisationGps, user, email, phone);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      version,
+      code,
+      designation,
+      idClient,
+      name,
+      nom,
+      prenom,
+      adresse,
+      tel,
+      localisationGps,
+      user,
+      email,
+      phone);
 
   @JsonKey(ignore: true)
   @override
@@ -350,6 +382,7 @@ abstract class _Client implements Client {
       final int? version,
       final String? code,
       final String? designation,
+      final int? idClient,
       final String? name,
       final String? nom,
       final String? prenom,
@@ -370,6 +403,8 @@ abstract class _Client implements Client {
   String? get code;
   @override
   String? get designation;
+  @override
+  int? get idClient;
   @override
   String? get name;
   @override

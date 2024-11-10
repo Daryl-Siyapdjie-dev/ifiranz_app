@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ifiranz_client/src/features/auth/core/domain/client_request.dart';
 import 'package:ifiranz_client/src/features/auth/core/shared/provider.dart';
@@ -15,8 +16,7 @@ import 'package:ifiranz_client/src/features/core/presentation/widgets/app_bars.d
 import 'package:ifiranz_client/src/router/app_router.dart';
 
 import '../../../core/infrastructure/utils/common_import.dart';
-import '../application/delete_account_notifier.dart';
-import 'delete_account_dialog.dart';
+import '../../../core/presentation/widgets/delete_account_button.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulHookConsumerWidget {
@@ -36,7 +36,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final getCurrentClient = ref.watch(getCurrentClientProvider);
-    return Scaffold(
+  return  ProgressHUD(
+        barrierEnabled: true,
+        borderWidth: 0,
+        child: Builder(
+        builder: (_)
+    {
+       return Scaffold(
       appBar: simpleBackAndTextAppBar(context.locale.myProfile),
       body: ListView(
         padding: const EdgeInsets.only(left: 17, right: 7, top: 23),
@@ -134,30 +140,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
           // Nouveau bouton de suppression de compte
           Center(
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => DeleteAccountDialog(
-                    onConfirm: () async {
-                      await ref.read(profileNotifierProvider.notifier).deleteAccount();
-                      AutoRouter.of(context).pushAndPopUntil(const SignInRoute(), predicate: (route) => false);
-                    },
-                  ),
-                );
-              },
-              child: Text(context.locale.deleteAccount),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
-              ),
-            ),
+            child: DeleteAccountButton(_),
           ),
           gapH32,
           gapH6,
         ],
       ),
-    );
+    );}));
   }
 
   Container item({required String title, required IconData icon, VoidCallback? onTap}) {

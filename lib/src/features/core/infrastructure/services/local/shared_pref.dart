@@ -58,6 +58,7 @@ abstract class SharedPref {
   static String? getEmail() => _prefs!.getString(_email);
   static String? getProfile() => _prefs!.getString(_profile);
 
+
   static Future setToken(String value) async =>
       _prefs!.setString(_token, value);
 

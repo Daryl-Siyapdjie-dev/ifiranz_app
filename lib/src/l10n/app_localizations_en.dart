@@ -528,6 +528,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteConfirmationContent => 'Are you sure you want to delete this item?';
 
   @override
+  String get deleteSuccessMessage => 'Account successfully deleted!';
+
+  @override
   String get startDate => 'Start Date';
 
   @override

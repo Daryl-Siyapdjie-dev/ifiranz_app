@@ -11,6 +11,7 @@ class Client with _$Client {
     int? version,
     String? code,
     String? designation,
+    int? idClient,
     String? name,
     String? nom,
     String? prenom,
