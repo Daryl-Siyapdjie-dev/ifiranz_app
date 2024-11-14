@@ -403,7 +403,7 @@ class _OrderDeliveryTabScreenState
                       ),
                       gapW10,
                       Expanded(
-                        child: Text('${record.commande?.montant ?? 0} XAF',
+                        child: Text('${record.commande?.dueAmount ?? 0} XAF',
                             style: Theme.of(context).textTheme.bodySmall),
                       ),
                     ],

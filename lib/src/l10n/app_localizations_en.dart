@@ -489,6 +489,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get merchandHomeScreenTransactions => 'Commission';
 
   @override
+  String get nameMerchant => 'Merchant\'s name';
+
+  @override
   String get products => 'Products';
 
   @override
@@ -496,6 +499,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nonValide => 'Order not completed';
+
+  @override
+  String get phoneClient => 'Client\'s phone number';
 
   @override
   String get edit => 'Edit';

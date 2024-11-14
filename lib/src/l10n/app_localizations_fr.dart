@@ -462,7 +462,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get youCanSelectFromDifferentSeller => 'Vous ne pouvez pas sélectionner  deux article de vendeurs différents pour l\'instant';
 
   @override
-  String get merchandHomeScreenWelcome => 'Bienvenue';
+  String get merchandHomeScreenWelcome => 'Bienvenue sur';
 
   @override
   String get merchandHomeScreenWhatsIfiranz => 'Qu\'est-ce qu\'Ifiranz';
@@ -489,6 +489,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get merchandHomeScreenTransactions => 'Commission';
 
   @override
+  String get nameMerchant => 'Nom des marchand';
+
+  @override
   String get products => 'Produits';
 
   @override
@@ -496,6 +499,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get nonValide => 'Commande non achevée';
+
+  @override
+  String get phoneClient => 'Numéro de téléphone du client';
 
   @override
   String get edit => 'Editer';

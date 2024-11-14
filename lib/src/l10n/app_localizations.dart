@@ -981,6 +981,12 @@ abstract class AppLocalizations {
   /// **'Commission'**
   String get merchandHomeScreenTransactions;
 
+  /// No description provided for @nameMerchant.
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant\'s name'**
+  String get nameMerchant;
+
   /// No description provided for @products.
   ///
   /// In en, this message translates to:
@@ -998,6 +1004,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Order not completed'**
   String get nonValide;
+
+  /// No description provided for @phoneClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client\'s phone number'**
+  String get phoneClient;
 
   /// No description provided for @edit.
   ///

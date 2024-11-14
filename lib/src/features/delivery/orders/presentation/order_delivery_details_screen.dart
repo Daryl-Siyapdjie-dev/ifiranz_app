@@ -103,23 +103,7 @@ class _DeliveryOrderDetailScreenState extends ConsumerState<DeliveryOrderDetailS
                               ],
                             ),
                             gapH8,
-                            Row(
-                              children: [
-                                Text(
-                                  context.locale.address,
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
-                                ),
-                                const Spacer(),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text('  ${widget.data.commande?.client?.adresse} ',
-                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
-                                  ),
-                                )
-                              ],
-                            ),
-                            gapH8,
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -138,6 +122,41 @@ class _DeliveryOrderDetailScreenState extends ConsumerState<DeliveryOrderDetailS
                               ],
                             ),
                             gapH8,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.locale.phoneClient,
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                                ),
+                                const Spacer(),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('  ${widget.data.commande?.client?.phone} ',
+                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
+                                )
+                              ],
+                            ),
+                            gapH8,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.locale.nameMerchant,
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.greyTextColor),
+                                ),
+                                const Spacer(),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('  ${widget.data.commande?.pourMarchand} ',
+                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
