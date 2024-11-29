@@ -107,8 +107,8 @@ class _RegisterAdditionalInfoScreenState
                           textInputType: TextInputType.text,
                           isLabelRequired: true,
                           hasLabel: true,
-                          hintText: context.locale.surname,
-                          label: context.locale.surname,
+                          hintText: context.locale.lastname,
+                          label: context.locale.lastname,
                           validator: (value) => ref
                               .read(formValidationServiceProvider)
                               .validateSimple(value),

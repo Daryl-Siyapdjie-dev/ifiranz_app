@@ -185,6 +185,8 @@ class UrlBuilder {
 
   String builMerchantFindByIdMarchand(int id) =>
       '$baseUrl/livraison-service/marchand/$id';
+  // String buildMerchantFindByMarchandId(int merchantId) =>
+  //     '$baseUrl/livraison-service/marchand/$merchantId';
 
   String builMerchantUpdateMerchand() =>
       '$baseUrl/livraison-service/marchand/edit';

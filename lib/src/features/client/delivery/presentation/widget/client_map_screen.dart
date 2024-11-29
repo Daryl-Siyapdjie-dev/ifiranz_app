@@ -20,7 +20,8 @@ import '../../../../merchant/orders/shared/providers.dart';
 class TestClientMapScreen extends ConsumerStatefulWidget {
   final Records record;
   final Function handleUpadteStatus;
-  const TestClientMapScreen({required this.record, required this.handleUpadteStatus, super.key});
+  const TestClientMapScreen(
+      {required this.record, required this.handleUpadteStatus, super.key});
 
   @override
   ConsumerState createState() => _TestClientMapScreenState();
@@ -29,13 +30,14 @@ class TestClientMapScreen extends ConsumerStatefulWidget {
 class _TestClientMapScreenState extends ConsumerState<TestClientMapScreen> {
   @override
   Widget build(BuildContext context) {
-    final order = ref.watch(getOrderProvider(widget.record.commande!.id!));
+    final order = ref.watch(getOrderProvider(widget.record.commande?.id ?? widget.record.id!));
 
     return widget.record.latitude is! double
         ? switch (order) {
             AsyncError(:final error) => IconButton(
                 icon: const Icon(Icons.refresh),
-                onPressed: () => ref.refresh(getOrderProvider(widget.record.commande!.id!).future),
+                onPressed: () => ref.refresh(
+                    getOrderProvider(widget.record.commande?.id ?? widget.record.id!).future),
               ),
             AsyncData(:final value) => Column(
                 children: [
@@ -43,16 +45,25 @@ class _TestClientMapScreenState extends ConsumerState<TestClientMapScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        children: [Text(context.locale.registerAdditionnalLocationNeighborhood), Text(widget.record.commande?.localisationGps ?? "")],
+                        children: [
+                          Text(context
+                              .locale.registerAdditionnalLocationNeighborhood),
+                          Text(widget.record.commande?.localisationGps ?? "")
+                        ],
                       ),
                     ),
                   Expanded(
                     child: MapScreen(
                         handleUpadteStatus: widget.handleUpadteStatus,
-                        userPosition: Position.fromMap({'latitude': value.latitude, 'longitude': value.longitude}),
+                        userPosition: Position.fromMap({
+                          'latitude': value.latitude,
+                          'longitude': value.longitude
+                        }),
                         merchantPosition: Position.fromMap({
-                          'latitude': widget.record.commande!.articles!.first.article!.marchand!.latitude,
-                          'longitude': widget.record.commande!.articles!.first.article!.marchand!.longitude
+                          'latitude': widget.record.commande!.articles!.first
+                              .article!.marchand!.latitude,
+                          'longitude': widget.record.commande!.articles!.first
+                              .article!.marchand!.longitude
                         }),
                         commande: widget.record),
                   ),
@@ -61,10 +72,15 @@ class _TestClientMapScreenState extends ConsumerState<TestClientMapScreen> {
             _ => const Center(child: CircularProgressIndicator()),
           }
         : MapScreen(
-            userPosition: Position.fromMap({'latitude': widget.record.latitude, 'longitude': widget.record.longitude}),
+            userPosition: Position.fromMap({
+              'latitude': widget.record .latitude ?? 0.0,
+              'longitude': widget.record .longitude ?? 0.0,
+            }),
             merchantPosition: Position.fromMap({
-              'latitude': widget.record.commande!.articles!.first.article!.marchand!.latitude,
-              'longitude': widget.record.commande!.articles!.first.article!.marchand!.longitude
+              'latitude': widget
+                  .record.commande?.articles?.first.article?.marchand?.latitude ?? 0.0,
+              'longitude': widget
+                  .record.commande?.articles?.first.article?.marchand?.longitude?? 0.0,
             }),
             commande: widget.record);
   }
@@ -74,7 +90,12 @@ class MapScreen extends ConsumerStatefulWidget {
   final Position userPosition, merchantPosition;
   final Records commande;
   final Function? handleUpadteStatus;
-  const MapScreen({super.key, required this.userPosition, this.handleUpadteStatus, required this.merchantPosition, required this.commande});
+  const MapScreen(
+      {super.key,
+      required this.userPosition,
+      this.handleUpadteStatus,
+      required this.merchantPosition,
+      required this.commande});
 
   @override
   ConsumerState createState() => _MapScreenState();
@@ -88,8 +109,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   List<LatLng> polygonLatLngs = <LatLng>[];
   List<LatLng> polylineCoordinates = [];
-  late OrderStatus status =
-      OrderStatus.values.firstWhere((e) => e.value.toLowerCase() == widget.commande.statut!.toLowerCase(), orElse: () => OrderStatus.enCours);
+  late OrderStatus status = OrderStatus.values.firstWhere(
+      (e) => e.value.toLowerCase() == widget.commande.statut!.toLowerCase(),
+      orElse: () => OrderStatus.enCours);
   LatLng? currentLocation;
   LatLng? oldUpdatedPolilinesLocation;
 
@@ -97,15 +119,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       addCustomIcon();
-      ref.read(firestoreServiceProvider).streamUserPositions(idCommande: widget.commande.id!).listen((event) {
+      ref
+          .read(firestoreServiceProvider)
+          .streamUserPositions(idCommande: widget.commande.id!)
+          .listen((event) {
         currentLocation = LatLng(event.latitude, event.longitude);
 
         if (oldUpdatedPolilinesLocation is! LatLng) {
           oldUpdatedPolilinesLocation = LatLng(event.latitude, event.longitude);
           getPolyPoints();
         } else {
-          final distance =
-              calculateDistance(event.latitude, event.longitude, oldUpdatedPolilinesLocation!.latitude, oldUpdatedPolilinesLocation!.longitude);
+          final distance = calculateDistance(
+              event.latitude,
+              event.longitude,
+              oldUpdatedPolilinesLocation!.latitude,
+              oldUpdatedPolilinesLocation!.longitude);
 
           if (distance.$2 == "m" && double.parse(distance.$1) >= 50) {
             getPolyPoints();
@@ -114,8 +142,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           }
         }
 
-        if (event.status != 'nothing' && event.status != widget.commande.statut) {
-          status = OrderStatus.values.firstWhere((e) => e.value.toLowerCase() == event.status.toLowerCase(), orElse: () => OrderStatus.enCours);
+        if (event.status != 'nothing' &&
+            event.status != widget.commande.statut) {
+          status = OrderStatus.values.firstWhere(
+              (e) => e.value.toLowerCase() == event.status.toLowerCase(),
+              orElse: () => OrderStatus.enCours);
           widget.handleUpadteStatus!(status);
         }
 
@@ -145,11 +176,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         Constants.googleMapAPiKey, // Your Google Map Key
         PointLatLng(currentLocation!.latitude, currentLocation!.longitude),
         (widget.commande.statut == OrderStatus.enPreparation.value)
-            ? PointLatLng(widget.merchantPosition.latitude, widget.merchantPosition.longitude)
-            : PointLatLng(widget.userPosition.latitude, widget.userPosition.longitude));
+            ? PointLatLng(widget.merchantPosition.latitude,
+                widget.merchantPosition.longitude)
+            : PointLatLng(
+                widget.userPosition.latitude, widget.userPosition.longitude));
 
     if (result.points.isNotEmpty) {
-      polylineCoordinates = result.points.map((point) => LatLng(point.latitude, point.longitude)).toList();
+      polylineCoordinates = result.points
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList();
       setState(() {});
     }
   }
@@ -161,7 +196,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       });
     });
 
-    bitmapDescriptorFromSvgAsset('assets/icons/deliver_start.svg').then((value) {
+    bitmapDescriptorFromSvgAsset('assets/icons/deliver_start.svg')
+        .then((value) {
       setState(() {
         markerIconDeliver = value;
       });
@@ -181,13 +217,30 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       myLocationEnabled: true,
       markers: {
         if (widget.commande.statut != OrderStatus.enPreparation.value)
-          Marker(markerId: const MarkerId("client"), position: LatLng(widget.userPosition.latitude, widget.userPosition.longitude), icon: markerIcon),
-        if (currentLocation is LatLng) Marker(markerId: const MarkerId("livreur"), position: currentLocation!, icon: markerIconDeliver),
+          Marker(
+              markerId: const MarkerId("client"),
+              position: LatLng(
+                  widget.userPosition.latitude, widget.userPosition.longitude),
+              icon: markerIcon),
+        if (currentLocation is LatLng)
+          Marker(
+              markerId: const MarkerId("livreur"),
+              position: currentLocation!,
+              icon: markerIconDeliver),
         if (widget.commande.statut == OrderStatus.enPreparation.value)
           Marker(
-              markerId: const MarkerId("merchant"),
-              position: LatLng(widget.merchantPosition.latitude, widget.merchantPosition.longitude),
-              icon: markerIconMerchand),
+            markerId: const MarkerId("merchant"),
+            position: widget.commande.articles?.first.article?.marchand?.latitude != null &&
+                widget.commande.articles?.first.article?.marchand?.longitude != null
+                ? LatLng(
+              widget.commande.articles?.first.article?.marchand?.latitude?? 0.0,
+              widget.commande.articles?.first.article?.marchand?.longitude?? 0.0,
+            )
+                : const LatLng(0.0, 0.0), // Coordonnées par défaut si null
+            icon: markerIconMerchand,
+          ),
+
+
       },
       polylines: {
         Polyline(
@@ -198,18 +251,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         ),
       },
       initialCameraPosition: CameraPosition(
-        target: LatLng(widget.userPosition.latitude, widget.userPosition.longitude),
+        target:
+            LatLng(widget.userPosition.latitude, widget.userPosition.longitude),
         zoom: 16,
       ),
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       },
+      
     );
   }
 
   Future<void> _goToUserLocation(double latitude, double longitude) async {
     final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(latitude, longitude),
       tilt: 59.440717697143555,
@@ -217,3 +273,4 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     )));
   }
 }
+

@@ -5,41 +5,76 @@ import 'package:ifiranz_client/src/features/core/infrastructure/extensions/dio_e
 import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_constants.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/utils/api_exception.dart';
 
-Future<T> handleApiCall<T>(Future<Response<dynamic>> Function() apiCall,
-    T Function(Map val) successMapper,
-    {String? displayErrorMessage}) async {
+Future<T> handleApiCall<T>(
+    Future<Response<dynamic>> Function() apiCall,
+    T Function(Map val) successMapper, {
+      String? displayErrorMessage,
+    }) async {
   try {
+    log('Starting API call...');
+
+    // Exécutez l'appel API
     final response = await apiCall();
+    log('API call completed. Response status: ${response.statusCode}');
+    log('Response data: ${response.data}');
 
-    print(response);
-    if (response.data is int) return successMapper({"data": response.data});
+    // Vérifiez si les données sont un entier
+    if (response.data is int) {
+      log('Response data is an integer. Mapping success...');
+      return successMapper({"data": response.data});
+    }
 
+    // Vérifiez si les données sont une Map et valides
     if (response.data is Map &&
         (response.data?["valid"] == true ||
             ((response.data?["statusCode"] ?? 0) >= 200 &&
-                (response.data?["statusCode"] ?? 0) <= 300))) {
+                (response.data?["statusCode"] ?? 0) <= 303))) {
+      log('Response data is valid. Mapping success...');
       return successMapper(response.data);
     } else {
+      log('Response data is not valid. Handling errors...');
       if (response.data is Map) {
         if ((response.data?["valid"] ?? false) == false) {
-          throw ApiException(
-              msg: response.data?["message"].toString() ?? "An error occurred");
+          final message = response.data?["message"]?.toString() ?? "An error occurred";
+          log('Invalid response. Message: $message');
+          throw ApiException(msg: message);
         }
+        log('Throwing ApiException from JSON response.');
         throw ApiException.fromJson(response.data);
       } else {
-        throw ApiException(msg: displayErrorMessage ?? "An error occurred");
+        final fallbackMessage = displayErrorMessage ?? "An error occurred";
+        log('Response data is not a Map. Throwing ApiException. Message: $fallbackMessage');
+        throw ApiException(msg: fallbackMessage);
       }
     }
   } on DioException catch (e) {
-    log(e.toString());
+    log('DioException caught: ${e.toString()}');
+
+    // Gérer les erreurs de connexion
     if (e.noConnexionError) {
+      log('No connection error. Throwing ApiException with internetError message.');
       throw const ApiException(msg: ApiConstants.internetError);
-    } else if (e.response != null) {
-      throw ApiException(msg: e.message);
-    } else if (e.response == null && displayErrorMessage != null) {
-      throw ApiException(msg: displayErrorMessage);
-    } else {
-      rethrow;
     }
+
+    // Gérer les erreurs avec réponse
+    if (e.response != null) {
+      log('Error response: ${e.response?.data}');
+      throw ApiException(msg: e.message);
+    }
+
+    // Gérer les erreurs sans réponse et avec un message d'erreur affichable
+    if (e.response == null && displayErrorMessage != null) {
+      log('No response and displayErrorMessage provided: $displayErrorMessage');
+      throw ApiException(msg: displayErrorMessage);
+    }
+
+    // Réémettre l'exception si elle n'est pas gérable
+    log('Re-throwing unhandled DioException.');
+    rethrow;
+  } catch (e, stacktrace) {
+    // Attrapez toute autre erreur
+    log('Unexpected error: $e');
+    log('Stacktrace: $stacktrace');
+    rethrow;
   }
 }

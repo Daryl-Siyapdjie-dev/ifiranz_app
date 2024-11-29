@@ -86,6 +86,15 @@ class DeliveryOrdersRemoteService {
       },
     );
   }
+  
+  Future<ApiResponse<Json>> getMerchantName( int id) async{
+    return handleApiCall<ApiResponse<Json>>(
+            () => _dio.get(_urlBuilder.builMerchantFindByIdMarchand( id)),
+    (data){
+              return ApiResponse.success(data as Json);
+    }
+    );
+  }
 
   Future<ApiResponse<Json>> updateDeliveryOrder(int id) async {
     return handleApiCall<ApiResponse<Json>>(

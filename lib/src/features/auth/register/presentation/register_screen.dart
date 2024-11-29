@@ -266,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                               registerNotifierProvider.notifier)
                                           .register(
                                               name: nameController.text,
-                                              lastname: nameController.text,
+                                              lastname: lastnameController.text,
                                               address: addressController.text,
                                               countryCode:
                                                   phoneCodeController.text,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:ifiranz_client/src/features/auth/core/domain/client.dart';
 import 'package:ifiranz_client/src/features/client/home/domain/product_model.dart';
@@ -111,6 +112,37 @@ abstract class SharedPref {
     }
     return false;
   }
+
+  static Future<void> clearUserLocalData() async {
+    await _prefs!.remove(_localUser);
+    print('Local user cleared: ${_prefs!.getString(_localUser) == null}');
+
+    await _prefs!.remove(_localClientUser);
+    print('Client local user cleared: ${_prefs!.getString(_localClientUser) == null}');
+
+    await _prefs!.remove(_token);
+    print('Token cleared: ${_prefs!.getString(_token) == null}');
+
+    await _prefs!.remove(_id);
+    print('ID cleared: ${_prefs!.getInt(_id) == null}');
+
+    await _prefs!.remove(_email);
+    print('Email cleared: ${_prefs!.getString(_email) == null}');
+
+    await _prefs!.remove(_profile);
+    print('Profile cleared: ${_prefs!.getString(_profile) == null}');
+
+    await _prefs!.remove(_userIsRegistredPhone);
+    print('User phone cleared: ${_prefs!.getString(_userIsRegistredPhone) == null}');
+
+    await _prefs!.remove(_fcmToken);
+    print('FCM Token cleared: ${_prefs!.getString(_fcmToken) == null}');
+
+    await clearLocalClientSearchHistory();
+    print('Search history cleared: ${(await getLocalClientSearchHistory) == null || (await getLocalClientSearchHistory)!.isEmpty}');
+  }
+
+
 
   static Future<bool> addSingleItemToLocalClientSearchHistory(
       String value) async {

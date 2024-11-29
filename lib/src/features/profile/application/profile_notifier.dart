@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ifiranz_client/src/features/core/infrastructure/services/local/shared_pref.dart';
 import 'package:ifiranz_client/src/features/profile/application/providers.dart';
 import '../../auth/infrastructure/auth_service.dart';
@@ -28,15 +29,27 @@ class ProfileNotifier extends StateNotifier<AsyncValue<void>> {
 
     state = const AsyncLoading();
 
+    // Appel à la suppression de compte dans le dépôt
     final result = await _repository.deleteAccount(userId);
 
-    state = result.fold(
-          (failure) => AsyncError(
-        'Échec de la suppression du compte : ${failure.message}',
-        StackTrace.current,
-      ),
+    state = await result.fold(
+          (failure) {
+        return AsyncError(
+          'Échec de la suppression du compte : ${failure.message}',
+          StackTrace.current,
+        );
+      },
+          (_) async {
+        // Efface les données locales après la suppression réussie
+        await SharedPref.clearUserLocalData();
 
-          (_) => const AsyncData(null),
+        // Suppression du token sécurisé si stocké avec FlutterSecureStorage
+        final storage = FlutterSecureStorage();
+        await storage.delete(key: 'access_token');
+
+
+        return const AsyncData(null);
+      },
     );
   }
 }
