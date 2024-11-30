@@ -1,11 +1,11 @@
 import '../../domain/paginated_request.dart';
 
 class UrlBuilder {
-  static const baseIpAddress = 'http://185.193.17.106'; // Test
-   static const port = "8085"; // Test
+  // static const baseIpAddress = 'http://185.193.17.106'; // Test
+  //  static const port = "8085"; // Test
 
-  // static const baseIpAddress = 'https://ifiranz.com'; // Prod
-  // static const port = "8443"; // Prod
+  static const baseIpAddress = 'https://ifiranz.com'; // Prod
+  static const port = "8443"; // Prod
 
   static const baseUrl = '$baseIpAddress:$port';
 
